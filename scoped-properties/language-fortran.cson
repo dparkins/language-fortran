@@ -1,0 +1,23 @@
+'.source.fortran':
+  'editor':
+    'increaseIndentPattern': '(?ix)\n        ^\\s*\n        (\n            (((integer\\s+)?recursive|(recursive\\s+)?integer)\\s+)?function\\b\n          | ((if.*then)|for|do|else|elseif|program|where|type|module|program|subroutine|interface)\\b\n          | (contains|else)\\s*$\n        )'
+    'decreaseIndentPattern': '(?i)^\\s*(end(if)?\\b|(contains|else)\\s*$)'
+'.source.fortran.modern':
+  'editor':
+    'commentStart': '! '
+    'commentEnd': ''
+'.source.fortran .meta.function.interface':
+  'editor':
+    'completions': [
+      'module procedure'
+      'operator'
+      'assignment(=)'
+    ]
+'.source.fortran .meta.specification':
+  'editor':
+    'completions': [
+      'parameter'
+      'dimension()'
+      'allocatable'
+      'intent()'
+    ]

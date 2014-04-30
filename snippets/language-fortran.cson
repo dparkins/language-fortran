@@ -1,0 +1,260 @@
+'.source.fortran':
+  'Allocate Array':
+    'prefix': 'al'
+    'body': 'allocate(${1:array}, stat=${2:err})\nif ($2 /= 0) print *, "${1/(\\w+).*/$1/}: Allocation request denied"\n'
+  'Allocate and Deallocate array':
+    'prefix': 'alloc'
+    'body': 'allocate(${1:array}, stat=${2:err})\nif ($2 /= 0) print *, "${1/(\\w+).*/$1/}: Allocation request denied"\n\n$0if (allocated(${1/(\\w+).*/$1/})) deallocate(${1/(\\w+).*/$1/}, stat=$2)\nif ($2 /= 0) print *, "${1/(\\w+).*/$1/}: Deallocation request denied$0"'
+  'And':
+    'prefix': 'and'
+    'body': '.and.'
+  'Character':
+    'prefix': 'char'
+    'body': 'character(len=$1${2:, kind=$3})${4:, ${5:attributes}} :: ${6:name}'
+  'Close File':
+    'prefix': 'close'
+    'body': 'close(unit=${1:iounit}, iostat=${2:ios}${3:, status="delete"})\nif ( $2 /= 0 ) stop "Error closing file unit $1"\n'
+  'Custom Type':
+    'prefix': 'typ'
+    'body': 'type(${1:type name})${2:, ${3:attributes}} :: ${4:name}'
+  'Deallocate Array':
+    'prefix': 'deal'
+    'body': 'if (allocated($1)) deallocate(${1:array}, stat=${2:err})\nif ($2 /= 0) print *, "$1: Deallocation request denied$0"'
+  'Dot Product of Vectors':
+    'prefix': 'dot'
+    'body': 'dot_product($1,$2)'
+  'Equal':
+    'prefix': 'eq'
+    'body': '.eq.'
+  'Equality':
+    'prefix': 'eqv'
+    'body': '.eqv.'
+  'Greater Than':
+    'prefix': 'gt'
+    'body': '.gt.'
+  'Greater or Equal':
+    'prefix': 'ge'
+    'body': '.ge.'
+  'Implied do':
+    'prefix': 'ido'
+    'body': '(${1:i}, $1 = ${2:1}, ${3:100}, ${4:1})$0'
+  'Index of Maximum':
+    'prefix': 'maxloc'
+    'body': 'maxloc(${1:source}${2:, mask=${3:($1>0)}})'
+  'Index of Minimum':
+    'prefix': 'minloc'
+    'body': 'minloc(${1:source}${2:, mask=${3:$1>0}})'
+  'Input File':
+    'prefix': 'open'
+    'body': 'open(unit=${1:iounit}, file=${2:name}, iostat=${3:ios}, status="${4:old}", action="${5:read}")\nif ( $3 /= 0 ) stop "Error opening file ${2/[\\"\\\'](.*)[\\"\\\']/$1/}"\n'
+  'Inquire (by Filename)':
+    'prefix': 'inq'
+    'body': 'inquire(file=${1:filename}, opened=${2:ioopen}, exists=${3:ioexist}, number=${4:iounit})'
+  'Inquire (by Unit)':
+    'prefix': 'inq'
+    'body': 'inquire(unit=${1:iounit}, opened=${2:ioopen}, name=${3:filename}, action=${4:ioaction})'
+  'Integer':
+    'prefix': 'int'
+    'body': 'integer${1:(${2:kind})}${3:, ${4:attributes}} :: ${5:name}'
+  'Less Than':
+    'prefix': 'lt'
+    'body': '.lt.'
+  'Less or Equal':
+    'prefix': 'le'
+    'body': '.le.'
+  'Logical':
+    'prefix': 'log'
+    'body': 'logical${1:(${2:kind})}${3:, ${4:attributes}} :: ${5:name}'
+  'Lower Bound':
+    'prefix': 'lbound'
+    'body': 'lbound(${1:source}${2:, dim=${3:1}})'
+  'Matrix Multiplication':
+    'prefix': 'mat'
+    'body': 'matmul($1,$2)'
+  'Maximum Value':
+    'prefix': 'maxval'
+    'body': 'maxval(${1:source}${2:, dim=${3:1}}${4:, mask=${5:($1>0)}})'
+  'Minimum Value':
+    'prefix': 'minval'
+    'body': 'minval(${1:source}${2:, dim=${3:1}}${4:, mask=${5:($1>0)}})'
+  'Non-Equality':
+    'prefix': 'neqv'
+    'body': '.neqv.'
+  'Not':
+    'prefix': 'not'
+    'body': '.not.'
+  'Open File':
+    'prefix': 'open'
+    'body': 'open(unit=${1:iounit}, file=${2:name}, iostat=${3:ios}, &\n     status="${4:old/new/replace/scratch/unknown}", action="${5:read/write/readwrite}", access="${7:sequential/direct}"${7/(direct)$|.*/(?1:, recl=)/}$0)\nif ( $3 /= 0 ) stop "Error opening file ${2/[\\"\\\'](.*)[\\"\\\']/$1/}"'
+  'Or':
+    'prefix': 'or'
+    'body': '.or.'
+  'Output File':
+    'prefix': 'open'
+    'body': 'open(unit=${1:iounit}, file=${2:name}, iostat=${3:ios}, status="${4:new}", action="${5:write}")\nif ( $3 /= 0 ) stop "Error opening file ${2/[\\"\\\'](.*)[\\"\\\']/$1/}"\n'
+  'Product of Elements':
+    'prefix': 'prod'
+    'body': 'product(${1:source}${2:, dim=${3:1}}${4:, mask=${5:($1>0)}})'
+  'Quick Character':
+    'prefix': 'c'
+    'body': 'character(len=*) :: '
+  'Quick Custom Type':
+    'prefix': 't'
+    'body': 'type(${1:type name}) :: '
+  'Quick Integer':
+    'prefix': 'i'
+    'body': 'integer :: '
+  'Quick Logical':
+    'prefix': 'l'
+    'body': 'logical :: '
+  'Quick Open':
+    'prefix': 'op'
+    'body': 'open(unit=${1:iounit}, file=${2:name}, iostat=${3:ios})\nif ( $3 /= 0 ) stop "Error opening file ${2/[\\"\\\'](.*)[\\"\\\']/$1/}"'
+  'Quick Read':
+    'prefix': 're'
+    'body': 'read*, '
+  'Quick Real':
+    'prefix': 'r'
+    'body': 'real :: '
+  'Quick Write':
+    'prefix': 'wr'
+    'body': 'write(unit=${1:iounit}, fmt=*) ${0:variables}\n'
+  'Random Number':
+    'prefix': 'rn'
+    'body': 'call random_number($0)'
+  'Random Seed':
+    'prefix': 'rs'
+    'body': 'call random_seed(${1:size=${2:<int>}}${3:put=(/$4/)})'
+  'Real':
+    'prefix': 'rea'
+    'body': 'real${1:(${2:kind})}${3:, ${4:attributes}} :: ${5:name}'
+  'Scratch File':
+    'prefix': 'open'
+    'body': 'open(unit=${1:iounit}, iostat=${3:ios}, status="${4:scratch}", action="${5:readwrite}")\nif ( $3 /= 0 ) stop "Error opening scratch file on unit $1"\n'
+  'Size':
+    'prefix': 'size'
+    'body': 'size(${1:source}${2:, dim=${3:1}})'
+  'Sum of Elements':
+    'prefix': 'sum'
+    'body': 'sum(${1:source}${2:, dim=${3:1}}${4:, mask=${5:($1>0)}})'
+  'Type Definition':
+    'prefix': 'type'
+    'body': 'type ${1:type name}\n\t$0\nend type $1'
+  'Upper Bound':
+    'prefix': 'ubound'
+    'body': 'ubound(${1:source}${2:, dim=${3:1}})'
+  '.FALSE.':
+    'prefix': 'F'
+    'body': '.FALSE.'
+  '.TRUE.':
+    'prefix': 'T'
+    'body': '.TRUE.'
+  'all':
+    'prefix': 'all'
+    'body': 'all(${1:mask}${2:, dim=${3:1}})'
+  'any':
+    'prefix': 'any'
+    'body': 'any(${1:mask}${2:, dim=${3:1}})'
+  'case':
+    'prefix': 'case'
+    'body': 'case ${1:default}\n\t$0'
+  'count':
+    'prefix': 'count'
+    'body': 'count(${1:mask}${2:, dim=${3:1}})'
+  'cycle':
+    'prefix': 'cy'
+    'body': 'cycle'
+  'data':
+    'prefix': 'data'
+    'body': 'data ${1:variable} / ${2:data} /'
+  'do while':
+    'prefix': 'dow'
+    'body': 'do while ( ${1:condition} )\n\t$0\nend do'
+  'do':
+    'prefix': 'do'
+    'body': 'do${1: ${2:i} = ${3:1}, ${4:100}, ${5:1}}\n\t$0\nend do'
+  'elseif':
+    'prefix': 'elif'
+    'body': 'elseif ( ${1:condition} ) then\n\t'
+  'function':
+    'prefix': 'fun'
+    'body': 'function ${1:name}\n\t${2:argument type}, intent(${3:inout}) :: ${1/\\w+\\((.*)\\)|.*/$1/}\n\t${4:function type} :: ${1/(\\w+).*/$1/}\n\t$0\nend function ${1/(\\w+).*/$1/}'
+  'if (single line)':
+    'prefix': 'if'
+    'body': 'if ( ${1:condition} ) '
+  'if':
+    'prefix': 'if'
+    'body': 'if ( ${1:condition} ) then\n\t$0\nend if'
+  'implicit none':
+    'prefix': 'imp'
+    'body': 'implicit none\n'
+  'interface':
+    'prefix': 'interf'
+    'body': 'interface ${1:name}\n\t$0\nend interface ! $1'
+  'max':
+    'prefix': 'max'
+    'body': 'max($1, $2${, $3:...})$0'
+  'merge':
+    'prefix': 'merge'
+    'body': 'merge(${1:source}, ${2:alternative}, mask=(${2:$1>0}))'
+  'min':
+    'prefix': 'min'
+    'body': 'min($1, $2${, $3:...})$0'
+  'module procedure':
+    'prefix': 'mp'
+    'body': 'module procedure ${0:name}'
+  'module':
+    'prefix': 'mod'
+    'body': 'module ${1:name}\n\n\timplicit none\n\t$0\n\nend module $1\n'
+  'named: do':
+    'prefix': 'ndo'
+    'body': '${1:name}: do${2: ${3:i} = ${4:1}, ${5:100}, ${6:1}}\n\t$0\nend do $1'
+  'named: select case':
+    'prefix': 'nsel'
+    'body': '${1:name}: select case ($2:variable)\n\tcase ($3:values) $1\n\t\t$0\nend select $1'
+  'pack':
+    'prefix': 'pack'
+    'body': 'pack(${1:array}, mask=(${2:$1>0})${3:, vector=${4:destination vector}})'
+  'Quick Print':
+    'prefix': 'pr'
+    'body': 'print*, '
+  'program':
+    'prefix': 'prog'
+    'body': 'program ${1:name}\n\n\timplicit none\n\t$0\n\nend program $1\n'
+  'Read (Non Advancing Mode)':
+    'prefix': 'read'
+    'body': 'read(unit=${1:iounit}, fmt="(${2:format string})", iostat=${3:istat}, advance=\'NO\', size=${4:number of characters}) ${5:variables}\nif ( $3 /= 0 ) stop "Read error in file unit $1"\n'
+  'Read':
+    'prefix': 'read'
+    'body': 'read(unit=${1:iounit}, fmt="(${2:format string})", iostat=${3:istat}) ${4:variables}\nif ( $3 /= 0 ) stop "Read error in file unit $1"\n'
+  'reshape':
+    'prefix': 'resh'
+    'body': 'reshape(${1:source}${2:, shape=(/$3/)}${4:, pad=(/$5/)}${6:, order=(/${7:2,1}/)})'
+  'select case':
+    'prefix': 'sel'
+    'body': 'select case ($1:variable)\n\tcase ($2:values)\n\t\t$0\nend select'
+  'spread':
+    'prefix': 'spread'
+    'body': 'spread(${1:source}, dim=${2:1}, ncopies=$3)'
+  'stop':
+    'prefix': 'stop'
+    'body': 'stop "${1:message}"'
+  'subroutine':
+    'prefix': 'sub'
+    'body': 'subroutine ${1:name}\n\t${2:argument type}, intent(${3:inout}) :: ${1/\\w+\\((.*)\\)|.*/$1/}\n\t$0\nend subroutine ${1/(\\w+).*/$1/}'
+  'unpack':
+    'prefix': 'unpack'
+    'body': 'unpack(${1:vector}, mask=(${2:$1>0}), field=${3:destination array})'
+  'where (single line)':
+    'prefix': 'wh'
+    'body': 'where ( $1 ${2:==} $3 ) '
+  'where':
+    'prefix': 'whe'
+    'body': 'where ( $1 ${2:==} $3 )\n\t$0\nend where'
+  'Write':
+    'prefix': 'write'
+    'body': 'write(unit=${1:iounit}, fmt="(${2:format string})", iostat=${3:ios}${4:, advance=\'NO\'}) ${5:variables}\nif ( $3 /= 0 ) stop "Write error in file unit $1"\n'
+'.source.fortran.modern':
+  'forall':
+    'prefix': 'for'
+    'body': 'forall (${1:i=1:100}${2:, mask})\n\t$0\nend forall'
