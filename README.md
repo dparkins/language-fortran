@@ -1,3 +1,3 @@
 # language-fortran package
 
-A short description of your package.
+Syntax highlighting for LaTeX in atom. Converted from the Textmate bundle
