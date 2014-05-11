@@ -1,12 +1,25 @@
 {
   "name": "language-fortran",
   "version": "0.0.0",
-  "description": "A short description of your package",
-  "repository": "https://github.com/atom/language-fortran",
+  "description": "Syntax highlighting for FORTRAN in atom ",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dparkins/language-fortran"
+  },
   "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">0.39.0"
   },
-  "dependencies": {
-  }
+  "readme": "# Monokai theme\n\nA monokai syntax theme for Atom.\n\nOriginally converted from the [TextMate](http://www.monokai.nl/blog/wp-content/asdev/Monokai.tmTheme)\ntheme using the [TextMate bundle converter](http://atom.io/docs/latest/converting-a-text-mate-theme).\n\n![](https://f.cloud.github.com/assets/671378/2265671/d02ebee8-9e85-11e3-9b8c-12b2cb7015e3.png)\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/kevinsawicki/monokai/issues"
+  },
+  "homepage": "https://github.com/kevinsawicki/monokai",
+  "_id": "monokai@0.7.0",
+  "dist": {
+    "shasum": "4ec472d31e5bc0d9199a7a89e24315d6a0f98967"
+  },
+  "_resolved": "/var/folders/n2/36ttgs_15f70y4lnmm73lbbcm8cvb9/T/d-114324-1734-v4xqcn/package.tgz",
+  "_from": "/var/folders/n2/36ttgs_15f70y4lnmm73lbbcm8cvb9/T/d-114324-1734-v4xqcn/package.tgz"
 }
