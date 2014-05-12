@@ -1,14 +1,15 @@
 {
   "name": "language-fortran",
   "main": "./lib/new-package",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Syntax highlighting for FORTRAN in atom ",
-  "activationEvents": ["language-fortran:toggle"],
+  "activationEvents": [
+    "language-fortran:toggle"
+  ],
   "repository": "https://github.com/dparkins/language-fortran",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
