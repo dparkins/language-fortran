@@ -16,7 +16,7 @@
     'include': 'source.fortran'
   }
   {
-    'begin': '(?x:\t\t\t\t\t# extended mode\n\t\t\t\t\t^\n\t\t\t\t\t\\s*\t\t\t\t\t# start of line and possibly some space\n\t\t\t\t\t(?i:(interface))\t\t# 1: word interface\n\t\t\t\t\t\\s+\t\t\t\t\t# some space\n\t\t\t\t\t(?i:(operator|assignment))\t\t# 2: the words operator or assignment\n\t\t\t\t\t\\(\t\t\t\t\t# opening parenthesis\n\t\t\t\t\t((\\.[a-zA-Z0-9_]+\\.)|[\\+\\-\\=\\/\\*]+)\t# 3: an operator\n\t\t\t\t\t\n\t\t\t\t\t\\)\t\t\t\t\t# closing parenthesis\n\t\t\t\t\t)'
+    'begin': '(?i)^\\s*(interface)\\s+(operator|assignment)\\(((\\.[a-z0-9_]+\\.)|[\\+\\-\\=\\/\\*]+)\\)'
     'beginCaptures':
       '1':
         'name': 'storage.type.function.fortran'
@@ -25,7 +25,7 @@
       '3':
         'name': 'keyword.operator.fortran'
     'comment': 'Interface declaration of operator/assignments'
-    'end': '(?x:\n\t\t\t\t\t((?i:end))\t\t\t# 1: the word end\n\t\t\t\t\t\\s*\t\t\t\t\t# possibly some space\n\t\t\t\t\t((?i:interface)?) \t\t# 2: possibly interface\n\t\t\t\t\t)'
+    'end': '(?i)(end)\\s*(interface)?'
     'endCaptures':
       '1':
         'name': 'keyword.other.fortran'
@@ -39,14 +39,14 @@
     ]
   }
   {
-    'begin': '(?x:\t\t\t\t\t# extended mode\n\t\t\t\t\t^\n\t\t\t\t\t\\s*\t\t\t\t\t# start of line and possibly some space\n\t\t\t\t\t(?i:(interface))\t\t# 1: word interface\n\t\t\t\t\t\\s+\t\t\t\t\t# some space\n\t\t\t\t\t([A-Za-z_][A-Za-z0-9_]*)\t# 1: name\n\t\t\t\t\t)'
+    'begin': '(?i)^\\s*(interface)\\s+([a-z]\\w*)'
     'beginCaptures':
       '1':
         'name': 'storage.type.function.fortran'
       '2':
         'name': 'entity.name.function.fortran'
     'comment': 'Interface declaration of function/subroutines'
-    'end': '(?x:\t\t\t\t# extended mode\n\t\t\t\t\t((?i:end))\t\t# 1: the word end\n\t\t\t\t\t\\s*\t\t\t\t# possibly some space\n\t\t\t\t\t((?i:interface)?) \t# 2: possibly interface\n\t\t\t\t\t)'
+    'end': '(?i)(end)\\s*(interface)?'
     'endCaptures':
       '1':
         'name': 'keyword.other.fortran'
@@ -60,14 +60,14 @@
     ]
   }
   {
-    'begin': '(?x:\t\t\t# extended mode\n\t\t\t\t\t^\\s*\t\t\t# begining of line and some space\n\t\t\t\t\t(?i:(type))\t# 1: word type\n\t\t\t\t\t\\s+\t\t\t# some space\n\t\t\t\t\t([a-zA-Z_][a-zA-Z0-9_]*)\t# 2: type name\n\t\t\t\t\t)'
+    'begin': '(?i)^\\s*(type)\\s+([a-z]\\w*)'
     'beginCaptures':
       '1':
         'name': 'storage.type.fortran.modern'
       '2':
         'name': 'entity.name.type.fortran.modern'
     'comment': 'Type definition'
-    'end': '(?x:\n\t\t\t\t\t((?i:end))\t\t\t# 1: the word end\n\t\t\t\t\t\\s*\t\t\t\t\t# possibly some space\n\t\t\t\t\t(?i:(type))? \t\t\t# 2: possibly the word type\n\t\t\t\t\t(\\s+[A-Za-z_][A-Za-z0-9_]*)?\t# 3: possibly the name\n\t\t\t\t\t)'
+    'end': '(?i)(end)\\s*(?:(type)(\\s+[a-z]\\w*)?)'
     'endCaptures':
       '1':
         'name': 'keyword.other.fortran'
@@ -128,12 +128,12 @@
   }
   {
     'comment': 'statements controling the flow of the program'
-    'match': '\\b(?i:(select\\s+case|case(\\s+default)?|end\\s+select|use|(end\\s+)?forall))\\b'
+    'match': '(?i)\\b(select\\s+case|case(\\s+default)?|end\\s+select|use|(end\\s+)?forall)\\b'
     'name': 'keyword.control.fortran.modern'
   }
   {
     'comment': 'input/output instrinsics'
-    'match': '\\b(?i:(access|action|advance|append|apostrophe|asis|blank|delete|delim|direct|end|eor|err|exist|file|fmt|form|formatted|iolength|iostat|keep|name|named|nextrec|new|nml|no|null|number|old|opened|pad|position|quote|read|readwrite|rec|recl|replace|scratch|sequential|size|status|undefined|unformatted|unit|unknown|write|yes|zero|namelist)(?=\\())'
+    'match': '(?i)\\b(access|action|advance|append|apostrophe|asis|blank|delete|delim|direct|end|eor|err|exist|file|fmt|form|formatted|iolength|iostat|keep|name|named|nextrec|new|nml|no|null|number|old|opened|pad|position|quote|read|readwrite|rec|recl|replace|scratch|sequential|size|status|undefined|unformatted|unit|unknown|write|yes|zero|namelist)(?=\\()'
     'name': 'keyword.control.io.fortran.modern'
   }
   {
@@ -148,17 +148,17 @@
   }
   {
     'comment': 'numeric instrinsics'
-    'match': '\\b(?i:(ceiling|floor|modulo)(?=\\())'
+    'match': '(?i)\\b(ceiling|floor|modulo)(?=\\()'
     'name': 'keyword.other.instrinsic.numeric.fortran.modern'
   }
   {
     'comment': 'matrix/vector/array instrinsics'
-    'match': '\\b(?i:(allocate|allocated|deallocate)(?=\\())'
+    'match': '(?i)\\b(allocate|allocated|deallocate)(?=\\()'
     'name': 'keyword.other.instrinsic.array.fortran.modern'
   }
   {
     'comment': 'pointer instrinsics'
-    'match': '\\b(?i:(associated)(?=\\())'
+    'match': '(?i)\\b(associated)(?=\\()'
     'name': 'keyword.other.instrinsic.pointer.fortran.modern'
   }
   {
