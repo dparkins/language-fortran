@@ -1,7 +1,7 @@
 {
   "name": "language-fortran",
   "main": "./lib/new-package",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Syntax highlighting for FORTRAN in atom ",
   "activationEvents": [
     "language-fortran:toggle"
