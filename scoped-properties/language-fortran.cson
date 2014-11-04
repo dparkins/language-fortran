@@ -3,7 +3,7 @@
     'increaseIndentPattern': '(?ix)^\\s*
                               (
                                 (((integer\\s+)?recursive|(recursive\\s+)?integer)\\s+)?function\\b
-                                | ((if.*then)|for|do|else|elseif|program|where|type|module|program|subroutine|interface)\\b
+                                | ((if.*then)|for|do|else|elseif|program|where|type|module|program|subroutine|interface|pure|elemental)\\b
                                 | (contains|else)\\s*$
                               )'
     'decreaseIndentPattern': '(?i)^\\s*(end(if)?\\b|(contains|else)\\s*$)'
