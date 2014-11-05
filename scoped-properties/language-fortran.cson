@@ -1,16 +1,39 @@
 '.source.fortran':
   'editor':
-    'increaseIndentPattern': '(?ix)^\\s*
-                              (
-                                (((integer\\s+)?recursive|(recursive\\s+)?integer)\\s+)?function\\b
-                                | ((if.*then)|for|do|else|elseif|program|where|type|module|program|subroutine|interface)\\b
-                                | (contains|else)\\s*$
-                              )'
-    'decreaseIndentPattern': '(?i)^\\s*(end(if)?\\b|(contains|else)\\s*$)'
+    'increaseIndentPattern': '(?ix)^\\s*(
+        (contains|program)\\b
+        |do\\b
+        |if\\b.*\\bthen\\b
+        |else(\\s*if)?\\b
+        |(?!end)(\\w+\\s+)*\\b(function|subroutine)\\b
+      )'
+    'decreaseIndentPattern': '(?ix)^\\s*(
+        (contains)\\b
+        |end(do|function|if|program|subroutine)?\\b
+        |else(\\s*if)?\\b
+      )'
 '.source.fortran.modern':
   'editor':
     'commentStart': '! '
     'commentEnd': ''
+    'increaseIndentPattern': '(?ix)^\\s*(
+        (case|contains|forall|interface|module|program|submodule|where)\\b
+        |(?!end)(\\w+\\s+)*\\b(function|subroutine)\\b
+        |do\\b
+        |elsewhere\\b
+        |if\\b.*\\bthen\\b
+        |else(\\s*(if))?\\b
+        |select\\s*(case|type)\\b
+        |(class|type)\\s+is\\b
+        |type(,|\\s+\\w)
+      )'
+    'decreaseIndentPattern': '(?ix)^\\s*(
+        (case|contains)\\b
+        |end(do|forall|function|if|interface|module|program|select|submodule|subroutine|type|where)?\\b
+        |else(if|where)?\\b
+        |(class|type)\\s+is\\b
+      )'
+
 '.source.fortran .meta.function.interface':
   'editor':
     'completions': [
