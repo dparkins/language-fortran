@@ -17,7 +17,9 @@
     'commentStart': '! '
     'commentEnd': ''
     'increaseIndentPattern': '(?ix)^\\s*(
-        (case|contains|forall|interface|module|program|submodule|where)\\b
+        module(?!\\s+procedure\\b)\\b
+        |(abstract\\s+)?interface\\b
+        |(case|contains|forall|program|submodule|where)\\b
         |(?!end)(\\w+\\s+)*\\b(function|subroutine)\\b
         |do\\b
         |elsewhere\\b
