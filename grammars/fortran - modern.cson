@@ -413,19 +413,22 @@
       {'include': '#generic-interface-block'}
     ]
   'abstract-interface-block':
-    'comment': 'Abstract interfaces were introduced in the Fortran 2003 standard.'
-    'begin': '(?i)^\\s*(abstract)\\b'
+    'begin': '(?i)^\\s*(abstract)\\b(\\s*\\binterface\\b)?\\s*(\\b\\w+\\b)?'
     'beginCaptures':
-      '1': 'name': 'keyword.other.attribute.fortran.2003'
-    'end': '(?=[;!\\n])'
-    'patterns':[
-      {'include': '#generic-interface-block'}
-      {'include': '#assignment-interface-block'}
-      {'include': '#operator-interface-block'}
+      '1': 'name': 'keyword.other.attribute.fortran.2008'
+      '2': 'name': 'support.function.interface.fortran.2008'
+      '3': 'name': 'invalid.error.fortran'
+    'end': '(?i)^\\s*(end)\\s*(interface)\\b\\s*(\\b\\w+\\b)?'
+    'endCaptures':
+      '1': 'name': 'keyword.control.end.fortran.1990'
+      '2': 'name': 'support.function.interface.fortran.1990'
+      '3': 'name': 'invalid.error.fortran'
+    'patterns': [
+      {'include': '$self'}
     ]
   'assignment-interface-block':
     'comment': 'Assignment interfaces were introduced in the Fortran 1990 standard.'
-    'begin': '(?i)(?:^|\\G)\\s*(interface)\\s*\\b(assignment)\\s*\\(\\s*(\\=)\\s*\\)'
+    'begin': '(?i)(?:^|\\G)\\s*(interface)\\s*\\b(assignment)\\s*\\(\\s*(\\=)?\\s*\\)'
     'beginCaptures':
       '1': 'name': 'support.function.interface.fortran.modern'
       '2': 'name': 'keyword.other.assignment.fortran.modern'
@@ -438,6 +441,26 @@
       '4': 'name': 'keyword.operator.fortran.modern'
       '5': 'name': 'invalid.error.fortran'
     'patterns':[
+      {'include': '#module-procedure-statement'}
+      {'include': '#procedure-statement'}
+      {'include': '$self'}
+    ]
+  'operator-interface-block':
+    'comment': 'Operator interfaces were introduced in the Fortran 1990 standard.'
+    'begin': '(?i)(?:^|\\G)\\s*(interface)\\s+(operator)\\s*\\(\\s*(\\.[a-z]+\\.)?\\s*\\)'
+    'beginCaptures':
+      '1': 'name': 'support.function.interface.fortran.modern'
+      '2': 'name': 'keyword.other.operator.fortran.modern'
+      '3': 'name': 'keyword.operator.fortran.modern'
+    'end': '(?i)^\\s*(end)\\s*(interface)\\b\\s*(?:\\b(operator)\\s*\\(\\s*(?:(\\3)|([^\\s\\(\\)]*))\\s*\\))?([^;!\\n]*)?'
+    'endCaptures':
+      '1': 'name': 'keyword.control.end.fortran.modern'
+      '2': 'name': 'support.function.interface.fortran.modern'
+      '3': 'name': 'keyword.other.operator.fortran.modern'
+      '4': 'name': 'keyword.operator.fortran.modern'
+      '5': 'name': 'invalid.error.fortran.modern'
+    'patterns':[
+      {'include': '#module-procedure-statement'}
       {'include': '#procedure-statement'}
       {'include': '$self'}
     ]
@@ -454,38 +477,35 @@
       '3': 'name': 'entity.name.function.fortran.modern'
       '4': 'name': 'invalid.error.fortran.modern'
     'patterns':[
-      {'include': '#procedure-statement'}
-      {'include': '$self'}
-    ]
-  'operator-interface-block':
-    'comment': 'Operator interfaces were introduced in the Fortran 1990 standard.'
-    'begin': '(?i)(?:^|\\G)\\s*(interface)\\s+(operator)\\s*\\(\\s*(\\.[a-z]+\\.)\\s*\\)'
-    'beginCaptures':
-      '1': 'name': 'support.function.interface.fortran.modern'
-      '2': 'name': 'keyword.other.operator.fortran.modern'
-      '3': 'name': 'keyword.operator.fortran.modern'
-    'end': '(?i)^\\s*(end)\\s*(interface)\\b\\s*(?:\\b(operator)\\s*\\(\\s*(?:(\\3)|([^\\s\\(\\)]*))\\s*\\))?([^;!\\n]*)?'
-    'endCaptures':
-      '1': 'name': 'keyword.control.end.fortran.modern'
-      '2': 'name': 'support.function.interface.fortran.modern'
-      '3': 'name': 'keyword.other.operator.fortran.modern'
-      '4': 'name': 'keyword.operator.fortran.modern'
-      '5': 'name': 'invalid.error.fortran.modern'
-    'patterns':[
+      {'include': '#module-procedure-statement'}
       {'include': '#procedure-statement'}
       {'include': '$self'}
     ]
   'procedure-statement':
-    'begin': '(?i)^\\s*(module\\s+)?(procedure)\\b(\\s*::)?'
+    'begin': '(?i)(?:\\G|^)\\s*\\b(procedure)\\b(\\s*::)?'
     'beginCaptures':
-      '1': 'name': 'keyword.other.module.fortran.modern'
-      '2': 'name': 'support.function.procedure.fortran.modern'
-      '3': 'name': 'keyword.operator.fortran.modern'
-    'end': '(?i)(?=\\s*[;!\\n])'
+      '1': 'name': 'support.function.procedure.fortran.1990'
+      '2': 'name': 'keyword.operator.fortran.1990'
+    'end': '(?i)(?=[;!\\n])'
     'patterns':[
       {
-        'name': 'entity.name.function.procedure.fortran'
-        'match': '(?i)(?<=procedure|::|,)\\s*[a-z]\\w*'
+        'match': '(?i)(?:\\G|(,))\\s*\\b([a-z]\\w*)\\b'
+        'captures':
+          '1': 'name': 'punctuation.separator.comma.fortran'
+          '2': 'name': 'entity.name.function.procedure.fortran'
       }
+      {'include': '#line-continuation'}
+      {'include': '#invalid'}
     ]
+  'module-procedure-statement':
+    'begin': '(?i)^\\s*\\b(module)\\b'
+    'beginCaptures':
+      '1': 'name': 'keyword.other.module.fortran.1990'
+    'end': '(?i)(?=[;!\\n])'
+    'patterns':[
+      {'include': '#line-continuation'}
+      {'include': '#procedure-statement'}
+      {'include': '#invalid'}
+    ]
+
 'scopeName': 'source.fortran.modern'
