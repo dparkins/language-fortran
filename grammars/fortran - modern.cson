@@ -342,19 +342,19 @@
     'patterns':[
       {'include': '#abstract-interface-block'}
       {'include': '#assignment-interface-block'}
+      {'include': '#operator-interface-block'}
+      {'include': '#IO-interface-block'}
       {'include': '#explicit-interface-block'}
       {'include': '#generic-interface-block'}
-      {'include': '#IO-interface-block'}
-      {'include': '#operator-interface-block'}
     ]
   'abstract-interface-block':
     'comment': 'Introduced in the Fortran 2003 standard.'
-    'begin': '(?i)^\\s*(abstract)\\b(\\s*\\binterface\\b)?\\s*(\\b\\w+\\b)?'
+    'begin': '(?i)^\\s*(abstract)(?:\\s+(interface))?\\b\\s*([^;!\\n]*)?'
     'beginCaptures':
       '1': 'name': 'keyword.other.attribute.fortran.modern'
       '2': 'name': 'support.function.interface.fortran.modern'
       '3': 'name': 'invalid.error.fortran'
-    'end': '(?i)^\\s*(end)\\s*(interface)\\b\\s*(\\b\\w+\\b)?'
+    'end': '(?i)^\\s*(end)(?:\\s*(interface))?\\b\\s*([^;!\\n]*)?'
     'endCaptures':
       '1': 'name': 'keyword.control.end.fortran.modern'
       '2': 'name': 'support.function.interface.fortran.modern'
@@ -364,21 +364,19 @@
     ]
   'assignment-interface-block':
     'comment': 'Introduced in the Fortran 1990 standard.'
-    'begin': '(?i)^\\s*(interface)\\s+(assignment)\\b\\s*\\(\\s*(?:(=)|([^\\s]*))\\s*\\)\\s*([^;!\\n]*)?'
+    'begin': '(?i)^\\s*(interface)\\s+(assignment)(?:\\s*\\(\\s*(=)?\\s*\\))?\\s*([^;!\\n]+)?'
     'beginCaptures':
       '1': 'name': 'support.function.interface.fortran.modern'
       '2': 'name': 'keyword.other.operator.fortran.modern'
       '3': 'name': 'keyword.operator.fortran.modern'
       '4': 'name': 'invalid.error.fortran'
-      '5': 'name': 'invalid.error.fortran'
-    'end': '(?ix)^\\s*(end)\\s*(?:(interface)\\b(?:\\s+(assignment)\\b(?:\\s*\\((?:(\\s*\\3\\s*)|(.+))?\\))?)?)?\\s*([^;!\\n]*)'
+    'end': '(?i)^\\s*(end)(?:\\s*(interface)\\b(?:\\s+(assignment)\\b(?:\\s*\\(\\s*(\\3)\\s*\\))?)?)?\\s*([^;!\\n]+)?'
     'endCaptures':
       '1': 'name': 'keyword.control.end.fortran.modern'
       '2': 'name': 'support.function.interface.fortran.modern'
       '3': 'name': 'keyword.other.operator.fortran.modern'
       '4': 'name': 'keyword.operator.fortran.modern'
       '5': 'name': 'invalid.error.fortran'
-      '6': 'name': 'invalid.error.fortran'
     'patterns':[
       {'include': '#interface-body'}
     ]
@@ -387,20 +385,22 @@
     'begin': '(?i)^\\s*(interface)\\s*(?=[;!\\n])'
     'beginCaptures':
       '1': 'name': 'support.function.interface.fortran.modern'
-    'end': '(?i)^\\s*(end)\\s*(?:(interface))?'
+    'end': '(?i)^\\s*(end)(\\s*interface)?\\b\\s*([^;!\\n]+)?'
     'endCaptures':
       '1': 'name': 'keyword.control.end.fortran.modern'
       '2': 'name': 'support.function.interface.fortran.modern'
+      '3': 'name': 'invalid.error.fortran'
     'patterns':[
       {'include': '#interface-body'}
     ]
   'generic-interface-block':
     'comment': 'Introduced in the Fortran 1990 standard.'
-    'begin': '(?i)^\\s*(interface)\\b\\s*([a-z]\\w*)\\b\\s*(?=[;!\\n])'
+    'begin': '(?i)^\\s*(interface)\\s+([a-z]\\w*)\\b\\s*([^;!\\n]+)?'
     'beginCaptures':
       '1': 'name': 'support.function.interface.fortran.modern'
       '2': 'name': 'entity.name.function.fortran'
-    'end': '(?i)^\\s*(end)\\s*(?:(interface)(?:\\s+(\\2))?\\b)?(?:\\s*\\b([^\\s;!\\n]*))?'
+      '3': 'name': 'invalid.error.fortran'
+    'end': '(?i)^\\s*(end)(?:\\s*(interface)(?:\\s+(\\2))?)?\\b\\s*([^;!\\n]+)?'
     'endCaptures':
       '1': 'name': 'keyword.control.end.fortran.modern'
       '2': 'name': 'support.function.interface.fortran.modern'
@@ -411,41 +411,37 @@
     ]
   'IO-interface-block':
     'comment': 'Introduced in the Fortran 1990 standard.'
-    'begin': '(?i)^\\s*(interface)\\s+(read|write)\\s*\\(\\s*(?:((?:un)?formatted)|(.*))\\s*\\)\\s*([^;!\\n]*)?'
-    'beginCaptures':
-      '1': 'name': 'support.function.interface.fortran.modern'
-      '2': 'name': 'keyword.other.operator.fortran.modern'
-      '3': 'name': 'keyword.other.operator.fortran.modern'
-      '4': 'name': 'invalid.error.fortran'
-      '5': 'name': 'invalid.error.fortran'
-    'end': '(?ix)^\\s*(end)\\s*(?:(interface)\\b(?:\\s+(\\2)\\b(?:\\s*\\((?:(\\s*\\3\\s*)|(.+))?\\))?)?)?\\s*([^;!\\n]*)'
-    'endCaptures':
-      '1': 'name': 'keyword.control.end.fortran.modern'
-      '2': 'name': 'support.function.interface.fortran.modern'
-      '3': 'name': 'keyword.other.operator.fortran.modern'
-      '4': 'name': 'keyword.other.operator.fortran.modern'
-      '5': 'name': 'invalid.error.fortran'
-      '6': 'name': 'invalid.error.fortran'
-    'patterns':[
-      {'include': '#interface-body'}
-    ]
-  'operator-interface-block':
-    'comment': 'Introduced in the Fortran 1990 standard.'
-    'begin': '(?i)^\\s*(interface)\\s+(operator)\\b\\s*\\(\\s*(?:(\\.[a-z]+\\.|\\+|\\-|\\*\\*?|\\/[\\/\\=]?|[\\<\\>]\\=?|\\=\\=)|([^\\s]*))\\s*\\)\\s*([^;!\\n]*)?'
+    'begin': '(?i)^\\s*(interface)\\s+(read|write)(?:\\s*\\(\\s*((?:un)?formatted)?\\s*\\))?\\s*([^;!\\n]+)?'
     'beginCaptures':
       '1': 'name': 'support.function.interface.fortran.modern'
       '2': 'name': 'keyword.other.operator.fortran.modern'
       '3': 'name': 'keyword.operator.fortran.modern'
       '4': 'name': 'invalid.error.fortran'
-      '5': 'name': 'invalid.error.fortran'
-    'end': '(?i)^\\s*(end)\\s*(?:(interface)\\b(?:\\s+(operator)\\b(?:\\s*\\((?:(\\s*\\3\\s*)|(.+))?\\))?)?)?\\s*([^;!\\n]*)'
+    'end': '(?i)^\\s*(end)\\s*(?:(interface)\\b(?:\\s+(\\2)\\b(?:\\s*\\(\\s*(\\3)?\\s*\\))?)?)?\\s*([^;!\\n]+)?'
     'endCaptures':
       '1': 'name': 'keyword.control.end.fortran.modern'
       '2': 'name': 'support.function.interface.fortran.modern'
       '3': 'name': 'keyword.other.operator.fortran.modern'
       '4': 'name': 'keyword.operator.fortran.modern'
       '5': 'name': 'invalid.error.fortran'
-      '6': 'name': 'invalid.error.fortran'
+    'patterns':[
+      {'include': '#interface-body'}
+    ]
+  'operator-interface-block':
+    'comment': 'Introduced in the Fortran 1990 standard.'
+    'begin': '(?i)^\\s*(interface)\\s+(operator)\\b(?:\\s*\\(\\s*(\\.[a-z]+\\.|\\+|\\-|\\*\\*?|\\/[\\/\\=]?|[\\<\\>]\\=?|\\=\\=)?\\s*\\))?\\s*([^;!\\n]+)?'
+    'beginCaptures':
+      '1': 'name': 'support.function.interface.fortran.modern'
+      '2': 'name': 'keyword.other.operator.fortran.modern'
+      '3': 'name': 'keyword.operator.fortran.modern'
+      '4': 'name': 'invalid.error.fortran'
+    'end': '(?i)^\\s*(end)\\s*(?:(interface)\\b(?:\\s+(operator)\\b(?:\\s*\\(\\s*(\\3)?\\s*\\))?)?)?\\s*([^;!\\n]+)?'
+    'endCaptures':
+      '1': 'name': 'keyword.control.end.fortran.modern'
+      '2': 'name': 'support.function.interface.fortran.modern'
+      '3': 'name': 'keyword.other.operator.fortran.modern'
+      '4': 'name': 'keyword.operator.fortran.modern'
+      '5': 'name': 'invalid.error.fortran'
     'patterns':[
       {'include': '#interface-body'}
     ]
