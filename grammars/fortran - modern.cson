@@ -424,7 +424,7 @@
       {'include': '#interface-body'}
     ]
   'operator-interface-block':
-    'begin': '(?i)^\\s*(interface)\\s+(operator)\\b\\s*\\(\\s*(?:(\\.[a-z]+\\.)|([^\\s]*))\\s*\\)\\s*([^;!\\n]*)?'
+    'begin': '(?i)^\\s*(interface)\\s+(operator)\\b\\s*\\(\\s*(?:(\\.[a-z]+\\.|\\+|\\-|\\*\\*?|\\/[\\/\\=]?|[\\<\\>]\\=?|\\=\\=)|([^\\s]*))\\s*\\)\\s*([^;!\\n]*)?'
     'beginCaptures':
       '1': 'name': 'support.function.interface.fortran.1990'
       '2': 'name': 'keyword.other.operator.fortran.1990'
