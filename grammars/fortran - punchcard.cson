@@ -174,7 +174,7 @@
   }
   {
     'comment': 'data type attributes'
-    'match': '\\b(?i:(dimension|common|equivalence|parameter|external|intrinsic|save|data|implicit\\s*none|implicit|intent|in|out|inout))\\b'
+    'match': '\\b(?i:(dimension|allocatable|pointer|common|equivalence|parameter|external|intrinsic|save|data|implicit\\s*none|implicit|intent|in|out|inout))\\b'
     'name': 'storage.modifier.fortran'
   }
   {
