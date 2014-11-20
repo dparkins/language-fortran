@@ -31,7 +31,7 @@
     'name': 'constant.numeric.fortran'
   }
   {
-    'begin': '(?x:\t\t\t\t\t\t\t\t# extended mode\n\t\t\t\t\t^\n\t\t\t\t\t\\s*\t\t\t\t\t\t\t\t\t# start of line and possibly some space\n\t\t\t\t\t([a-zA-Z\\(\\)]*)(?<!end)\t\t\t\t# 1: possibly some type specification but not the word end\n\t\t\t\t\t\\s*\t\t\t\t\t\t\t\t\t# possibly some space\n\t\t\t\t\t(?i:(function|subroutine))\\b\t\t# 2: function or subroutine\n\t\t\t\t\t\\s+\t\t\t\t\t\t\t\t\t# some space\n\t\t\t\t\t([A-Za-z_][A-Za-z0-9_]*)\t\t\t# 3: name\n\t\t\t\t\t)'
+    'begin': '(?i)^\\s*([a-z\\(\\)]*)(?<!end)\\s*(function|subroutine)\\b\\s+([a-z]\\w*)'
     'beginCaptures':
       '1':
         'name': 'storage.type.fortran'
@@ -40,13 +40,13 @@
       '3':
         'name': 'entity.name.function.fortran'
     'comment': 'First line of function/subroutine definition'
-    'end': '(?x:\t\t\t\t\t\t\t\t\t# extended mode\n\t\t\t\t\t((?i:end))\t\t\t\t\t\t\t# 1: the word end\n\t\t\t\t\t(\t\t\t\t\t\t\t\t\t# followed by\n\t\t\t\t\t\t$\t\t\t\t\t\t\t\t# end of line\n\t\t\t\t\t|\t\t\t\t\t\t\t\t\t# or\n\t\t\t\t\t\t\\s*\t\t\t\t\t\t\t\t# possibly some space\n\t\t\t\t\t\t(?i:(function|subroutine))\t\t# 2: function or subroutine\n\t\t\t\t\t\t((\\s+[A-Za-z_][A-Za-z0-9_]*)?)\t# 3: possibly the name\n\t\t\t\t\t)\n\t\t\t\t\t)'
+    'end': '(?i)(end)(?:\\s*(function|subroutine)(\\s+[a-z]\\w*)?\\b)?'
     'endCaptures':
       '1':
         'name': 'keyword.other.fortran'
-      '3':
+      '2':
         'name': 'storage.type.function.fortran'
-      '4':
+      '3':
         'name': 'entity.name.function.end.fortran'
     'name': 'meta.function.fortran'
     'patterns': [
