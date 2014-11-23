@@ -19,6 +19,8 @@
 
   {'include': '#intrinsic-functions'}
   {'include': '#intrinsic-subroutines'}
+  {'include': '#data-statements'}
+  {'include': '#IO-statements'}
   {
     'comment': 'Non-intrinsic subroutines.'
     'begin': '(?<=call|%)\\s+([a-z]\\w*)\\s*\\('
@@ -301,11 +303,6 @@
     'name': 'keyword.operator.fortran.modern'
   }
   {
-    'comment': 'matrix/vector/array instrinsics'
-    'match': '(?i)\\b(allocate|deallocate)(?=\\()'
-    'name': 'keyword.other.instrinsic.array.fortran.modern'
-  }
-  {
     'comment': 'programming units'
     'match': '\\b(?i:((end\\s*)?(interface|procedure|module)))\\b'
     'name': 'keyword.other.programming-units.fortran.modern'
@@ -488,7 +485,7 @@
           leadz|mask[lr]|merge_bits|norm2|num_images|parity|popcnt|poppar|
           shift[alr]|storage_size|this_image|trailz|ucobound)\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -497,9 +494,9 @@
       }
       {
         'comment': 'Functions accessable through the intrinsic FORTRAN_SPECIAL_FUNCTIONS module. Introduced in the Fortran 2008 standard.'
-        'begin': '(?i)\\b(bessel_[jy][01n]|erf(c(_scaled)?)?|gamma|log_gamma)\\s*\\('
+        'begin': '(?ix)\\b(bessel_[jy][01n]|erf(c(_scaled)?)?|gamma|log_gamma)\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -511,7 +508,7 @@
         'begin': '(?ix)\\b(command_argument_count|extends_type_of|is_iostat_end|
           is_iostat_eor|new_line|same_type_as|selected_char_kind)\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -526,7 +523,7 @@
           support_(datatype|denormal|divide|inf|io|nan|rounding|sqrt|standard|underflow_control)|
           unordered|value))\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -535,9 +532,9 @@
       }
       {
         'comment': 'Functions accessable through the intrinsic IEEE_EXCEPTIONS module. Introduced in the Fortran 2003 standard.'
-        'begin': '(?i)\\b(ieee_support_(flag|halting))\\s*\\('
+        'begin': '(?ix)\\b(ieee_support_(flag|halting))\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -546,9 +543,9 @@
       }
       {
         'comment': 'Functions accessable through the intrinsic ISO_C_BINDING module. Introduced in the Fortran 2003 standard.'
-        'begin': '(?i)\\b(c_(associated|funloc|loc|sizeof))\\s*\\('
+        'begin': '(?ix)\\b(c_(associated|funloc|loc|sizeof))\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -557,9 +554,9 @@
       }
       {
         'comment': 'Functions accessable through the intrinsic ISO_FORTRAN_ENV module. Introduced in the Fortran 2003 standard.'
-        'begin': '(?i)\\b(compiler_(options|version))\\s*\\('
+        'begin': '(?ix)\\b(compiler_(options|version))\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -568,9 +565,9 @@
       }
       {
         'comment': 'Intrinsic functions introduced in the Fortran 1995 standard.'
-        'begin': '(?i)\\b(null)\\s*\\('
+        'begin': '(?ix)\\b(null)\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -588,7 +585,7 @@
           selected_(int|real)_kind|set_exponent|shape|size|spacing|spread|sum|
           tiny|transfer|transpose|trim|ubound|unpack|verify)\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -603,7 +600,7 @@
         'begin': '(?ix)(?<=call)\\s+(execute_command_line|get_command|
           get_command_argument|get_environment_variable|move_alloc)\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran'
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -614,7 +611,7 @@
         'comment': 'Intrinsic subroutines introduced in the Fortran 1995 standard.'
         'begin': '(?i)(?<=call)\\s+(cpu_time)\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran'
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -626,7 +623,7 @@
         'begin': '(?ix)(?<=call)\\s+(date_and_time|mvbits|random_number|random_seed|
           system_clock)\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran'
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -637,7 +634,7 @@
         'comment': 'Subroutines accessable through the intrinsic IEEE_ARITHMETIC module. Introduced in the Fortran 2003 standard.'
         'begin': '(?i)(?<=call)\\s+(ieee_(get|set)_(rounding|underflow)_mode)\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran'
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -648,7 +645,7 @@
         'comment': 'Subroutines accessable through the intrinsic IEEE_EXCEPTIONS module. Introduced in the Fortran 2003 standard.'
         'begin': '(?i)(?<=call)\\s+(ieee_(get|set)_(flag|halting_mode|status))\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran'
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -659,7 +656,7 @@
         'comment': 'Subroutines accessable through the intrinsic ISO_C_BINDING module. Introduced in the Fortran 2003 standard.'
         'begin': '(?i)(?<=call)\\s+(c_f_(pointer|procpointer))\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran'
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran.modern'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
@@ -667,7 +664,39 @@
         ]
       }
     ]
+  # statements:
+  'data-statements':
+    'comment': 'Data statements introduced in the Fortran 1990 standard.'
+    'patterns':[
+      {
+        'begin': '(?ix)\\b(allocate|deallocate|nullify)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.control.data.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+    ]
+  'IO-statements':
+    'patterns':[
+      {
+        'comment': 'IO statements introduced in the Fortran 2003 standard.'
+        'begin': '(?i)\\b(flush|wait)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.control.IO.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+    ]
+
+
   'procedure-call-dummy-variable':
-    'name': 'variable.parameter.dummy-variable.fortran'
+    'name': 'variable.parameter.dummy-variable.fortran.modern'
     'match': '(?i)(?<=[\\,\\(])\\s*([a-z]\\w*)(?=\\s*\\=)'
+
 'scopeName': 'source.fortran.modern'

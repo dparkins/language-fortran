@@ -103,11 +103,6 @@
     'name': 'keyword.control.programming-units.fortran'
   }
   {
-    'comment': 'i/o statements'
-    'match': '\\b(?i:(open|close|read|write|print|inquire|backspace|endfile|format))\\b'
-    'name': 'keyword.control.io.fortran'
-  }
-  {
     'comment': 'operators'
     'match': '((?<!\\=)\\=(?!\\=)|\\-|\\+|\\/\\/|\\/|(?!^)\\*|::)'
     'name': 'keyword.operator.fortran'
@@ -118,12 +113,12 @@
     'name': 'keyword.operator.logical.fortran'
   }
   {'include': '#intrinsic-functions'}
+  {'include': '#IO-statements'}
   {
     'comment': 'matrix/vector/array intrisics'
     'match': '\\b(?i:(where|elsewhere|end\\s*where))\\b'
     'name': 'keyword.other.instrisic.array.fortran'
   }
-
   {
     'comment': 'data specification'
     'match': '\\b(?i:(integer|real|double\\s+precision|complex|logical|character|block\\sdata|operator|assignment))\\b'
@@ -391,11 +386,30 @@
       '1': 'name': 'keyword.other.function.intrinsic.fortran'
     'end': '\\)'
     'patterns':[
-      {
-        'name': 'variable.parameter.dummy-variable.fortran'
-        'match': '(?i)(?<=[\\,\\(])\\s*([a-z]\\w*)(?=\\s*\\=)'
-      }
+      {'include': '#procedure-call-dummy-variable'}
       {'include': '$self'}
     ]
-
+  'IO-statements':
+    'comment': 'IO statements introduced in the Fortran 1977 standard.'
+    'patterns':[
+      {
+        'begin': '(?ix)\\b(backspace|close|format|endfile|inquire|open|
+          read|rewind|write)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.control.IO.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'format and print statement.'
+        'match': '(?i)\\b(format|print|read)\\b'
+        'name': 'keyword.control.IO.fortran'
+      }
+    ]
+  'procedure-call-dummy-variable':
+    'name': 'variable.parameter.dummy-variable.fortran'
+    'match': '(?i)\\b([a-z]\\w*)(?=\\s*\\=)'
 'scopeName': 'source.fortran'
