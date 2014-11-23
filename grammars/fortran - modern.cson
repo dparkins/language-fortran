@@ -16,11 +16,8 @@
     'include': 'source.fortran'
   }
   {'include': '#interface-blocks'}
-
   {'include': '#intrinsic-functions'}
   {'include': '#intrinsic-subroutines'}
-  {'include': '#data-statements'}
-  {'include': '#IO-statements'}
   {
     'comment': 'Non-intrinsic subroutines.'
     'begin': '(?<=call|%)\\s+([a-z]\\w*)\\s*\\('
@@ -30,7 +27,8 @@
       {'include': '$self'}
     ]
   }
-
+  {'include': '#data-statements'}
+  {'include': '#IO-statements'}
   {
     'name': 'meta.derived-type.definition.fortran2008'
     'begin': '(?i)^\\s*(type)\\b(?![\\t ]*\\()'
@@ -288,11 +286,6 @@
     'name': 'keyword.control.fortran.modern'
   }
   {
-    'comment': 'input/output instrinsics'
-    'match': '(?i)\\b(access|action|advance|append|apostrophe|asis|blank|delete|delim|direct|end|eor|err|exist|file|fmt|form|formatted|iolength|iostat|keep|name|named|nextrec|new|nml|no|null|number|old|opened|pad|position|quote|read|readwrite|rec|recl|replace|scratch|sequential|size|status|undefined|unformatted|unit|unknown|write|yes|zero|namelist)(?=\\()'
-    'name': 'keyword.control.io.fortran.modern'
-  }
-  {
     'comment': 'logical operators in symbolic format'
     'match': '\\b(\\=\\=|\\/\\=|\\>\\=|\\>|\\<|\\<\\=)\\b'
     'name': 'keyword.operator.logical.fortran.modern'
@@ -304,26 +297,19 @@
   }
   {
     'comment': 'programming units'
-    'match': '\\b(?i:((end\\s*)?(interface|procedure|module)))\\b'
+    'match': '\\b(?i:((end\\s*)?(procedure|module)))\\b'
     'name': 'keyword.other.programming-units.fortran.modern'
   }
   {
-    'begin': '\\b(?i:(type(?=\\s*\\()))\\b(?=.*::)'
-    'beginCaptures':
-      '1':
-        'name': 'storage.type.fortran.modern'
     'comment': 'Line of type specification'
-    'end': '(?=!)|$'
     'name': 'meta.specification.fortran.modern'
+    'begin': '\\b(class|type)\\b(?=\\s*\\()'
+    'beginCaptures':
+      '1': 'name': 'storage.type.fortran.modern'
+    'end': '(?=[;!\\n])'
     'patterns': [
-      {
-        'include': '$base'
-      }
+      {'include': '$self'}
     ]
-  }
-  {
-    'match': '\\b(?i:(type(?=\\s*\\()))\\b'
-    'name': 'storage.type.fortran.modern'
   }
   {
     'match': '\\b(?i:(optional|recursive|pointer|allocatable|target|private|public))\\b'
