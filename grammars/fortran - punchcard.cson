@@ -31,6 +31,7 @@
     'name': 'constant.numeric.fortran'
   }
   {
+    'comment': 'First line of function/subroutine definition'
     'begin': '(?i)^\\s*([a-z\\(\\)]*)(?<!end)\\s*(function|subroutine)\\b\\s+([a-z]\\w*)'
     'beginCaptures':
       '1':
@@ -39,8 +40,7 @@
         'name': 'storage.type.function.fortran'
       '3':
         'name': 'entity.name.function.fortran'
-    'comment': 'First line of function/subroutine definition'
-    'end': '(?i)(end)(?:\\s*(function|subroutine)(\\s+[a-z]\\w*)?\\b)?'
+    'end': '(?i)(end)(?:\\s*(function|subroutine)(\\s+[a-z]\\w*)?\\b)?(?=\\s*[;!\\n])'
     'endCaptures':
       '1':
         'name': 'keyword.other.fortran'
@@ -117,56 +117,13 @@
     'match': '(?i:(\\.and\\.|\\.or\\.|\\.eq\\.|\\.lt\\.|\\.le\\.|\\.gt\\.|\\.ge\\.|\\.ne\\.|\\.not\\.|\\.eqv\\.|\\.neqv\\.))'
     'name': 'keyword.operator.logical.fortran'
   }
-  {
-    'comment': 'argument related intrisics'
-    'match': '\\b(?i:(present)(?=\\())'
-    'name': 'keyword.other.instrisic.argument.fortran'
-  }
-  {
-    'comment': 'numeric intrisics'
-    'match': '\\b(?i:(abs|aimag|aint|anint|cmplx|conjg|dble|dim|dprod|int|max|min|mod|nint|real|sign|digits|epsilon|huge|maxexponent|minexponent|precision|radix|range|tiny)(?=\\())'
-    'name': 'keyword.other.instrisic.numeric.fortran'
-  }
-  {
-    'comment': 'character string intrinsics'
-    'match': '\\b(?i:(achar|adjustl|adjustr|char|iachar|ichar|index|len_trim|repeat|scan|string|trim|verify|len)(?=\\())'
-    'name': 'keyword.other.instrisic.string.fortran'
-  }
-  {
-    'comment': 'mathematical intrisics'
-    'match': '\\b(?i:(((acos|asin|atan|atan2|cos|cosh|exp|log|log10|sin|sinh|sqrt|tan|tanh)(?=\\())|(random_number|random_seed)))\\b'
-    'name': 'keyword.other.instrisic.math.fortran'
-  }
-  {
-    'comment': 'data kind intrinsics'
-    'match': '\\b(?i:(kind|selected_int_kind|selected_real_kind|transfer)(?=\\())'
-    'name': 'keyword.other.instrisic.data.fortran'
-  }
-  {
-    'comment': 'logical intrinsics'
-    'match': '\\b(?i:(logical)(?=\\())'
-    'name': 'keyword.other.instrisic.logical.fortran'
-  }
-  {
-    'comment': 'bit operations intrinsics'
-    'match': '\\b(?i:(((bit_size|btest|iand|ibclr|ibits|ibset|ieor|ior|ishift|ishiftc|not)(?=\\())|mvbits))\\b'
-    'name': 'keyword.other.instrisic.bit.fortran'
-  }
-  {
-    'comment': 'floating point intrinsics'
-    'match': '\\b(?i:(exponent|fraction|nearest|rrspacing|scale|set_exponent|spacing)(?=\\())'
-    'name': 'keyword.other.instrisic.floating-point.fortran'
-  }
+  {'include': '#intrinsic-functions'}
   {
     'comment': 'matrix/vector/array intrisics'
-    'match': '\\b(?i:(((dot_product|sum|matmul|transpose|all|any|count|maxval|minval|maxloc|minloc|product|sum|lbound|ubound|shape|size|merge|pack|unpack|reshape|spread|cshift|eoshift)(?=\\())|(where|elsewhere|end\\s*where)))\\b'
+    'match': '\\b(?i:(where|elsewhere|end\\s*where))\\b'
     'name': 'keyword.other.instrisic.array.fortran'
   }
-  {
-    'comment': 'other intrisics'
-    'match': '\\b(?i:(((dtime)(?=\\())|(date_and_time|system_clock)))\\b'
-    'name': 'keyword.other.instrisic.fortran'
-  }
+
   {
     'comment': 'data specification'
     'match': '\\b(?i:(integer|real|double\\s+precision|complex|logical|character|block\\sdata|operator|assignment))\\b'
@@ -423,4 +380,22 @@
         'include': '$base'
       }
     ]
+  'intrinsic-functions':
+    'comment': 'Intrinsic functions introduced in the Fortran 1977 standard.'
+    'begin': '(?ix)\\b([icd]?abs|acos|[ad]int|[ad]nint|aimag|amax[01]|
+      amin[01]|d?asin|d?atan|d?atan2|char|conjg|[cd]?cos|d?cosh|cmplx|dble|
+      i?dim|dmax1|dmin1|dprod|[cd]?exp|float|ichar|idint|ifix|index|int|len|
+      lge|lgt|lle|llt|[acd]?log|[ad]?log10|max[01]?|min[01]?|[ad]?mod|
+      (id)?nint|real|[di]?sign|[cd]?sin|d?sinh|sngl|[cd]?sqrt|d?tan|d?tanh)\\s*\\('
+    'beginCaptures':
+      '1': 'name': 'keyword.other.function.intrinsic.fortran'
+    'end': '\\)'
+    'patterns':[
+      {
+        'name': 'variable.parameter.dummy-variable.fortran'
+        'match': '(?i)(?<=[\\,\\(])\\s*([a-z]\\w*)(?=\\s*\\=)'
+      }
+      {'include': '$self'}
+    ]
+
 'scopeName': 'source.fortran'

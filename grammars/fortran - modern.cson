@@ -16,6 +16,19 @@
     'include': 'source.fortran'
   }
   {'include': '#interface-blocks'}
+
+  {'include': '#intrinsic-functions'}
+  {'include': '#intrinsic-subroutines'}
+  {
+    'comment': 'Non-intrinsic subroutines.'
+    'begin': '(?<=call|%)\\s+([a-z]\\w*)\\s*\\('
+    'end': '\\)'
+    'patterns':[
+      {'include': '#procedure-call-dummy-variable'}
+      {'include': '$self'}
+    ]
+  }
+
   {
     'name': 'meta.derived-type.definition.fortran2008'
     'begin': '(?i)^\\s*(type)\\b(?![\\t ]*\\()'
@@ -288,19 +301,9 @@
     'name': 'keyword.operator.fortran.modern'
   }
   {
-    'comment': 'numeric instrinsics'
-    'match': '(?i)\\b(ceiling|floor|modulo)(?=\\()'
-    'name': 'keyword.other.instrinsic.numeric.fortran.modern'
-  }
-  {
     'comment': 'matrix/vector/array instrinsics'
-    'match': '(?i)\\b(allocate|allocated|deallocate)(?=\\()'
+    'match': '(?i)\\b(allocate|deallocate)(?=\\()'
     'name': 'keyword.other.instrinsic.array.fortran.modern'
-  }
-  {
-    'comment': 'pointer instrinsics'
-    'match': '(?i)\\b(associated)(?=\\()'
-    'name': 'keyword.other.instrinsic.pointer.fortran.modern'
   }
   {
     'comment': 'programming units'
@@ -475,5 +478,196 @@
     'patterns':[
       {'include': '#procedure-statement'}
     ]
-
+  # intrinsic procedures:
+  'intrinsic-functions':
+    'patterns':[
+      {
+        'comment': 'Intrinsic functions introduced in the Fortran 2008 standard.'
+        'begin': '(?ix)\\b(acosh|asinh|atanh|bge|bgt|ble|blt|dshiftl|dshiftr|
+          findloc|hypot|iall|iany|image_index|iparity|is_contiguous|lcobound|
+          leadz|mask[lr]|merge_bits|norm2|num_images|parity|popcnt|poppar|
+          shift[alr]|storage_size|this_image|trailz|ucobound)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Functions accessable through the intrinsic FORTRAN_SPECIAL_FUNCTIONS module. Introduced in the Fortran 2008 standard.'
+        'begin': '(?i)\\b(bessel_[jy][01n]|erf(c(_scaled)?)?|gamma|log_gamma)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Intrinsic functions introduced in the Fortran 2003 standard.'
+        'begin': '(?ix)\\b(command_argument_count|extends_type_of|is_iostat_end|
+          is_iostat_eor|new_line|same_type_as|selected_char_kind)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Functions accessable through the intrinsic IEEE_ARITHMETIC module. Introduced in the Fortran 2003 standard.'
+        'begin': '(?ix)\\b(ieee_(
+          class|copy_sign|is_(finite|nan|negative|normal)|logb|next_after|rem|
+          rint|scalb|selected_real_kind|
+          support_(datatype|denormal|divide|inf|io|nan|rounding|sqrt|standard|underflow_control)|
+          unordered|value))\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Functions accessable through the intrinsic IEEE_EXCEPTIONS module. Introduced in the Fortran 2003 standard.'
+        'begin': '(?i)\\b(ieee_support_(flag|halting))\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Functions accessable through the intrinsic ISO_C_BINDING module. Introduced in the Fortran 2003 standard.'
+        'begin': '(?i)\\b(c_(associated|funloc|loc|sizeof))\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Functions accessable through the intrinsic ISO_FORTRAN_ENV module. Introduced in the Fortran 2003 standard.'
+        'begin': '(?i)\\b(compiler_(options|version))\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Intrinsic functions introduced in the Fortran 1995 standard.'
+        'begin': '(?i)\\b(null)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Intrinsic functions introduced in the Fortran 1990 standard.'
+        'begin': '(?ix)\\b(achar|adjustl|adjustr|all|allocated|associated|any|bit_size|
+          btest|ceiling|count|cshift|digits|dot_product|eoshift|epsilon|exponent|
+          floor|fraction|huge|iachar|iand|ibclr|ibits|ibset|ieor|ior|ishftc?|
+          kind|lbound|len_trim|logical|matmul|maxexponent|maxloc|maxval|merge|
+          minexponent|minloc|minval|modulo|nearest|not|pack|precision|present|
+          product|radix|range|repeat|reshape|rrspacing|scale|scan|
+          selected_(int|real)_kind|set_exponent|shape|size|spacing|spread|sum|
+          tiny|transfer|transpose|trim|ubound|unpack|verify)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+    ]
+  'intrinsic-subroutines':
+    'patterns':[
+      {
+        'comment': 'Intrinsic subroutines introduced in the Fortran 2008 standard.'
+        'begin': '(?ix)(?<=call)\\s+(execute_command_line|get_command|
+          get_command_argument|get_environment_variable|move_alloc)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Intrinsic subroutines introduced in the Fortran 1995 standard.'
+        'begin': '(?i)(?<=call)\\s+(cpu_time)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Intrinsic subroutines introduced in the Fortran 1990 standard.'
+        'begin': '(?ix)(?<=call)\\s+(date_and_time|mvbits|random_number|random_seed|
+          system_clock)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Subroutines accessable through the intrinsic IEEE_ARITHMETIC module. Introduced in the Fortran 2003 standard.'
+        'begin': '(?i)(?<=call)\\s+(ieee_(get|set)_(rounding|underflow)_mode)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Subroutines accessable through the intrinsic IEEE_EXCEPTIONS module. Introduced in the Fortran 2003 standard.'
+        'begin': '(?i)(?<=call)\\s+(ieee_(get|set)_(flag|halting_mode|status))\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Subroutines accessable through the intrinsic ISO_C_BINDING module. Introduced in the Fortran 2003 standard.'
+        'begin': '(?i)(?<=call)\\s+(c_f_(pointer|procpointer))\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+    ]
+  'procedure-call-dummy-variable':
+    'name': 'variable.parameter.dummy-variable.fortran'
+    'match': '(?i)(?<=[\\,\\(])\\s*([a-z]\\w*)(?=\\s*\\=)'
 'scopeName': 'source.fortran.modern'
