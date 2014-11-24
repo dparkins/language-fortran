@@ -73,9 +73,6 @@
       {
         'include': '$self'
       }
-      {
-        'include': 'source.fortran.modern'
-      }
     ]
   }
   {
@@ -396,7 +393,7 @@
         'begin': '(?ix)\\b(backspace|close|format|endfile|inquire|open|
           read|rewind|write)\\s*\\('
         'beginCaptures':
-          '1': 'name': 'keyword.control.IO.fortran.modern'
+          '1': 'name': 'keyword.control.IO.fortran'
         'end': '\\)'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
