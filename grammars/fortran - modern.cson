@@ -11,332 +11,85 @@
 ]
 'firstLineMatch': '(?i)-[*]- mode: f90 -[*]-'
 'name': 'Fortran - Modern'
+'injections':
+  'source.fortran - ( string | comment )':
+    'patterns':[
+      {'include': '#comments'}
+      {'include': '#derived-type-definition'}
+      {'include': '#interface-blocks'}
+      {'include': '#intrinsic-functions'}
+      {'include': '#intrinsic-subroutines'}
+      {
+        'comment': 'Non-intrinsic subroutines.'
+        'begin': '(?<=call|%)\\s+([a-z]\\w*)\\s*\\('
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {'include': '#data-statements'}
+      {'include': '#IO-statements'}
+      {
+        'comment': 'logical operators in symbolic format'
+        'match': '(\\=\\=|\\/\\=|\\>\\=|\\>|\\<|\\<\\=)'
+        'name': 'keyword.operator.logical.fortran.modern'
+      }
+      {
+        'comment': 'operators'
+        'match': '(\\%|\\=\\>)'
+        'name': 'keyword.operator.fortran.modern'
+      }
+      {
+        'comment': 'Line of type specification'
+        'name': 'meta.specification.fortran'
+        'begin': '\\b(class|type)\\b(?=\\s*\\()'
+        'beginCaptures':
+          '1': 'name': 'storage.type.fortran.modern'
+        'end': '(?=[;!\\n])'
+        'patterns': [
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'statements controling the flow of the program'
+        'match': '(?i)\\b(select\\s+case|case(\\s+default)?|end\\s+select|use|(end\\s+)?forall)\\b'
+        'name': 'keyword.control.fortran.modern'
+      }
+    ]
+  'meta.specification.fortran':
+    'patterns':[
+      {
+        'match': '(?i)\\b(allocatable|optional|pointer|target)\\b'
+        'name': 'storage.modifier.fortran.modern'
+      }
+    ]
+  'meta.module.fortran.modern meta.specification.fortran - meta.function.fortran':
+    'patterns':[
+      {'include': '#access-attributes'}
+    ]
+  'source.fortran - meta':
+    'patterns':[
+      {'include': '#module-definition'}
+    ]
 'patterns': [
   {
     'include': 'source.fortran'
   }
-  {'include': '#interface-blocks'}
-  {
-    'name': 'meta.derived-type.definition.fortran2008'
-    'begin': '(?i)^\\s*(type)\\b(?![\\t ]*\\()'
-    'beginCaptures':
-      '1': 'name': 'support.type.derived-type.fortran2008'
-    'end': '(?=[;!\\n])'
-    'patterns': [
-      {# attribute list
-        'comment': 'derived-type attribute list'
-        'begin': '(?i)(?<=type)\\b(?![\\t ]*\\()'
-        'end': '(?i)(::)|(?=[a-z]|[;!\\n])'
-        'endCaptures':
-          '1': 'name': 'keyword.operator.double-colon.fortran'
-        'patterns': [
-          {
-            'begin': '(?i)(,)'
-            'beginCaptures':
-              '1': 'name': 'punctuation.comma.fortran'
-            'end': '(?=::|[,;!\\n])'
-            'patterns':[
-              {'include': '#access-attributes'}
-              {
-                'begin': '(?i)\\b(extends)\\s*\\((?!([^;!\n](?!::))*(sequence))'
-                'beginCaptures':
-                  '1': 'name': 'keyword.other.attribute.derived-type.fortran.2008'
-                'end': '\\)'
-                'patterns':[
-                  {
-                    'name': 'entity.name.derived-type.fortran.2008'
-                    'match': '(?i)\\b([a-z]\\w*)\\b'
-                  }
-                ]
-              }
-              {
-                'begin': '\\b(bind)\\s*\\('
-                'beginCaptures':
-                  '1': 'name': 'keyword.other.attribute.derived-type.fortran.2008'
-                'end': '\\)'
-                'patterns':[
-                  {
-                    'name': 'entity.name.bound-type.fortran.2008'
-                    'match': '(?i)\\b(c)\\b'
-                  }
-                ]
-              }
-              {
-                'name': 'keyword.other.attribute.derived-type.fortran.2008'
-                'match': '(?i)\\b(sequence)\\b(?!([^;!\n](?!::))*(extends))'
-              }
-              {
-                'name': 'invalid.error.fortran'
-                'match': '(?i)\\b\\w+\\b'
-              }
-            ]
-          }
-        ]
-      }
-      {# body
-        'begin': '(?i)\\b([a-z]\\w*)\\b'
-        'beginCaptures':
-          '1': 'name': 'entity.name.derived-type.fortran.2008'
-        'end': '(?i)^\\s*(end)[\\t ]*(type)(?:\\s+(?:(\\1)|(\\w+)))?\\b'
-        'endCaptures':
-          '1': 'name': 'keyword.control.end.derived-type.fortran.2008'
-          '2': 'name': 'support.type.derived-type.fortran.2008'
-          '3': 'name': 'entity.name.derived-type.fortran.2008'
-          '4': 'name': 'invalid.error.fortran.2008'
-        'patterns':[
-          {'include': '$base'}
-          {# parameter definition statements
-            'match': '(?i)^\\s*(integer)[\\t ]*(,)\\s*(kind|len)\\s*(?:(::)\\s*([a-z]\\w*)?)?\\s*(?=[;!\\n])'
-            'captures':
-              '1': 'name': 'storage.type.integer.fortran'
-              '2': 'name': 'punctuation.comma.fortran'
-              '3': 'name': 'keyword.other.attribute.derived-type.parameter.fortran.2008'
-              '4': 'name': 'keyword.operator.double-colon.fortran'
-              '5': 'name': 'entity.name.derived-type.parameter.fortran.2008'
-          }
-          {# attribute statements
-            'name': 'keyword.other.attribute.derived-type.fortran.2008'
-            'match': '(?i)^\\s*(private|public|sequence)\\b\\s*\\n'
-          }
-          {# contains section
-            'comment': 'derived-type contains construct'
-            'begin': '(?i)^\\s*(contains)(?=\\s*[!$\\n])'
-            'beginCaptures':
-              '1': 'name': 'keyword.type-contains.fortran2008'
-            'end': '(?i)(?=\\s+end\\b)'
-            'patterns': [
-              {'include': '$base'}
-              {
-                'name': 'keyword.other.attribute.statement.fortran.2008'
-                'match': '(?i)^\\s*private\\b'
-              }
-              {# generic procedure statement
-                'begin': '(?i)^\\s*(generic)\\b'
-                'beginCaptures':
-                  '1': 'name': 'support.function.generic.type-bound.fortran.2008'
-                'end': '(?=[;!\\n])'
-                'patterns':[
-                  {# attribute list
-                    'comment': 'derived-type attribute list'
-                    'begin': '(?i)(?<=generic)'
-                    'end': '(?i)(::)|(?=[a-z]|[;!\\n])'
-                    'endCaptures':
-                      '1': 'name': 'keyword.operator.double-colon.fortran'
-                    'patterns': [
-                      {
-                        'begin': '(?i)(,)'
-                        'beginCaptures':
-                          '1': 'name': 'punctuation.comma.fortran'
-                        'end': '(?=::|[,;!\\n])'
-                        'patterns':[
-                          {'include': '#access-attributes'}
-                        ]
-                      }
-                    ]
-                  }
-                  {# assignment
-                    'comment': 'type bound procedure binding name'
-                    'match': '(?i)(?<=generic|::)[\\t ]*\\b(assignment)[\\t ]*\\([\\t ]*(\\=)[\\t ]*\\)'
-                    'captures':
-                      '1': 'name': 'keyword.other.assignment.fortran.2008'
-                      '2': 'name': 'keyword.operator.fortran.2008'
-                  }
-                  {# operator
-                    'comment': 'type bound procedure binding name'
-                    'match': '(?i)(?<=generic|::)[\\t ]*\\b(operator)[\\t ]*\\([\\t ]*(\\.[a-z]*\\.|\\=\\=|\\>\\=|\\<\\=|\\/\\=|\\>|\\<)[\\t ]*\\)'
-                    'captures':
-                      '1': 'name': 'keyword.other.assignment.fortran.2008'
-                      '2': 'name': 'keyword.operator.fortran.2008'
-                  }
-                  {# binding list
-                    'begin': '\\=\\>'
-                    'beginCaptures':
-                      '0': 'name': 'keyword.operator.pointer.fortran.2008'
-                    'end': '(?=[;!\\n])'
-                    'patterns':[
-                      {
-                        'name': 'entity.name.function.procedure.fortran.2008'
-                        'match': '(?i)\\b[a-z]\\w*\\b'
-                      }
-                    ]
-                  }
-                ]
-              }
-              {# procedure statement
-                'comment': 'type bound procedure statement'
-                'begin': '(?i)^\\s*(procedure)\\b(?:[\\t ]*\\(([a-z]\\w*)\\))?'
-                'beginCaptures':
-                  '1': 'name': 'support.function.procedure.type-bound.fortran.2008'
-                  '2': 'name': 'entity.name.function.procedure.fortran.2008'
-                'end': '(?i)(?=[;!$\\n])'
-                'patterns':[
-                  {# attribute list
-                    'comment': 'derived-type attribute list'
-                    'begin': '(?i)(?<=procedure|\\))\\b(?![\\t ]*\\()'
-                    'end': '(?i)(::)|(?=[a-z]|[;!\\n])'
-                    'endCaptures':
-                      '1': 'name': 'keyword.operator.double-colon.fortran'
-                    'patterns': [
-                      {
-                        'begin': '(?i)(,)'
-                        'beginCaptures':
-                          '1': 'name': 'punctuation.comma.fortran'
-                        'end': '(?=::|[,;!\\n])'
-                        'patterns':[
-                          {'include': '#access-attributes'}
-                          {
-                            'match': '(?i)\\b(pass)\\b[\\t ]*(?:\\([\\t ]*([a-z]\\w*)[\\t ]*\\))?(?!([^;!\n](?!::))*(nopass|pass))'
-                            'captures':
-                              '1': 'name': 'keyword.other.attribute.procedure.fortran.2008'
-                              '2': 'name': 'keyword.other.attribute.procedure.fortran.2008'
-                            'end': '(?=[,:;!\\n])'
-                          }
-                          {
-                            'name': 'keyword.other.attribute.procedure.fortran.2008'
-                            'match': '(?i)\\b(nopass)\\b(?!([^;!\n](?!::))*(nopass|pass))'
-                          }
-                          {
-                            'name': 'keyword.other.attribute.procedure.fortran.2008'
-                            'match': '(?i)\\b(deferred|non_overridable)\\b(?!([^;!\n](?!::))*(deferred|non_overridable))'
-                          }
-                          {
-                            'name': 'invalid.error.fortran'
-                            'match': '(?i)\\b\\w+\\b'
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                  {# binding name
-                    'comment': 'type bound procedure binding name'
-                    'match': '(?i)(?<=procedure|::)[\\t ]*\\b([a-z]\\w*\\b)(?:[\\t ]*(\\=\\>)(?:[\\t ]*([a-z]\\w*\\b))?)?'
-                    'captures':
-                      '1': 'name': 'entity.name.function.procedure.fortran.2008'
-                      '2': 'name': 'keyword.other.operator.fortran.2008'
-                      '3': 'name': 'entity.name.function.procedure.fortran.2008'
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-  {
-    'begin': '(^[ \\t]+)?(?=!-)'
-    'beginCaptures':
-      '1':
-        'name': 'punctuation.whitespace.comment.leading.ruby'
-    'end': '(?!\\G)'
-    'patterns': [
-      {
-        'begin': '!-'
-        'beginCaptures':
-          '0':
-            'name': 'punctuation.definition.comment.fortran'
-        'end': '\\n'
-        'name': 'comment.line.exclamation.mark.fortran.modern'
-        'patterns': [
-          {
-            'match': '\\\\\\s*\\n'
-          }
-        ]
-      }
-    ]
-  }
-  {
-    'begin': '(^[ \\t]+)?(?=!)'
-    'beginCaptures':
-      '1':
-        'name': 'punctuation.whitespace.comment.leading.ruby'
-    'end': '(?!\\G)'
-    'patterns': [
-      {
-        'begin': '!'
-        'beginCaptures':
-          '0':
-            'name': 'punctuation.definition.comment.fortran'
-        'end': '\\n'
-        'name': 'comment.line.exclamation.fortran.modern'
-        'patterns': [
-          {
-            'match': '\\\\\\s*\\n'
-          }
-        ]
-      }
-    ]
-  }
-  {
-    'comment': 'statements controling the flow of the program'
-    'match': '(?i)\\b(select\\s+case|case(\\s+default)?|end\\s+select|use|(end\\s+)?forall)\\b'
-    'name': 'keyword.control.fortran.modern'
-  }
-  {
-    'comment': 'input/output instrinsics'
-    'match': '(?i)\\b(access|action|advance|append|apostrophe|asis|blank|delete|delim|direct|end|eor|err|exist|file|fmt|form|formatted|iolength|iostat|keep|name|named|nextrec|new|nml|no|null|number|old|opened|pad|position|quote|read|readwrite|rec|recl|replace|scratch|sequential|size|status|undefined|unformatted|unit|unknown|write|yes|zero|namelist)(?=\\()'
-    'name': 'keyword.control.io.fortran.modern'
-  }
-  {
-    'comment': 'logical operators in symbolic format'
-    'match': '\\b(\\=\\=|\\/\\=|\\>\\=|\\>|\\<|\\<\\=)\\b'
-    'name': 'keyword.operator.logical.fortran.modern'
-  }
-  {
-    'comment': 'operators'
-    'match': '(\\%|\\=\\>)'
-    'name': 'keyword.operator.fortran.modern'
-  }
-  {
-    'comment': 'numeric instrinsics'
-    'match': '(?i)\\b(ceiling|floor|modulo)(?=\\()'
-    'name': 'keyword.other.instrinsic.numeric.fortran.modern'
-  }
-  {
-    'comment': 'matrix/vector/array instrinsics'
-    'match': '(?i)\\b(allocate|allocated|deallocate)(?=\\()'
-    'name': 'keyword.other.instrinsic.array.fortran.modern'
-  }
-  {
-    'comment': 'pointer instrinsics'
-    'match': '(?i)\\b(associated)(?=\\()'
-    'name': 'keyword.other.instrinsic.pointer.fortran.modern'
-  }
-  {
-    'comment': 'programming units'
-    'match': '\\b(?i:((end\\s*)?(interface|procedure|module)))\\b'
-    'name': 'keyword.other.programming-units.fortran.modern'
-  }
-  {
-    'begin': '\\b(?i:(type(?=\\s*\\()))\\b(?=.*::)'
-    'beginCaptures':
-      '1':
-        'name': 'storage.type.fortran.modern'
-    'comment': 'Line of type specification'
-    'end': '(?=!)|$'
-    'name': 'meta.specification.fortran.modern'
-    'patterns': [
-      {
-        'include': '$base'
-      }
-    ]
-  }
-  {
-    'match': '\\b(?i:(type(?=\\s*\\()))\\b'
-    'name': 'storage.type.fortran.modern'
-  }
-  {
-    'match': '\\b(?i:(optional|recursive|pointer|allocatable|target|private|public))\\b'
-    'name': 'storage.modifier.fortran.modern'
-  }
 ]
 'repository':
+  # attributes:
   'access-attributes':
     {
       'comment': 'Introduced in the Fortran 1990 standard.'
       'name': 'keyword.other.attribute.fortran.modern'
       'match': '(?i)\\b(private|public)\\b(?!([^;!\\n](?!::))*\\b(private|public)\\b)'
     }
+  # comments:
+  'comments':
+    'name': 'comment.line.fortran.modern'
+    'begin': '!'
+    'end': '(?=\\n)'
   # interfaces:
   'interface-blocks':
     'patterns':[
@@ -474,6 +227,450 @@
     'end': '(?i)(?=[;!\\n])'
     'patterns':[
       {'include': '#procedure-statement'}
+    ]
+  # intrinsic procedures:
+  'intrinsic-functions':
+    'patterns':[
+      {
+        'comment': 'Intrinsic functions introduced in the Fortran 2008 standard.'
+        'begin': '(?ix)\\b(acosh|asinh|atanh|bge|bgt|ble|blt|dshiftl|dshiftr|
+          findloc|hypot|iall|iany|image_index|iparity|is_contiguous|lcobound|
+          leadz|mask[lr]|merge_bits|norm2|num_images|parity|popcnt|poppar|
+          shift[alr]|storage_size|this_image|trailz|ucobound)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Functions accessable through the intrinsic FORTRAN_SPECIAL_FUNCTIONS module. Introduced in the Fortran 2008 standard.'
+        'begin': '(?ix)\\b(bessel_[jy][01n]|erf(c(_scaled)?)?|gamma|log_gamma)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Intrinsic functions introduced in the Fortran 2003 standard.'
+        'begin': '(?ix)\\b(command_argument_count|extends_type_of|is_iostat_end|
+          is_iostat_eor|new_line|same_type_as|selected_char_kind)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Functions accessable through the intrinsic IEEE_ARITHMETIC module. Introduced in the Fortran 2003 standard.'
+        'begin': '(?ix)\\b(ieee_(
+          class|copy_sign|is_(finite|nan|negative|normal)|logb|next_after|rem|
+          rint|scalb|selected_real_kind|
+          support_(datatype|denormal|divide|inf|io|nan|rounding|sqrt|standard|underflow_control)|
+          unordered|value))\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Functions accessable through the intrinsic IEEE_EXCEPTIONS module. Introduced in the Fortran 2003 standard.'
+        'begin': '(?ix)\\b(ieee_support_(flag|halting))\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Functions accessable through the intrinsic ISO_C_BINDING module. Introduced in the Fortran 2003 standard.'
+        'begin': '(?ix)\\b(c_(associated|funloc|loc|sizeof))\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Functions accessable through the intrinsic ISO_FORTRAN_ENV module. Introduced in the Fortran 2003 standard.'
+        'begin': '(?ix)\\b(compiler_(options|version))\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Intrinsic functions introduced in the Fortran 1995 standard.'
+        'begin': '(?ix)\\b(null)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Intrinsic functions introduced in the Fortran 1990 standard.'
+        'begin': '(?ix)\\b(achar|adjustl|adjustr|all|allocated|associated|any|bit_size|
+          btest|ceiling|count|cshift|digits|dot_product|eoshift|epsilon|exponent|
+          floor|fraction|huge|iachar|iand|ibclr|ibits|ibset|ieor|ior|ishftc?|
+          kind|lbound|len_trim|logical|matmul|maxexponent|maxloc|maxval|merge|
+          minexponent|minloc|minval|modulo|nearest|not|pack|precision|present|
+          product|radix|range|repeat|reshape|rrspacing|scale|scan|
+          selected_(int|real)_kind|set_exponent|shape|size|spacing|spread|sum|
+          tiny|transfer|transpose|trim|ubound|unpack|verify)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+    ]
+  'intrinsic-subroutines':
+    'patterns':[
+      {
+        'comment': 'Intrinsic subroutines introduced in the Fortran 2008 standard.'
+        'begin': '(?ix)(?<=call)\\s+(execute_command_line|get_command|
+          get_command_argument|get_environment_variable|move_alloc)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Intrinsic subroutines introduced in the Fortran 1995 standard.'
+        'begin': '(?i)(?<=call)\\s+(cpu_time)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Intrinsic subroutines introduced in the Fortran 1990 standard.'
+        'begin': '(?ix)(?<=call)\\s+(date_and_time|mvbits|random_number|random_seed|
+          system_clock)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Subroutines accessable through the intrinsic IEEE_ARITHMETIC module. Introduced in the Fortran 2003 standard.'
+        'begin': '(?i)(?<=call)\\s+(ieee_(get|set)_(rounding|underflow)_mode)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Subroutines accessable through the intrinsic IEEE_EXCEPTIONS module. Introduced in the Fortran 2003 standard.'
+        'begin': '(?i)(?<=call)\\s+(ieee_(get|set)_(flag|halting_mode|status))\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Subroutines accessable through the intrinsic ISO_C_BINDING module. Introduced in the Fortran 2003 standard.'
+        'begin': '(?i)(?<=call)\\s+(c_f_(pointer|procpointer))\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.other.subroutine.intrinsic.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+    ]
+  'procedure-call-dummy-variable':
+    'name': 'variable.parameter.dummy-variable.fortran.modern'
+    'match': '(?i)(?<=[\\,\\(])\\s*([a-z]\\w*)(?=\\s*\\=)'
+  # statements:
+  'data-statements':
+    'comment': 'Data statements introduced in the Fortran 1990 standard.'
+    'patterns':[
+      {
+        'begin': '(?ix)\\b(allocate|deallocate|nullify)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.control.data.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+    ]
+  'IO-statements':
+    'patterns':[
+      {
+        'comment': 'IO statements introduced in the Fortran 2003 standard.'
+        'begin': '(?i)\\b(flush|wait)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.control.IO.fortran.modern'
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+    ]
+  # definitions:
+  'module-definition':
+    'name': 'meta.module.fortran.modern'
+    'begin': '(?ix)^\\s*(module)(\\s+[a-z]\\w*)?\\b'
+    'beginCaptures':
+      '1': 'name': 'keyword.other.module.fortran.open'
+    'end': '(?ix)^\\s*(end)\\b(?:\\s*(module)(?:\\s+(\\2)|\\s+(\\w*))?)?\\b
+      (?=\\s*[;!\\n])'
+    'endCaptures':
+      '1': 'name': 'keyword.other.end.module.fortran'
+      '2': 'name': 'keyword.other.module.fortran'
+      '3': 'name': 'entity.name.module.fortran'
+      '4': 'name': 'invalid.error.fortran'
+    'patterns': [
+      {'include': '$self'}
+      {'include': '#access-attributes'}
+    ]
+  'derived-type-definition':
+    'name': 'meta.derived-type.definition.fortran.modern'
+    'begin': '(?i)^\\s*(type)\\b(?!\\s*\\()'
+    'beginCaptures':
+      '1': 'name': 'support.type.derived-type.fortran.modern'
+    'end': '(?=[;!\\n])'
+    'patterns': [
+      {# attribute list
+        'comment': 'derived-type attribute list'
+        'begin': '(?i)(?<=type)\\b(?!\\s*\\()'
+        'end': '(?i)(::)|(?=[a-z]|[;!\\n])'
+        'endCaptures':
+          '1': 'name': 'keyword.operator.double-colon.fortran'
+        'patterns': [
+          {
+            'begin': '(?i)(,)'
+            'beginCaptures':
+              '1': 'name': 'punctuation.comma.fortran'
+            'end': '(?=::|[,;!\\n])'
+            'patterns':[
+              {'include': '#access-attributes'}
+              {
+                'begin': '(?i)\\b(extends)\\s*\\((?!([^;!\\n](?!::))*(sequence))'
+                'beginCaptures':
+                  '1': 'name': 'keyword.other.attribute.derived-type.fortran.modern'
+                'end': '\\)'
+                'patterns':[
+                  {
+                    'name': 'entity.name.derived-type.fortran.modern'
+                    'match': '(?i)\\b([a-z]\\w*)\\b'
+                  }
+                ]
+              }
+              {
+                'begin': '\\b(bind)\\s*\\('
+                'beginCaptures':
+                  '1': 'name': 'keyword.other.attribute.derived-type.fortran.modern'
+                'end': '\\)'
+                'patterns':[
+                  {
+                    'name': 'entity.name.bound-type.fortran.modern'
+                    'match': '(?i)\\b(c)\\b'
+                  }
+                ]
+              }
+              {
+                'name': 'keyword.other.attribute.derived-type.fortran.modern'
+                'match': '(?i)\\b(sequence)\\b(?!([^;!\\n](?!::))*(extends))'
+              }
+              {
+                'name': 'invalid.error.fortran'
+                'match': '(?i)\\b\\w+\\b'
+              }
+            ]
+          }
+        ]
+      }
+      {# body
+        'begin': '(?i)\\b([a-z]\\w*)\\b'
+        'beginCaptures':
+          '1': 'name': 'entity.name.derived-type.fortran.modern'
+        'end': '(?i)^\\s*(end)\\s*(type)(?:\\s+(?:(\\1)|(\\w+)))?\\b'
+        'endCaptures':
+          '1': 'name': 'keyword.control.end.derived-type.fortran.modern'
+          '2': 'name': 'support.type.derived-type.fortran.modern'
+          '3': 'name': 'entity.name.derived-type.fortran.modern'
+          '4': 'name': 'invalid.error.fortran.modern'
+        'patterns':[
+          {'include': '$self'}
+          {# parameter definition statements
+            'match': '(?i)^\\s*(integer)\\s*(,)\\s*(kind|len)\\s*(?:(::)\\s*([a-z]\\w*)?)?\\s*(?=[;!\\n])'
+            'captures':
+              '1': 'name': 'storage.type.integer.fortran'
+              '2': 'name': 'punctuation.comma.fortran'
+              '3': 'name': 'keyword.other.attribute.derived-type.parameter.fortran.modern'
+              '4': 'name': 'keyword.operator.double-colon.fortran'
+              '5': 'name': 'entity.name.derived-type.parameter.fortran.modern'
+          }
+          {# attribute statements
+            'name': 'keyword.other.attribute.derived-type.fortran.modern'
+            'match': '(?i)^\\s*(private|public|sequence)\\b\\s*\\n'
+          }
+          {# contains section
+            'comment': 'derived-type contains construct'
+            'begin': '(?i)^\\s*(contains)(?=\\s*[!$\\n])'
+            'beginCaptures':
+              '1': 'name': 'keyword.type-contains.fortran.modern'
+            'end': '(?i)(?=\\s+end\\b)'
+            'patterns': [
+              {'include': '$self'}
+              {
+                'name': 'keyword.other.attribute.statement.fortran.modern'
+                'match': '(?i)^\\s*private\\b'
+              }
+              {# generic procedure statement
+                'begin': '(?i)^\\s*(generic)\\b'
+                'beginCaptures':
+                  '1': 'name': 'support.function.generic.type-bound.fortran.modern'
+                'end': '(?=[;!\\n])'
+                'patterns':[
+                  {# attribute list
+                    'comment': 'derived-type attribute list'
+                    'begin': '(?i)(?<=generic)'
+                    'end': '(?i)(::)|(?=[a-z]|[;!\\n])'
+                    'endCaptures':
+                      '1': 'name': 'keyword.operator.double-colon.fortran'
+                    'patterns': [
+                      {
+                        'begin': '(?i)(,)'
+                        'beginCaptures':
+                          '1': 'name': 'punctuation.comma.fortran'
+                        'end': '(?=::|[,;!\\n])'
+                        'patterns':[
+                          {'include': '#access-attributes'}
+                        ]
+                      }
+                    ]
+                  }
+                  {# assignment
+                    'comment': 'type bound procedure binding name'
+                    'match': '(?i)(?<=generic|::)\\s*\\b(assignment)\\s*\\(\\s*(\\=)\\s*\\)'
+                    'captures':
+                      '1': 'name': 'keyword.other.assignment.fortran.modern'
+                      '2': 'name': 'keyword.operator.fortran.modern'
+                  }
+                  {# operator
+                    'comment': 'type bound procedure binding name'
+                    'match': '(?i)(?<=generic|::)\\s*\\b(operator)\\s*\\(\\s*(\\.[a-z]*\\.|\\=\\=|\\>\\=|\\<\\=|\\/\\=|\\>|\\<)\\s*\\)'
+                    'captures':
+                      '1': 'name': 'keyword.other.assignment.fortran.modern'
+                      '2': 'name': 'keyword.operator.fortran.modern'
+                  }
+                  {# binding list
+                    'begin': '\\=\\>'
+                    'beginCaptures':
+                      '0': 'name': 'keyword.operator.pointer.fortran.modern'
+                    'end': '(?=[;!\\n])'
+                    'patterns':[
+                      {
+                        'name': 'entity.name.function.procedure.fortran.modern'
+                        'match': '(?i)\\b[a-z]\\w*\\b'
+                      }
+                    ]
+                  }
+                ]
+              }
+              {# procedure statement
+                'comment': 'type bound procedure statement'
+                'begin': '(?i)^\\s*(procedure)\\b(?:\\s*\\(([a-z]\\w*)\\))?'
+                'beginCaptures':
+                  '1': 'name': 'support.function.procedure.type-bound.fortran.modern'
+                  '2': 'name': 'entity.name.function.procedure.fortran.modern'
+                'end': '(?i)(?=[;!$\\n])'
+                'patterns':[
+                  {# attribute list
+                    'comment': 'derived-type attribute list'
+                    'begin': '(?i)(?<=procedure|\\))\\b(?!\\s*\\()'
+                    'end': '(?i)(::)|(?=[a-z]|[;!\\n])'
+                    'endCaptures':
+                      '1': 'name': 'keyword.operator.double-colon.fortran'
+                    'patterns': [
+                      {
+                        'begin': '(?i)(,)'
+                        'beginCaptures':
+                          '1': 'name': 'punctuation.comma.fortran'
+                        'end': '(?=::|[,;!\\n])'
+                        'patterns':[
+                          {'include': '#access-attributes'}
+                          {
+                            'match': '(?i)\\b(pass)\\b\\s*(?:\\(\\s*([a-z]\\w*)\\s*\\))?(?!([^;!\\n](?!::))*(nopass|pass))'
+                            'captures':
+                              '1': 'name': 'keyword.other.attribute.procedure.fortran.modern'
+                              '2': 'name': 'keyword.other.attribute.procedure.fortran.modern'
+                            'end': '(?=[,:;!\\n])'
+                          }
+                          {
+                            'name': 'keyword.other.attribute.procedure.fortran.modern'
+                            'match': '(?i)\\b(nopass)\\b(?!([^;!\\n](?!::))*(nopass|pass))'
+                          }
+                          {
+                            'name': 'keyword.other.attribute.procedure.fortran.modern'
+                            'match': '(?i)\\b(deferred|non_overridable)\\b(?!([^;!\\n](?!::))*(deferred|non_overridable))'
+                          }
+                          {
+                            'name': 'invalid.error.fortran'
+                            'match': '(?i)\\b\\w+\\b'
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                  {# binding name
+                    'comment': 'type bound procedure binding name'
+                    'match': '(?i)(?<=procedure|::)\\s*\\b([a-z]\\w*\\b)(?:\\s*(\\=\\>)(?:\\s*([a-z]\\w*\\b))?)?'
+                    'captures':
+                      '1': 'name': 'entity.name.function.procedure.fortran.modern'
+                      '2': 'name': 'keyword.other.operator.fortran.modern'
+                      '3': 'name': 'entity.name.function.procedure.fortran.modern'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     ]
 
 'scopeName': 'source.fortran.modern'
