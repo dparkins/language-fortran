@@ -86,6 +86,11 @@
         'match': '(?i)(?:^|(?<=[;,]))\\s*\\b(allocatable|intent|in|out|inout|optional|pointer|target)\\b'
         'name': 'storage.modifier.fortran.modern'
       }
+      {
+        'comment': 'Associate construct. Introduced in the Fortran 2003 standard.'
+        'match': '(?i)(?:^|(?<=;))\\s*\\b((end)?\\s*associate)\\b'
+        'name': 'keyword.control.fortran.modern'
+      }
     ]
   'meta.module.fortran.modern meta.specification.fortran - meta.function.fortran':
     'patterns':[
