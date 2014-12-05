@@ -91,14 +91,10 @@
         'match': '(?i)(?:^|(?<=;))\\s*\\b((end)?\\s*associate)\\b'
         'name': 'keyword.control.fortran.modern'
       }
-    ]
-  'meta.module.fortran.modern meta.specification.fortran - meta.function.fortran':
-    'patterns':[
       {'include': '#access-attributes'}
     ]
   'source.fortran - meta':
     'patterns':[
-      {'include': '#access-attributes'}
       {'include': '#module-definition'}
     ]
 'patterns': [
@@ -112,7 +108,7 @@
     {
       'comment': 'Access attributes. Introduced in the Fortran 1990 standard.'
       'name': 'keyword.other.attribute.fortran.modern'
-      'match': '(?i)(^|(?<=[;,]))\\b(private|public)\\b'
+      'match': '(?i)(^|(?<=[;,]))\\s*\\b(private|public)\\b'
     }
   # comments:
   'comments':
