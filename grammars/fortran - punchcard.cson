@@ -96,7 +96,7 @@
   }
   {
     'comment': 'statements controling the flow of the program'
-    'match': '\\b(?i:(go\\s*to|assign|to|if|then|else|elseif|end\\s*if|continue|stop|pause|do|end\\s*do|while|cycle|concurrent))\\b'
+    'match': '\\b(?i:(go\\s*to|assign|to|if|then|else|elseif|end\\s*if|continue|stop|pause|do|end\\s*do|while|cycle))\\b'
     'name': 'keyword.control.fortran'
   }
   {
@@ -122,13 +122,8 @@
   {'include': '#intrinsic-functions'}
   {'include': '#IO-statements'}
   {
-    'comment': 'matrix/vector/array intrisics'
-    'match': '\\b(?i:(where|elsewhere|end\\s*where))\\b'
-    'name': 'keyword.other.instrisic.array.fortran'
-  }
-  {
     'comment': 'data type attributes'
-    'match': '\\b(?i:(dimension|common|equivalence|parameter|external|intrinsic|save|data|implicit\\s*none|implicit|intent|in|out|inout))\\b'
+    'match': '\\b(?i:(dimension|common|equivalence|parameter|external|intrinsic|save|data|implicit\\s*none|implicit))\\b'
     'name': 'storage.modifier.fortran'
   }
   {

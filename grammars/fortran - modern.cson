@@ -43,7 +43,7 @@
       {
         'comment': 'Line of type specification'
         'name': 'meta.specification.fortran'
-        'begin': '\\b(class|type)\\b(?=\\s*\\()'
+        'begin': '(?:^|(?<=;))\\s*\\b(class|type)\\b(?=\\s*\\()'
         'beginCaptures':
           '1': 'name': 'storage.type.fortran.modern'
         'end': '(?=[;!\\n])'
@@ -52,15 +52,38 @@
         ]
       }
       {
-        'comment': 'statements controling the flow of the program'
-        'match': '(?i)\\b(select\\s+case|case(\\s+default)?|end\\s+select|use|(end\\s+)?forall)\\b'
+        'comment': 'Use statement. Introduced in the Fortran 1990 standard.'
+        'match': '(?i)(?:^|(?<=;))\\s*\\b(use)\\b'
         'name': 'keyword.control.fortran.modern'
       }
-    ]
-  'meta.specification.fortran':
-    'patterns':[
       {
-        'match': '(?i)\\b(allocatable|optional|pointer|target)\\b'
+        'comment': 'Where construct. Introduced in the Fortran 1990 standard.'
+        'match': '(?i)(?:^|(?<=;))\\s*\\b(where|elsewhere|end\\s*where)\\b'
+        'name': 'keyword.control.fortran.modern'
+      }
+      {
+        'comment': 'Forall construct. Introduced in the Fortran 1995 standard.'
+        'match': '(?i)(?:^|(?<=;))\\s*\\b((end\\s+)?forall)\\b'
+        'name': 'keyword.control.fortran.modern'
+      }
+      {
+        'comment': 'Select case construct. Introduced in the Fortran 1990 standard.'
+        'match': '(?i)(?:^|(?<=;))\\s*\\b(select(?:\\s+(case))?(?!\\s+type)|case(\\s+default)?|end\\s+select)\\b'
+        'name': 'keyword.control.fortran.modern'
+      }
+      {
+        'comment': 'Select type construct. Introduced in the Fortran 2003 standard.'
+        'match': '(?i)(?:^|(?<=;))\\s*\\b(select(?:\\s+(type))?|(class|type)\\s+is|end\\s+select)\\b'
+        'name': 'keyword.control.fortran.modern'
+      }
+      {
+        'comment': 'Do concurrent construct. Introduced in the Fortran 2008 standard.'
+        'match': '(?i)\\b(?<=do)\\s+(concurrent)\\b'
+        'name': 'keyword.control.fortran.modern'
+      }
+      {
+        'comment': 'Type attributes.'
+        'match': '(?i)(?:^|(?<=[;,]))\\s*\\b(allocatable|intent|in|out|inout|optional|pointer|target)\\b'
         'name': 'storage.modifier.fortran.modern'
       }
     ]
@@ -70,6 +93,7 @@
     ]
   'source.fortran - meta':
     'patterns':[
+      {'include': '#access-attributes'}
       {'include': '#module-definition'}
     ]
 'patterns': [
@@ -81,9 +105,9 @@
   # attributes:
   'access-attributes':
     {
-      'comment': 'Introduced in the Fortran 1990 standard.'
+      'comment': 'Access attributes. Introduced in the Fortran 1990 standard.'
       'name': 'keyword.other.attribute.fortran.modern'
-      'match': '(?i)\\b(private|public)\\b(?!([^;!\\n](?!::))*\\b(private|public)\\b)'
+      'match': '(?i)(^|(?<=[;,]))\\b(private|public)\\b'
     }
   # comments:
   'comments':
@@ -468,7 +492,7 @@
     ]
   'derived-type-definition':
     'name': 'meta.derived-type.definition.fortran.modern'
-    'begin': '(?i)^\\s*(type)\\b(?!\\s*\\()'
+    'begin': '(?i)^\\s*(type)\\b(?!\\s*(\\(|is))'
     'beginCaptures':
       '1': 'name': 'support.type.derived-type.fortran.modern'
     'end': '(?=[;!\\n])'
