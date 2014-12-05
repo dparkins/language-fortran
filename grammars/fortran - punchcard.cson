@@ -90,6 +90,11 @@
     ]
   }
   {
+    'comment': 'data specification'
+    'match': '(?i)\\b(character|complex|double\\s+precision|integer|logical|real)\\b'
+    'name': 'storage.type.fortran'
+  }
+  {
     'comment': 'statements controling the flow of the program'
     'match': '\\b(?i:(go\\s*to|assign|to|if|then|else|elseif|end\\s*if|continue|stop|pause|do|end\\s*do|while|cycle|concurrent))\\b'
     'name': 'keyword.control.fortran'
@@ -98,6 +103,11 @@
     'comment': 'programming units'
     'match': '\\b(?i:(program|end\\s+program|entry|block\\s+data|call|return|contains|include))\\b'
     'name': 'keyword.control.programming-units.fortran'
+  }
+  {
+    'comment': 'data specification'
+    'match': '(?i)\\b(assignment|block\\sdata|operator)\\b'
+    'name': 'storage.type.fortran'
   }
   {
     'comment': 'operators'
@@ -115,11 +125,6 @@
     'comment': 'matrix/vector/array intrisics'
     'match': '\\b(?i:(where|elsewhere|end\\s*where))\\b'
     'name': 'keyword.other.instrisic.array.fortran'
-  }
-  {
-    'comment': 'data specification'
-    'match': '\\b(?i:(integer|real|double\\s+precision|complex|logical|character|block\\sdata|operator|assignment))\\b'
-    'name': 'storage.type.fortran'
   }
   {
     'comment': 'data type attributes'
