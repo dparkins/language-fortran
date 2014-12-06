@@ -81,11 +81,8 @@
         'match': '(?i)\\b(?<=do)\\s+(concurrent)\\b'
         'name': 'keyword.control.fortran.modern'
       }
-      {
-        'comment': 'Type attributes.'
-        'match': '(?i)(?:^|(?<=[;,]))\\s*\\b(allocatable|intent|in|out|inout|optional|pointer|target)\\b'
-        'name': 'storage.modifier.fortran.modern'
-      }
+      {'include': '#intent-attributes'}
+      {'include': '#type-attributes'}
       {
         'comment': 'Associate construct. Introduced in the Fortran 2003 standard.'
         'match': '(?i)(?:^|(?<=;))\\s*\\b((end)?\\s*associate)\\b'
@@ -93,7 +90,7 @@
       }
       {'include': '#access-attributes'}
     ]
-  'source.fortran - meta':
+  'source.fortran - ( meta | comments | string )':
     'patterns':[
       {'include': '#module-definition'}
     ]
@@ -109,6 +106,22 @@
       'comment': 'Access attributes. Introduced in the Fortran 1990 standard.'
       'name': 'keyword.other.attribute.fortran.modern'
       'match': '(?i)(^|(?<=[;,]))\\s*\\b(private|public)\\b'
+    }
+  'intent-attributes':
+    {
+      'comment': 'Intent attribute.'
+      'match': '(?ix)(?:^|(?<=[;,]))\\s*\\b(intent)\\s*\\(\\s*
+        (?:(in|out|in\\s*out)|((?:(?!\\s*\\))[^\\)])*))\\s*\\)'
+      'captures':
+        '1': 'name': 'storage.modifier.fortran.modern'
+        '2': 'name': 'storage.modifier.fortran.modern'
+        '3': 'name': 'invalid.error.fortran.modern'
+    }
+  'type-attributes':
+    {
+      'comment': 'Type attributes.'
+      'match': '(?i)(?:^|(?<=[;,]))\\s*\\b(allocatable|optional|pointer|target)\\b'
+      'name': 'storage.modifier.fortran.modern'
     }
   # comments:
   'comments':
