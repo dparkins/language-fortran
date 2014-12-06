@@ -76,7 +76,7 @@
     ]
   }
   {
-    'begin': '\\b(?i:(integer|real|double\\s+precision|complex|logical|character))\\b(?=.*::)'
+    'begin': '(?i)(?:^|(?<=;))\\s*\\b(integer|real|double\\s+precision|complex|logical|character)\\b(?=.*::)'
     'beginCaptures':
       '1':
         'name': 'storage.type.fortran'
@@ -91,7 +91,7 @@
   }
   {
     'comment': 'data specification'
-    'match': '(?i)\\b(character|complex|double\\s+precision|integer|logical|real)\\b'
+    'match': '(?i)(?:^|(?<=;))\\s*\\b(character|complex|double\\s+precision|integer|logical|real)\\b'
     'name': 'storage.type.fortran'
   }
   {
