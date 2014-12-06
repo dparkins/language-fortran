@@ -501,7 +501,7 @@
       |pure|recursive|subroutine)\\b)([a-z]\\w*)\\b'
     'beginCaptures':
       '1': 'name': 'keyword.other.module.fortran.open'
-    'end': '(?ix)^\\s*(end)\\b(?:\\s*(module)(?:\\s+(\\2)|\\s+(\\w*))?)?\\b
+    'end': '(?ix)^\\s*(end)(?:\\s*(module)(?:\\s+(\\2))?)?\\b\\s*([^;!\\n]+)?
       (?=\\s*[;!\\n])'
     'endCaptures':
       '1': 'name': 'keyword.other.end.module.fortran'

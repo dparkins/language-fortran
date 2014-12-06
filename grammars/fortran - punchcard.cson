@@ -39,7 +39,7 @@
         'name': 'storage.type.function.fortran'
       '2':
         'name': 'entity.name.function.fortran'
-    'end': '(?i)(end)(?:\\s*(function|subroutine)(\\s+[a-z]\\w*)?\\b)?(?=\\s*[;!\\n])'
+    'end': '(?i)(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
     'endCaptures':
       '1':
         'name': 'keyword.other.fortran'
@@ -47,6 +47,8 @@
         'name': 'storage.type.function.fortran'
       '3':
         'name': 'entity.name.function.end.fortran'
+      '4':
+        'name': 'invalid.error.fortran'
     'patterns': [
       {
         'begin': '\\G\\s*(\\()'
@@ -59,12 +61,12 @@
             'name': 'punctuation.definition.parameters.end.fortran'
         'patterns': [
           {
+            'match': '([^\\s),]*)\\s*(,)?'
             'captures':
               '1':
                 'name': 'variable.parameter.fortran'
               '2':
                 'name': 'punctuation.separator.arguments.fortan'
-            'match': '([^\\s),]*)\\s*(,)?'
           }
         ]
       }
