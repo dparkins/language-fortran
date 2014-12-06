@@ -16,7 +16,7 @@
   'editor':
     'commentStart': '! '
     'commentEnd': ''
-    'increaseIndentPattern': '(?ix)^\\s*(
+    'increaseIndentPattern': '(?ix)(?:^|(?<=;))\\s*(
         module\\b(?!\\s+procedure\\b)
         |(contains|program|submodule)\\b
         |(?!end)(\\w+\\s+)*\\b(function|subroutine)\\b

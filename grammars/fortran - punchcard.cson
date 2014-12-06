@@ -31,6 +31,21 @@
     'match': '(?ix)[\\+\\-]?\\b(\\d+\\.?\\d*|\\.\\d+)(d[\\+\\-]?\\d+|e[\\+\\-]?\\d+(_\\w+)?)?(?![a-z_])'
   }
   {
+    'comment': 'Program specification block'
+    'name': 'meta.program.fortran'
+    'begin': '(?i)(?:^|(?<=;))\\s*\\b(program)\\b\\s+([a-z]\\w*)'
+    'beginCaptures':
+      '1': 'name': 'keyword.control.program.fortran'
+    'end': '(?i)(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
+    'endCaptures':
+      '1': 'name': 'keyword.other.fortran'
+      '2': 'name': 'keyword.control.program.fortran'
+      '4': 'name': 'invalid.error.fortran'
+    'patterns': [
+      {'include': '$self'}
+    ]
+  }
+  {
     'comment': 'First line of function/subroutine definition'
     'name': 'meta.function.fortran'
     'begin': '(?i)(?:^|(?<=;)|\\b(?<!end)\\s)\\s*\\b(function|subroutine)\\b\\s+([a-z]\\w*)'
@@ -128,7 +143,7 @@
   }
   {
     'comment': 'programming units'
-    'match': '\\b(?i:(program|end\\s+program|entry|block\\s+data|call|return|contains|include))\\b'
+    'match': '\\b(?i:(entry|block\\s+data|call|return|contains|include))\\b'
     'name': 'keyword.control.programming-units.fortran'
   }
   {
