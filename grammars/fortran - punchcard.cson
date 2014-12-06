@@ -32,13 +32,12 @@
   }
   {
     'comment': 'First line of function/subroutine definition'
-    'begin': '(?i)^\\s*([a-z\\(\\)]*)(?<!end)\\s*(function|subroutine)\\b\\s+([a-z]\\w*)'
+    'name': 'meta.function.fortran'
+    'begin': '(?i)(?:^|\\b)\\s*\\b(function|subroutine)\\b\\s+([a-z]\\w*)'
     'beginCaptures':
       '1':
-        'name': 'storage.type.fortran'
-      '2':
         'name': 'storage.type.function.fortran'
-      '3':
+      '2':
         'name': 'entity.name.function.fortran'
     'end': '(?i)(end)(?:\\s*(function|subroutine)(\\s+[a-z]\\w*)?\\b)?(?=\\s*[;!\\n])'
     'endCaptures':
@@ -48,7 +47,6 @@
         'name': 'storage.type.function.fortran'
       '3':
         'name': 'entity.name.function.end.fortran'
-    'name': 'meta.function.fortran'
     'patterns': [
       {
         'begin': '\\G\\s*(\\()'
@@ -76,24 +74,51 @@
     ]
   }
   {
-    'begin': '(?i)(?:^|(?<=;))\\s*\\b(integer|real|double\\s+precision|complex|logical|character)\\b(?=.*::)'
-    'beginCaptures':
-      '1':
-        'name': 'storage.type.fortran'
     'comment': 'Line of type specification'
-    'end': '(?=!)|$'
     'name': 'meta.specification.fortran'
+    'begin': '(?ix)\\s*\\b(character|complex|double\\s+precision|integer|
+      logical|real)\\b'
+    'beginCaptures':
+      '1': 'name': 'storage.type.fortran'
+    'end': '(?i)(?=[a-z])'
     'patterns': [
+      {'include': '$self'}
       {
-        'include': '$self'
+        'begin': '\\G\\('
+        'end': '\\)'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'begin': '(?=,)'
+        'end': '(?=::|[;!\\n])'
+        'patterns':[
+          {'include': '$self'}
+        ]
       }
     ]
   }
-  {
-    'comment': 'data specification'
-    'match': '(?i)(?:^|(?<=;))\\s*\\b(character|complex|double\\s+precision|integer|logical|real)\\b'
-    'name': 'storage.type.fortran'
-  }
+  # {
+  #   'begin': '(?i)(?:^|(?<=;))\\s*\\b(integer|real|double\\s+precision|complex|logical|character)\\b(?=.*::)'
+  #   'beginCaptures':
+  #     '1':
+  #       'name': 'storage.type.fortran'
+  #   'comment': 'Line of type specification'
+  #   'end': '(?=!)|$'
+  #   'name': 'meta.specification.fortran'
+  #   'patterns': [
+  #     {
+  #       'include': '$self'
+  #     }
+  #   ]
+  # }
+  # {
+  #   'comment': 'data specification'
+  #   'match': '(?i)(?:^|(?<=;))\\s*\\b(character|complex|double\\s+precision|integer|logical|real)\\b'
+  #   'name': 'storage.type.fortran'
+  # }
   {
     'comment': 'statements controling the flow of the program'
     'match': '\\b(?i:(go\\s*to|assign|to|if|then|else|elseif|end\\s*if|continue|stop|pause|do|end\\s*do|while|cycle))\\b'
