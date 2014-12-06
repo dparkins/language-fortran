@@ -101,11 +101,11 @@
   #   ]
   'procedure-attributes':
     'comment': 'Attributes proceeding procedure specifications.'
-    'contentName': 'meta.procedure-attribute-list.fortran.modern'
-    'begin': '(?i)(?:^|\\G)\\s*\\b(elemental|impure|module|pure|recursive)\\b'
+    # 'contentName': 'meta.procedure-attribute-list.fortran.modern'
+    'begin': '(?i)(?:^|\\G|(?<=;))\\s*\\b(elemental|impure|module|pure|recursive)\\b'
     'beginCaptures':
       '1': 'name': 'keyword.other.attribute.fortran.modern'
-    'end': '(?=function|subroutine|[;!\\n])'
+    'end': '(?=(?:function|subroutine|[;!\\n]))'
     'patterns':[
       {'include': '$self'}
     ]

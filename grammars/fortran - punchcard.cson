@@ -33,7 +33,7 @@
   {
     'comment': 'First line of function/subroutine definition'
     'name': 'meta.function.fortran'
-    'begin': '(?i)(?:^|\\b)\\s*\\b(function|subroutine)\\b\\s+([a-z]\\w*)'
+    'begin': '(?i)(?:^|(?<=;)|\\b(?<!end)\\s)\\s*\\b(function|subroutine)\\b\\s+([a-z]\\w*)'
     'beginCaptures':
       '1':
         'name': 'storage.type.function.fortran'
@@ -76,8 +76,8 @@
   {
     'comment': 'Line of type specification'
     'name': 'meta.specification.fortran'
-    'begin': '(?ix)\\s*\\b(character|complex|double\\s+precision|integer|
-      logical|real)\\b'
+    'begin': '(?ix)(?:^|\\G|(?<=[;a-z]))\\s*\\b(character|complex|double\\s+precision
+      |integer|logical|real)\\b'
     'beginCaptures':
       '1': 'name': 'storage.type.fortran'
     'end': '(?i)(?=[a-z])'
