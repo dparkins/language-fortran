@@ -50,44 +50,32 @@
     'name': 'meta.function.fortran'
     'begin': '(?i)(?:^|(?<=;)|\\b(?<!end)\\s)\\s*\\b(function|subroutine)\\b\\s+([a-z]\\w*)'
     'beginCaptures':
-      '1':
-        'name': 'storage.type.function.fortran'
-      '2':
-        'name': 'entity.name.function.fortran'
+      '1': 'name': 'storage.type.function.fortran'
+      '2': 'name': 'entity.name.function.fortran'
     'end': '(?i)(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
     'endCaptures':
-      '1':
-        'name': 'keyword.other.fortran'
-      '2':
-        'name': 'storage.type.function.fortran'
-      '3':
-        'name': 'entity.name.function.end.fortran'
-      '4':
-        'name': 'invalid.error.fortran'
+      '1': 'name': 'keyword.other.fortran'
+      '2': 'name': 'storage.type.function.fortran'
+      '3': 'name': 'entity.name.function.end.fortran'
+      '4': 'name': 'invalid.error.fortran'
     'patterns': [
       {
         'begin': '\\G\\s*(\\()'
         'beginCaptures':
-          '1':
-            'name': 'punctuation.definition.parameters.begin.fortran'
-        'end': '\\)'
+          '1': 'name': 'punctuation.definition.parameters.begin.fortran'
+        'end': '(\\)|(?=\\n))'
         'endCaptures':
-          '0':
-            'name': 'punctuation.definition.parameters.end.fortran'
+          '0': 'name': 'punctuation.definition.parameters.end.fortran'
         'patterns': [
           {
-            'match': '([^\\s),]*)\\s*(,)?'
+            'comment': 'dummy variable'
+            'match': '(?i)(?:^|(?<=[&,\\(]))\\s*([a-z]\\w*)'
             'captures':
-              '1':
-                'name': 'variable.parameter.fortran'
-              '2':
-                'name': 'punctuation.separator.arguments.fortan'
+              '1': 'name': 'variable.parameter.fortran'
           }
         ]
       }
-      {
-        'include': '$self'
-      }
+      {'include': '$self'}
     ]
   }
   {
@@ -97,7 +85,7 @@
       |integer|logical|real)\\b'
     'beginCaptures':
       '1': 'name': 'storage.type.fortran'
-    'end': '(?i)(?=[a-z])'
+    'end': '(?i)(?=[a-z;!\\n])'
     'patterns': [
       {'include': '$self'}
       {
@@ -436,7 +424,7 @@
           read|rewind|write)\\s*\\('
         'beginCaptures':
           '1': 'name': 'keyword.control.IO.fortran'
-        'end': '\\)'
+        'end': '(\\)|(?=\\n))'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
           {'include': '$self'}

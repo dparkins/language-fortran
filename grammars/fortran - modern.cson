@@ -20,6 +20,7 @@
     'patterns':[
       {'include': '#comments'}
       {'include': '#operators'}
+      {'include': '#line-continuation'}
       {'include': '#derived-type-definition'}
       {'include': '#interface-blocks'}
       {'include': '#intrinsic-functions'}
@@ -101,7 +102,6 @@
   #   ]
   'procedure-attributes':
     'comment': 'Attributes proceeding procedure specifications.'
-    # 'contentName': 'meta.procedure-attribute-list.fortran.modern'
     'begin': '(?i)(?:^|\\G|(?<=;))\\s*\\b(elemental|impure|module|pure|recursive)\\b'
     'beginCaptures':
       '1': 'name': 'keyword.other.attribute.fortran.modern'
@@ -111,7 +111,7 @@
     ]
   'type-attributes':
     {
-      'comment': 'Type attributes. Introduced in the Fortran 1990 standard.'
+      'comment': 'Introduced in the Fortran 1990 standard.'
       'match': '(?i)(?:^|(?<=[;,]))\\s*\\b(allocatable|optional|pointer|target)\\b'
       'name': 'storage.modifier.fortran.modern'
     }
@@ -132,6 +132,21 @@
         'comment': 'operators'
         'match': '(\\%|\\=\\>)'
         'name': 'keyword.operator.fortran.modern'
+      }
+    ]
+  'line-continuation':
+    'comment': 'Operator that allows a line to be continued on the next line.'
+    'begin': '(&)'
+    'beginCaptures':
+      '1': 'name': 'keyword.operator.line-continuation.fortran.modern'
+    'end': '(?i)^(?:(?=\\s*[^\\s!&])|\\s*(&))'
+    'endCaptures':
+      '1': 'name': 'keyword.operator.line-continuation.fortran.modern'
+    'patterns':[
+      {'include': '#comments'}
+      {
+        'name': 'invalid.error.fortran.modern'
+        'match': '\\S.*'
       }
     ]
   # interfaces:
@@ -284,7 +299,7 @@
           shift[alr]|storage_size|this_image|trailz|ucobound)\\s*\\('
         'beginCaptures':
           '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
-        'end': '\\)'
+        'end': '(\\)|(?=\\n))'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
           {'include': '$self'}
@@ -295,7 +310,7 @@
         'begin': '(?ix)\\b(bessel_[jy][01n]|erf(c(_scaled)?)?|gamma|log_gamma)\\s*\\('
         'beginCaptures':
           '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
-        'end': '\\)'
+        'end': '(\\)|(?=\\n))'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
           {'include': '$self'}
@@ -307,7 +322,7 @@
           is_iostat_eor|new_line|same_type_as|selected_char_kind)\\s*\\('
         'beginCaptures':
           '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
-        'end': '\\)'
+        'end': '(\\)|(?=\\n))'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
           {'include': '$self'}
@@ -322,7 +337,7 @@
           unordered|value))\\s*\\('
         'beginCaptures':
           '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
-        'end': '\\)'
+        'end': '(\\)|(?=\\n))'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
           {'include': '$self'}
@@ -333,7 +348,7 @@
         'begin': '(?ix)\\b(ieee_support_(flag|halting))\\s*\\('
         'beginCaptures':
           '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
-        'end': '\\)'
+        'end': '(\\)|(?=\\n))'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
           {'include': '$self'}
@@ -344,7 +359,7 @@
         'begin': '(?ix)\\b(c_(associated|funloc|loc|sizeof))\\s*\\('
         'beginCaptures':
           '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
-        'end': '\\)'
+        'end': '(\\)|(?=\\n))'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
           {'include': '$self'}
@@ -355,7 +370,7 @@
         'begin': '(?ix)\\b(compiler_(options|version))\\s*\\('
         'beginCaptures':
           '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
-        'end': '\\)'
+        'end': '(\\)|(?=\\n))'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
           {'include': '$self'}
@@ -366,7 +381,7 @@
         'begin': '(?ix)\\b(null)\\s*\\('
         'beginCaptures':
           '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
-        'end': '\\)'
+        'end': '(\\)|(?=\\n))'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
           {'include': '$self'}
@@ -384,7 +399,7 @@
           tiny|transfer|transpose|trim|ubound|unpack|verify)\\s*\\('
         'beginCaptures':
           '1': 'name': 'keyword.other.function.intrinsic.fortran.modern'
-        'end': '\\)'
+        'end': '(\\)|(?=\\n))'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
           {'include': '$self'}
@@ -473,7 +488,7 @@
         'begin': '(?ix)\\b(allocate|deallocate|nullify)\\s*\\('
         'beginCaptures':
           '1': 'name': 'keyword.control.data.fortran.modern'
-        'end': '\\)'
+        'end': '(\\)|(?=\\n))'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
           {'include': '$self'}
@@ -487,7 +502,7 @@
         'begin': '(?i)\\b(flush|wait)\\s*\\('
         'beginCaptures':
           '1': 'name': 'keyword.control.IO.fortran.modern'
-        'end': '\\)'
+        'end': '(\\)|(?=\\n))'
         'patterns':[
           {'include': '#procedure-call-dummy-variable'}
           {'include': '$self'}
@@ -496,12 +511,13 @@
     ]
   # definitions:
   'module-definition':
+    'comment': 'Introduced in the Fortran 1990 standard.'
     'name': 'meta.module.fortran.modern'
-    'begin': '(?ix)^\\s*(module)\\s+(?!(?:elemental|function|impure|module
+    'begin': '(?ix)(?:^|(?<=;))\\s*(module)\\s+(?!(?:elemental|function|impure|module
       |pure|recursive|subroutine)\\b)([a-z]\\w*)\\b'
     'beginCaptures':
       '1': 'name': 'keyword.other.module.fortran.open'
-    'end': '(?ix)^\\s*(end)(?:\\s*(module)(?:\\s+(\\2))?)?\\b\\s*([^;!\\n]+)?
+    'end': '(?ix)(?:^|(?<=;))\\s*(end)(?:\\s*(module)(?:\\s+(\\2))?)?\\b\\s*([^;!\\n]+)?
       (?=\\s*[;!\\n])'
     'endCaptures':
       '1': 'name': 'keyword.other.end.module.fortran'
