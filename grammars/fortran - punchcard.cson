@@ -52,7 +52,7 @@
     'beginCaptures':
       '1': 'name': 'storage.type.function.fortran'
       '2': 'name': 'entity.name.function.fortran'
-    'end': '(?i)(end)(?!\\s*(?:do|if))(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
+    'end': '(?i)(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
     'endCaptures':
       '1': 'name': 'keyword.other.fortran'
       '2': 'name': 'storage.type.function.fortran'
@@ -135,6 +135,15 @@
       '1': 'name': 'keyword.control.enddo.fortran'
       '2': 'name': 'invalid.error.fortran'
     'patterns':[
+      {
+        'begin': '(?i)\\G\\s*\\b(while)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.control.while.fortran'
+        'end': '(?:(\\))|(?=[;!\\n]))'
+        'patterns':[
+          {'include': '$self'}
+        ]
+      }
       {'include': '$self'}
     ]
   }
@@ -154,7 +163,7 @@
   }
   {
     'comment': 'statements controling the flow of the program'
-    'match': '\\b(?i:(go\\s*to|assign|to|if|then|else|elseif|end\\s*if|continue|stop|pause|while|cycle))\\b'
+    'match': '\\b(?i:(go\\s*to|assign|to|if|then|else|elseif|end\\s*if|continue|stop|pause|cycle))\\b'
     'name': 'keyword.control.fortran'
   }
   {
