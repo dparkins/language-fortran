@@ -59,6 +59,10 @@
       {'include': '#procedure-attributes'}
       {'include': '#access-attributes'}
     ]
+  'meta.function.fortran meta.first-line.function':
+    'patterns':[
+      {'include': '#result-statement'}
+    ]
 'patterns': [
   {
     'include': 'source.fortran'
@@ -513,7 +517,7 @@
   'where-statement':
     {
       'comment': 'Single line where introduced in the Fortran 1990 standard.'
-      'match': '(?i)(?:^|(?<=;))\\s*\\b(where)\\b'
+      'match': '(?i)(?:^|(?<=;))\\s*\\b((end\\s*)?where)\\b'
       'name': 'keyword.control.fortran.modern'
     }
   # definitions:
@@ -531,6 +535,7 @@
       '2': 'name': 'keyword.other.module.fortran'
       '3': 'name': 'entity.name.module.fortran'
       '4': 'name': 'invalid.error.fortran'
+    'applyEndPatternLast': 1
     'patterns': [
       {'include': '$self'}
       {'include': '#access-attributes'}
@@ -541,6 +546,7 @@
     'beginCaptures':
       '1': 'name': 'support.type.derived-type.fortran.modern'
     'end': '(?=[;!\\n])'
+    'applyEndPatternLast': 1
     'patterns': [
       {# attribute list
         'comment': 'derived-type attribute list'
@@ -766,6 +772,7 @@
       'endCaptures':
         '1': 'name': 'keyword.control.endassociate.fortran'
         '2': 'name': 'invalid.error.fortran'
+      'applyEndPatternLast': 1
       'patterns':[
         {'include': '$self'}
       ]
@@ -781,6 +788,7 @@
       'endCaptures':
         '1': 'name': 'keyword.control.endforall.fortran'
         '2': 'name': 'invalid.error.fortran'
+      'applyEndPatternLast': 1
       'patterns':[
         {'include': '$self'}
       ]
@@ -797,6 +805,7 @@
       'endCaptures':
         '1': 'name': 'keyword.control.endselect.fortran'
         '2': 'name': 'invalid.error.fortran'
+      'applyEndPatternLast': 1
       'patterns':[
         {
           'name': 'keyword.control.fortran.modern'
@@ -817,6 +826,7 @@
       'endCaptures':
         '1': 'name': 'keyword.control.endselect.fortran'
         '2': 'name': 'invalid.error.fortran'
+      'applyEndPatternLast': 1
       'patterns':[
         {
           'name': 'keyword.control.fortran.modern'
@@ -836,12 +846,41 @@
       'endCaptures':
         '1': 'name': 'keyword.control.endwhere.fortran'
         '2': 'name': 'invalid.error.fortran'
+      'applyEndPatternLast': 1
       'patterns':[
         {
           'name': 'keyword.control.fortran.modern'
           'match': '(?i)(?:^|(?<=;))\\s*\\b(else\\s*where)\\b'
         }
         {'include': '$self'}
+      ]
+    }
+  # other:
+  'result-statement':
+    {
+      'begin': '(?i)\\s+(result)\\s*\\('
+      'beginCaptures':
+        '1': 'name': 'keyword.other.result.fortran.modern'
+      'end': '(?:\\)|(?=[!;\\n]))'
+      'patterns':[
+        {'include': '#dummy-variable-list'}
+      ]
+    }
+  'dummy-variable-list':
+    {
+      'begin': '\\G\\s*(\\()'
+      'beginCaptures':
+        '1': 'name': 'punctuation.definition.parameters.begin.fortran'
+      'end': '(\\)|(?=\\n))'
+      'endCaptures':
+        '0': 'name': 'punctuation.definition.parameters.end.fortran'
+      'patterns': [
+        {
+          'comment': 'dummy variable'
+          'match': '(?i)(?:^|(?<=[&,\\(]))\\s*([a-z]\\w*)'
+          'captures':
+            '1': 'name': 'variable.parameter.fortran'
+        }
       ]
     }
 'scopeName': 'source.fortran.modern'
