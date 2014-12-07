@@ -72,9 +72,11 @@
     'match': '(?i:(\\.and\\.|\\.or\\.|\\.eq\\.|\\.lt\\.|\\.le\\.|\\.gt\\.|\\.ge\\.|\\.ne\\.|\\.not\\.|\\.eqv\\.|\\.neqv\\.))'
     'name': 'keyword.operator.logical.fortran'
   }
+  {'include': '#comments'}
   {'include': '#program-definition'}
   {'include': '#function-definition'}
   {'include': '#subroutine-definition'}
+  {'include': '#block-data-definition'}
   {'include': '#do-construct'}
   {'include': '#if-then-construct'}
   {
@@ -125,32 +127,6 @@
     'comment': 'data type attributes'
     'match': '\\b(?i:(dimension|common|equivalence|parameter|external|intrinsic|save|data|implicit\\s*none|implicit))\\b'
     'name': 'storage.modifier.fortran'
-  }
-  {
-    'begin': '^[Cc](?=\\b|[Cc])'
-    'beginCaptures':
-      '0':
-        'name': 'punctuation.definition.comment.fortran'
-    'end': '$\\n?'
-    'name': 'comment.line.c.fortran'
-    'patterns': [
-      {
-        'match': '\\\\\\s*\\n'
-      }
-    ]
-  }
-  {
-    'begin': '^\\*'
-    'beginCaptures':
-      '0':
-        'name': 'punctuation.definition.comment.fortran'
-    'end': '$\\n?'
-    'name': 'comment.line.asterisk.fortran'
-    'patterns': [
-      {
-        'match': '\\\\\\s*\\n'
-      }
-    ]
   }
   {
     'begin': '^\\s*#\\s*(error|warning)\\b'
@@ -332,6 +308,35 @@
         'include': '$base'
       }
     ]
+  'comments':
+    'patterns':[
+      {
+        'begin': '^[Cc](?=\\b|[Cc])'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.comment.fortran'
+        'end': '$\\n?'
+        'name': 'comment.line.c.fortran'
+        'patterns': [
+          {
+            'match': '\\\\\\s*\\n'
+          }
+        ]
+      }
+      {
+        'begin': '^\\*'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.comment.fortran'
+        'end': '$\\n?'
+        'name': 'comment.line.asterisk.fortran'
+        'patterns': [
+          {
+            'match': '\\\\\\s*\\n'
+          }
+        ]
+      }
+    ]
   # definitions:
   'program-definition':
     {
@@ -360,9 +365,9 @@
         '2': 'name': 'entity.name.function.fortran'
       'end': '(?i)(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
       'endCaptures':
-        '1': 'name': 'keyword.other.fortran'
+        '1': 'name': 'keyword.other.end.fortran'
         '2': 'name': 'storage.type.function.fortran'
-        '3': 'name': 'entity.name.function.end.fortran'
+        '3': 'name': 'entity.name.function.fortran'
         '4': 'name': 'invalid.error.fortran'
       'applyEndPatternLast': 1
       'patterns': [
@@ -388,9 +393,9 @@
         '2': 'name': 'entity.name.function.fortran'
       'end': '(?i)(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
       'endCaptures':
-        '1': 'name': 'keyword.other.fortran'
+        '1': 'name': 'keyword.other.end.fortran'
         '2': 'name': 'storage.type.function.fortran'
-        '3': 'name': 'entity.name.function.end.fortran'
+        '3': 'name': 'entity.name.function.fortran'
         '4': 'name': 'invalid.error.fortran'
       'applyEndPatternLast': 1
       'patterns': [
@@ -403,6 +408,23 @@
             {'include': '#dummy-variable-list'}
           ]
         }
+        {'include': '$self'}
+      ]
+    }
+  'block-data-definition':
+    {
+      'comment': 'Block data definition construct.'
+      'name': 'meta.subroutine.fortran'
+      'begin': '(?i)(?:^|(?<=;)|\\b(?<!end)\\s)\\s*\\b(block\\s*data)\\b\\s+([a-z]\\w*)?'
+      'beginCaptures':
+        '1': 'name': 'keyword.other.block-data.fortran'
+      'end': '(?i)(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
+      'endCaptures':
+        '1': 'name': 'keyword.other.end.fortran'
+        '2': 'name': 'keyword.other.block-data.fortran'
+        '4': 'name': 'invalid.error.fortran'
+      'applyEndPatternLast': 1
+      'patterns': [
         {'include': '$self'}
       ]
     }
