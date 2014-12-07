@@ -12,9 +12,14 @@
 'firstLineMatch': '(?i)-[*]- mode: f90 -[*]-'
 'name': 'Fortran - Modern'
 'injections':
+  'source.fortran - ( meta | comments | string )':
+    'patterns':[
+      {'include': '#module-definition'}
+    ]
   'source.fortran - ( string | comment )':
     'patterns':[
       {'include': '#comments'}
+      {'include': '#operators'}
       {'include': '#derived-type-definition'}
       {'include': '#interface-blocks'}
       {'include': '#intrinsic-functions'}
@@ -31,19 +36,9 @@
       {'include': '#data-statements'}
       {'include': '#IO-statements'}
       {
-        'comment': 'logical operators in symbolic format'
-        'match': '(\\=\\=|\\/\\=|\\>\\=|\\>|\\<|\\<\\=)'
-        'name': 'keyword.operator.logical.fortran.modern'
-      }
-      {
-        'comment': 'operators'
-        'match': '(\\%|\\=\\>)'
-        'name': 'keyword.operator.fortran.modern'
-      }
-      {
         'comment': 'Line of type specification'
         'name': 'meta.specification.fortran'
-        'begin': '\\b(class|type)\\b(?=\\s*\\()'
+        'begin': '(?:^|(?<=;))\\s*\\b(class|type)\\b(?=\\s*\\()'
         'beginCaptures':
           '1': 'name': 'storage.type.fortran.modern'
         'end': '(?=[;!\\n])'
@@ -52,25 +47,15 @@
         ]
       }
       {
-        'comment': 'statements controling the flow of the program'
-        'match': '(?i)\\b(select\\s+case|case(\\s+default)?|end\\s+select|use|(end\\s+)?forall)\\b'
+        'comment': 'Use statement. Introduced in the Fortran 1990 standard.'
+        'match': '(?i)(?:^|(?<=;))\\s*\\b(use)\\b'
         'name': 'keyword.control.fortran.modern'
       }
-    ]
-  'meta.specification.fortran':
-    'patterns':[
-      {
-        'match': '(?i)\\b(allocatable|optional|pointer|target)\\b'
-        'name': 'storage.modifier.fortran.modern'
-      }
-    ]
-  'meta.module.fortran.modern meta.specification.fortran - meta.function.fortran':
-    'patterns':[
+      {'include': '#control-constructs'}
+      {'include': '#intent-attributes'}
+      {'include': '#type-attributes'}
+      {'include': '#procedure-attributes'}
       {'include': '#access-attributes'}
-    ]
-  'source.fortran - meta':
-    'patterns':[
-      {'include': '#module-definition'}
     ]
 'patterns': [
   {
@@ -81,15 +66,74 @@
   # attributes:
   'access-attributes':
     {
-      'comment': 'Introduced in the Fortran 1990 standard.'
+      'comment': 'Access attributes. Introduced in the Fortran 1990 standard.'
       'name': 'keyword.other.attribute.fortran.modern'
-      'match': '(?i)\\b(private|public)\\b(?!([^;!\\n](?!::))*\\b(private|public)\\b)'
+      'match': '(?i)(^|(?<=[;,]))\\s*\\b(private|public)\\b'
+    }
+  'intent-attributes':
+    {
+      'comment': 'Intent attribute. Introduced in the Fortran 1990 standard.'
+      'match': '(?ix)(?:^|(?<=[;,]))\\s*\\b(intent)\\s*\\(\\s*
+        (?:(in|out|in\\s*out)|((?:(?!\\s*\\))[^\\)])*))\\s*\\)'
+      'captures':
+        '1': 'name': 'storage.modifier.fortran.modern'
+        '2': 'name': 'storage.modifier.fortran.modern'
+        '3': 'name': 'invalid.error.fortran.modern'
+    }
+  # 'procedure-attributes':
+  #   'comment': 'Attributes proceeding procedure specifications.'
+  #   'patterns':[
+  #     {
+  #       'comment': 'Introduced in the Fortran 1990 standard.'
+  #       'name': 'keyword.other.attribute.fortran.modern'
+  #       'match': '(?i)\\b(recursive)\\b'
+  #     }
+  #     {
+  #       'comment': 'Introduced in the Fortran 1995 standard.'
+  #       'name': 'keyword.other.attribute.fortran.modern'
+  #       'match': '(?i)\\b(elemental|pure)\\b'
+  #     }
+  #     {
+  #       'comment': 'Introduced in the Fortran 2008 standard.'
+  #       'name': 'keyword.other.attribute.fortran.modern'
+  #       'match': '(?i)\\b(impure|module)\\b'
+  #     }
+  #   ]
+  'procedure-attributes':
+    'comment': 'Attributes proceeding procedure specifications.'
+    # 'contentName': 'meta.procedure-attribute-list.fortran.modern'
+    'begin': '(?i)(?:^|\\G|(?<=;))\\s*\\b(elemental|impure|module|pure|recursive)\\b'
+    'beginCaptures':
+      '1': 'name': 'keyword.other.attribute.fortran.modern'
+    'end': '(?=(?:function|subroutine|[;!\\n]))'
+    'patterns':[
+      {'include': '$self'}
+    ]
+  'type-attributes':
+    {
+      'comment': 'Type attributes. Introduced in the Fortran 1990 standard.'
+      'match': '(?i)(?:^|(?<=[;,]))\\s*\\b(allocatable|optional|pointer|target)\\b'
+      'name': 'storage.modifier.fortran.modern'
     }
   # comments:
   'comments':
     'name': 'comment.line.fortran.modern'
     'begin': '!'
     'end': '(?=\\n)'
+  'operators':
+    'comment': 'Introduced in the Fortran 1990 standard.'
+    'patterns':[
+      {
+        'comment': 'logical operators in symbolic format'
+        'match': '(\\=\\=|\\/\\=|\\>\\=|\\>|\\<|\\<\\=)'
+        'name': 'keyword.operator.logical.fortran.modern'
+      }
+      {
+        'comment': 'operators'
+        'match': '(\\%|\\=\\>)'
+        'name': 'keyword.operator.fortran.modern'
+      }
+    ]
   # interfaces:
   'interface-blocks':
     'patterns':[
@@ -221,7 +265,8 @@
     ]
   'module-procedure-statement':
     'comment': 'Introduced in the Fortran 1990 standard.'
-    'begin': '(?i)^\\s*\\b(module)\\b'
+    'begin': '(?ix)(?:^|(?<=;))\\s*\\b(module)\\b(?!\\s*(elemental|function
+      |impure|module|pure|recursive|subroutine)\\b)'
     'beginCaptures':
       '1': 'name': 'keyword.other.module.fortran.modern'
     'end': '(?i)(?=[;!\\n])'
@@ -452,10 +497,11 @@
   # definitions:
   'module-definition':
     'name': 'meta.module.fortran.modern'
-    'begin': '(?ix)^\\s*(module)(\\s+[a-z]\\w*)?\\b'
+    'begin': '(?ix)^\\s*(module)\\s+(?!(?:elemental|function|impure|module
+      |pure|recursive|subroutine)\\b)([a-z]\\w*)\\b'
     'beginCaptures':
       '1': 'name': 'keyword.other.module.fortran.open'
-    'end': '(?ix)^\\s*(end)\\b(?:\\s*(module)(?:\\s+(\\2)|\\s+(\\w*))?)?\\b
+    'end': '(?ix)^\\s*(end)(?:\\s*(module)(?:\\s+(\\2))?)?\\b\\s*([^;!\\n]+)?
       (?=\\s*[;!\\n])'
     'endCaptures':
       '1': 'name': 'keyword.other.end.module.fortran'
@@ -468,7 +514,7 @@
     ]
   'derived-type-definition':
     'name': 'meta.derived-type.definition.fortran.modern'
-    'begin': '(?i)^\\s*(type)\\b(?!\\s*\\()'
+    'begin': '(?i)^\\s*(type)\\b(?!\\s*(\\(|is))'
     'beginCaptures':
       '1': 'name': 'support.type.derived-type.fortran.modern'
     'end': '(?=[;!\\n])'
@@ -672,5 +718,38 @@
         ]
       }
     ]
-
+  # control constructs:
+  'control-constructs':
+    'patterns':[
+      {
+        'comment': 'Where construct. Introduced in the Fortran 1990 standard.'
+        'match': '(?i)(?:^|(?<=;))\\s*\\b(where|elsewhere|end\\s*where)\\b'
+        'name': 'keyword.control.fortran.modern'
+      }
+      {
+        'comment': 'Select case construct. Introduced in the Fortran 1990 standard.'
+        'match': '(?i)(?:^|(?<=;))\\s*\\b(select(?:\\s+(case))?(?!\\s+type)|case(\\s+default)?|end\\s+select)\\b'
+        'name': 'keyword.control.fortran.modern'
+      }
+      {
+        'comment': 'Forall construct. Introduced in the Fortran 1995 standard.'
+        'match': '(?i)(?:^|(?<=;))\\s*\\b((end\\s+)?forall)\\b'
+        'name': 'keyword.control.fortran.modern'
+      }
+      {
+        'comment': 'Associate construct. Introduced in the Fortran 2003 standard.'
+        'match': '(?i)(?:^|(?<=;))\\s*\\b((end)?\\s*associate)\\b'
+        'name': 'keyword.control.fortran.modern'
+      }
+      {
+        'comment': 'Select type construct. Introduced in the Fortran 2003 standard.'
+        'match': '(?i)(?:^|(?<=;))\\s*\\b(select(?:\\s+(type))?|(class|type)\\s+is|end\\s+select)\\b'
+        'name': 'keyword.control.fortran.modern'
+      }
+      {
+        'comment': 'Do concurrent construct. Introduced in the Fortran 2008 standard.'
+        'match': '(?i)\\b(?<=do)\\s+(concurrent)\\b'
+        'name': 'keyword.control.fortran.modern'
+      }
+    ]
 'scopeName': 'source.fortran.modern'

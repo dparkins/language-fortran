@@ -8,32 +8,41 @@
         |(?!end)(\\w+\\s+)*\\b(function|subroutine)\\b
       )'
     'decreaseIndentPattern': '(?ix)^\\s*(
-        (contains)\\b
+        contains\\b
         |end(do|function|if|program|subroutine)?\\b
-        |else(\\s*if)?\\b
+        |else(if)?\\b
       )'
 '.source.fortran.modern':
   'editor':
     'commentStart': '! '
     'commentEnd': ''
-    'increaseIndentPattern': '(?ix)^\\s*(
-        module(?!\\s+procedure\\b)\\b
-        |(abstract\\s+)?interface\\b
-        |(case|contains|forall|program|submodule|where)\\b
+    'increaseIndentPattern': '(?ix)(?:^|(?<=;))\\s*(
+        module\\b(?!\\s+procedure\\b)
+        |(contains|program|submodule)\\b
         |(?!end)(\\w+\\s+)*\\b(function|subroutine)\\b
-        |do\\b
+        |type(?!\\s*\\()
+        |(abstract\\s+)?interface\\b
+        |where\\b(?!\\s*\\(.*\\)\\s*[a-z])
         |elsewhere\\b
+        |(do|forall)\\b
         |if\\b.*\\bthen\\b
-        |else(\\s*(if))?\\b
+        |else(if)?\\b
         |select\\s*(case|type)\\b
+        |(case)\\b
         |(class|type)\\s+is\\b
-        |type(,|\\s+\\w)
       )'
     'decreaseIndentPattern': '(?ix)^\\s*(
-        (case|contains)\\b
-        |end(do|forall|function|if|interface|module|program|select|submodule|subroutine|type|where)?\\b
+        contains\\b
+        |end(
+          module|program|submodule
+          |function|subroutine
+          |interface|type
+          |do|forall
+          |if|select|where
+        )?\\b
         |else(if|where)?\\b
         |(class|type)\\s+is\\b
+        |case\\b
       )'
 
 '.source.fortran .meta.function.interface':
