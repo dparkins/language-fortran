@@ -14,65 +14,9 @@
   {'include': '#preprocessor-rule-enabled'}
   {'include': '#preprocessor-rule-disabled'}
   {'include': '#preprocessor-rule-other'}
-  {
-    'comment': 'built-in constants'
-    'name': 'constant.language.fortran'
-    'match': '(?i)\\.(true|false)\\.'
-  }
-  {
-    'comment': 'Numeric constants'
-    'name': 'constant.numeric.fortran'
-    'match': '(?ix)[\\+\\-]?\\b(\\d+\\.?\\d*|\\.\\d+)(d[\\+\\-]?\\d+|e[\\+\\-]?\\d+(_\\w+)?)?(?![a-z_])'
-  }
-  {
-    'applyEndPatternLast': 1
-    'begin': '\''
-    'beginCaptures':
-      '0':
-        'name': 'punctuation.definition.string.begin.fortran'
-    'comment': 'String'
-    'end': '\''
-    'endCaptures':
-      '0':
-        'name': 'punctuation.definition.string.end.fortran'
-    'name': 'string.quoted.single.fortran'
-    'patterns': [
-      {
-        'match': '\'\''
-        'name': 'constant.character.escape.apostrophe.fortran'
-      }
-    ]
-  }
-  {
-    'applyEndPatternLast': 1
-    'begin': '"'
-    'beginCaptures':
-      '0':
-        'name': 'punctuation.definition.string.begin.fortran'
-    'comment': 'String'
-    'end': '"'
-    'endCaptures':
-      '0':
-        'name': 'punctuation.definition.string.end.fortran'
-    'name': 'string.quoted.double.fortran'
-    'patterns': [
-      {
-        'match': '""'
-        'name': 'constant.character.escape.quote.fortran'
-      }
-    ]
-  }
-  {
-    'comment': 'operators'
-    'match': '((?<!\\=)\\=(?!\\=)|\\-|\\+|\\/\\/|\\/|(?!^)\\*|::)'
-    'name': 'keyword.operator.fortran'
-  }
-  {
-    'comment': 'logical operators'
-    'match': '(?i:(\\.and\\.|\\.or\\.|\\.eq\\.|\\.lt\\.|\\.le\\.|\\.gt\\.|\\.ge\\.|\\.ne\\.|\\.not\\.|\\.eqv\\.|\\.neqv\\.))'
-    'name': 'keyword.operator.logical.fortran'
-  }
   {'include': '#comments'}
+  {'include': '#operators'}
+  {'include': '#constants'}
   {'include': '#block-data-definition'}
   {'include': '#function-definition'}
   {'include': '#program-definition'}
@@ -113,13 +57,8 @@
   }
   {
     'comment': 'programming units'
-    'match': '\\b(?i:(entry|call|return|contains|include))\\b'
+    'match': '\\b(?i:(entry|call|return|contains))\\b'
     'name': 'keyword.control.programming-units.fortran'
-  }
-  {
-    'comment': 'data specification'
-    'match': '(?i)\\b(assignment|operator)\\b'
-    'name': 'storage.type.fortran'
   }
   {'include': '#intrinsic-functions'}
   {'include': '#IO-statements'}
@@ -308,6 +247,7 @@
         'include': '$base'
       }
     ]
+  # comments:
   'comments':
     'patterns':[
       {
@@ -333,6 +273,80 @@
         'patterns': [
           {
             'match': '\\\\\\s*\\n'
+          }
+        ]
+      }
+    ]
+  # operators:
+  'operators':
+    'patterns':[
+      {
+        'comment': 'Arithmetic operators.'
+        'name': 'keyword.operator.fortran'
+        'match': '((?<!\\=)\\=(?!\\=)|\\-|\\+|\\/|\\*)'
+      }
+      {
+        'comment': 'Logical operators.'
+        'name': 'keyword.operator.logical.fortran'
+        'match': '(?ix)(\\.and\\.|\\.or\\.|\\.eq\\.|\\.eqv\\.|\\.lt\\.|\\.le\\.
+          |\\.gt\\.|\\.ge\\.|\\.ne\\.|\\.not\\.|\\.neqv\\.)'
+      }
+      {
+        'comment': 'Misc operators.'
+        'name': 'keyword.operator.fortran'
+        'match': '(\\/\\/|::)'
+      }
+    ]
+  # constants:
+  'constants':
+    'patterns':[
+      {
+        'comment': 'Logical constants'
+        'name': 'constant.language.fortran'
+        'match': '(?i)\\.(true|false)\\.'
+      }
+      {
+        'comment': 'Numeric constants'
+        'name': 'constant.numeric.fortran'
+        'match': '(?ix)[\\+\\-]?\\b(\\d+\\.?\\d*|\\.\\d+)(d[\\+\\-]?\\d+|e[\\+\\-]?\\d+(_\\w+)?)?(?![a-z_])'
+      }
+      {
+        'comment': 'Single quote string constants.'
+        'applyEndPatternLast': 1
+        'begin': '\''
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.string.begin.fortran'
+        'comment': 'String'
+        'end': '\''
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.string.end.fortran'
+        'name': 'string.quoted.single.fortran'
+        'patterns': [
+          {
+            'match': '\'\''
+            'name': 'constant.character.escape.apostrophe.fortran'
+          }
+        ]
+      }
+      {
+        'comment': 'Double quote string constants.'
+        'applyEndPatternLast': 1
+        'begin': '"'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.string.begin.fortran'
+        'comment': 'String'
+        'end': '"'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.string.end.fortran'
+        'name': 'string.quoted.double.fortran'
+        'patterns': [
+          {
+            'match': '""'
+            'name': 'constant.character.escape.quote.fortran'
           }
         ]
       }
@@ -450,10 +464,31 @@
         {'include': '$self'}
       ]
     }
+  # 'if-construct':
+  #   {
+  #     'contentName': 'meta.if.fortran'
+  #     'begin': '(?i)(?:^|\\G(?<=:)|(?<=;))\\s*(if)\\b(?![^\\n]*\\bthen)\\b'
+  #     'beginCaptures':
+  #       '1': 'name': 'keyword.control.if.fortran'
+  #     'end': '(?i)(?=[;!\\n])'
+  #     'patterns':[
+  #       {
+  #         'begin': '\\G\\s*\\('
+  #         'end': '(?:\\)|(?=;!\\n))'
+  #         'patterns':[
+  #           {'include': '$self'}
+  #         ]
+  #       }
+  #       {
+  #         'begin': '(?<=\\)\\s*(call)\\b)'
+  #       }
+  #       {'include': '$self'}
+  #     ]
+  #   }
   'if-then-construct':
     {
       'contentName': 'meta.if-then.fortran'
-      'begin': '(?i)(?:^|\\G(?<=:)|(?<=;))\\s*(if)\\b(?=[^;\\n]*\\bthen)\\b'
+      'begin': '(?i)(?:^|\\G(?<=:)|(?<=;))\\s*(if)\\b(?=[^\\n]*\\bthen)\\b'
       'beginCaptures':
         '1': 'name': 'keyword.control.if.fortran'
       'end': '(?i)(?:^|(?<=;))\\s*(end\\s*if)\\b'

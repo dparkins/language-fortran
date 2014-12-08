@@ -16,6 +16,10 @@
     'patterns':[
       {'include': '#module-definition'}
     ]
+  'source.fortran string':
+    'patterns':[
+      {'include': '#string-line-continuation'}
+    ]
   'source.fortran - ( string | comment )':
     'patterns':[
       {'include': '#comments'}
@@ -38,6 +42,7 @@
       }
       {'include': '#data-statements'}
       {'include': '#IO-statements'}
+      {'include': '#include-statement'}
       {'include': '#where-statement'}
       {
         'comment': 'Line of type specification'
@@ -143,6 +148,21 @@
   'line-continuation':
     'comment': 'Operator that allows a line to be continued on the next line.'
     'begin': '(&)'
+    'beginCaptures':
+      '1': 'name': 'keyword.operator.line-continuation.fortran.modern'
+    'end': '(?i)^(?:(?=\\s*[^\\s!&])|\\s*(&))'
+    'endCaptures':
+      '1': 'name': 'keyword.operator.line-continuation.fortran.modern'
+    'patterns':[
+      {'include': '#comments'}
+      {
+        'name': 'invalid.error.fortran.modern'
+        'match': '\\S.*'
+      }
+    ]
+  'string-line-continuation':
+    'comment': 'Operator that allows a line to be continued on the next line.'
+    'begin': '(&)(?=\\s*[;!\\n])'
     'beginCaptures':
       '1': 'name': 'keyword.operator.line-continuation.fortran.modern'
     'end': '(?i)^(?:(?=\\s*[^\\s!&])|\\s*(&))'
@@ -502,19 +522,35 @@
       }
     ]
   'IO-statements':
-    'patterns':[
-      {
-        'comment': 'IO statements introduced in the Fortran 2003 standard.'
-        'begin': '(?i)\\b(flush|wait)\\s*\\('
-        'beginCaptures':
-          '1': 'name': 'keyword.control.IO.fortran.modern'
-        'end': '(\\)|(?=\\n))'
-        'patterns':[
-          {'include': '#procedure-call-dummy-variable'}
-          {'include': '$self'}
-        ]
-      }
-    ]
+    {
+      'comment': 'Introduced in the Fortran 2003 standard.'
+      'begin': '(?i)\\b(flush|wait)\\s*\\('
+      'beginCaptures':
+        '1': 'name': 'keyword.control.IO.fortran.modern'
+      'end': '(\\)|(?=\\n))'
+      'patterns':[
+        {'include': '#procedure-call-dummy-variable'}
+        {'include': '$self'}
+      ]
+    }
+  'include-statement':
+    {
+      'comment': 'Introduced in the Fortran 1990 standard.'
+      'name': 'meta.include.fortran.modern'
+      'begin': '(?i)(?:^|(?<=;))\\s*(include)\\b'
+      'beginCaptures':
+        '1': 'name': 'keyword.control.include.fortran.modern'
+      'end': '(?=[;!\\n])'
+      'patterns':[
+        {
+          'comment': 'Show error for anything but a string constant.'
+          'match': '\\s*([^\\s"\'].*)(?=[;!\\n])'
+          'captures':
+            '1': 'name': 'invalid.error.fortran.modern'
+        }
+        {'include': '$self'}
+      ]
+    }
   'where-statement':
     {
       'comment': 'Single line where introduced in the Fortran 1990 standard.'
