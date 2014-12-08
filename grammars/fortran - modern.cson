@@ -25,6 +25,7 @@
       {'include': '#interface-blocks'}
       {'include': '#intrinsic-functions'}
       {'include': '#intrinsic-subroutines'}
+      {'include': '#named-construct'}
       {'include': '#control-constructs'}
       {
         'comment': 'Non-intrinsic subroutines.'
@@ -748,6 +749,20 @@
       }
     ]
   # control constructs:
+  'named-construct':
+    {
+      'comment': 'Introduced in the Fortran 1990 standard.'
+      'contentName': 'meta.named-construct.fortran.modern'
+      'begin': '(?i)(?:^|(?<=;))\\s*([a-z]\\w*)\\s*(:)'
+      'beginCaptures':
+        '1': 'name': 'constant.construct-name.fortran.modern'
+      'end': '(?i)(?:\\b(\\1)\\b|(?=[;!\\n]))'
+      'endCaptures':
+        '1': 'name': 'constant.construct-name.fortran.modern'
+      'patterns':[
+        {'incude': 'control-constructs'}
+      ]
+    }
   'control-constructs':
     'patterns':[
       {'include': '#associate-construct'}
@@ -766,10 +781,10 @@
     {
       'comment': 'Introduced in the Fortran 2003 standard.'
       'contentName': 'meta.associate.fortran'
-      'begin': '(?i)(?:^|(?<=;))\\s*(associate)\\b(?=\\s*\\()'
+      'begin': '(?i)(?:^|\\G(?<=:)|(?<=;))\\s*(associate)\\b(?=\\s*\\()'
       'beginCaptures':
         '1': 'name': 'keyword.control.associate.fortran'
-      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*associate)\\b\\s*([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
+      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*associate)\\b'
       'endCaptures':
         '1': 'name': 'keyword.control.endassociate.fortran'
         '2': 'name': 'invalid.error.fortran'
@@ -780,13 +795,13 @@
     }
   'block-construct':
     {
-      'comment': 'Introduced in the Fortran 2003 standard.'
+      'comment': 'Introduced in the Fortran 2008 standard.'
       'contentName': 'meta.block.fortran'
-      'begin': '(?i)(?:^|(?<=;))\\s*(block)\\b\\s*(?!data)([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
+      'begin': '(?i)(?:^|\\G(?<=:)|(?<=;))\\s*(block)\\b\\s*(?!data)([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
       'beginCaptures':
         '1': 'name': 'keyword.control.associate.fortran'
         '2': 'name': 'invalid.error.fortran'
-      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*block)\\b\\s*([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
+      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*block)\\b'
       'endCaptures':
         '1': 'name': 'keyword.control.endassociate.fortran'
         '2': 'name': 'invalid.error.fortran'
@@ -799,10 +814,10 @@
     {
       'comment': 'Introduced in the Fortran 1995 standard.'
       'contentName': 'meta.forall.fortran'
-      'begin': '(?i)(?:^|(?<=;))\\s*(forall)\\b'
+      'begin': '(?i)(?:^|\\G(?<=:)|(?<=;))\\s*(forall)\\b'
       'beginCaptures':
         '1': 'name': 'keyword.control.forall.fortran'
-      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*forall)\\b\\s*([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
+      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*forall)\\b'
       'endCaptures':
         '1': 'name': 'keyword.control.endforall.fortran'
         '2': 'name': 'invalid.error.fortran'
@@ -815,11 +830,11 @@
     {
       'comment': 'Introduced in the Fortran 1990 standard.'
       'contentName': 'meta.select.case.fortran'
-      'begin': '(?i)(?:^|(?<=;))\\s*(select)\\s+(case)\\b'
+      'begin': '(?i)(?:^|\\G(?<=:)|(?<=;))\\s*(select)\\s+(case)\\b'
       'beginCaptures':
         '1': 'name': 'keyword.control.select.fortran'
         '2': 'name': 'keyword.control.case.fortran'
-      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*select)\\b\\s*([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
+      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*select)\\b'
       'endCaptures':
         '1': 'name': 'keyword.control.endselect.fortran'
         '2': 'name': 'invalid.error.fortran'
@@ -836,11 +851,11 @@
     {
       'comment': 'Introduced in the Fortran 2003 standard.'
       'contentName': 'meta.select.type.fortran'
-      'begin': '(?i)(?:^|(?<=;))\\s*(select)\\s+(type)\\b'
+      'begin': '(?i)(?:^|\\G(?<=:)|(?<=;))\\s*(select)\\s+(type)\\b'
       'beginCaptures':
         '1': 'name': 'keyword.control.select.fortran'
         '2': 'name': 'keyword.control.type.fortran'
-      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*select)\\b\\s*([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
+      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*select)\\b'
       'endCaptures':
         '1': 'name': 'keyword.control.endselect.fortran'
         '2': 'name': 'invalid.error.fortran'
@@ -857,10 +872,10 @@
     {
       'comment': 'Introduced in the Fortran 1990 standard.'
       'contentName': 'meta.where.fortran'
-      'begin': '(?i)(?:^|(?<=;))\\s*(where)\\b(?!\\s*\\(.*\\)\\s*[a-z])'
+      'begin': '(?i)(?:^|\\G(?<=:)|(?<=;))\\s*(where)\\b(?!\\s*\\(.*\\)\\s*[a-z])'
       'beginCaptures':
         '1': 'name': 'keyword.control.where.fortran'
-      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*where)\\b\\s*([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
+      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*where)\\b'
       'endCaptures':
         '1': 'name': 'keyword.control.endwhere.fortran'
         '2': 'name': 'invalid.error.fortran'
