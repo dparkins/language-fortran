@@ -751,6 +751,7 @@
   'control-constructs':
     'patterns':[
       {'include': '#associate-construct'}
+      {'include': '#block-construct'}
       {'include': '#forall-construct'}
       {'include': '#select-case-construct'}
       {'include': '#select-type-construct'}
@@ -765,10 +766,27 @@
     {
       'comment': 'Introduced in the Fortran 2003 standard.'
       'contentName': 'meta.associate.fortran'
-      'begin': '(?i)(?:^|(?<=;))\\s*(associate)\\b'
+      'begin': '(?i)(?:^|(?<=;))\\s*(associate)\\b(?=\\s*\\()'
       'beginCaptures':
         '1': 'name': 'keyword.control.associate.fortran'
-      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*associate)\\b\\s*(\\S.*)?(?=[;!\\n])'
+      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*associate)\\b\\s*([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
+      'endCaptures':
+        '1': 'name': 'keyword.control.endassociate.fortran'
+        '2': 'name': 'invalid.error.fortran'
+      'applyEndPatternLast': 1
+      'patterns':[
+        {'include': '$self'}
+      ]
+    }
+  'block-construct':
+    {
+      'comment': 'Introduced in the Fortran 2003 standard.'
+      'contentName': 'meta.block.fortran'
+      'begin': '(?i)(?:^|(?<=;))\\s*(block)\\b\\s*(?!data)([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
+      'beginCaptures':
+        '1': 'name': 'keyword.control.associate.fortran'
+        '2': 'name': 'invalid.error.fortran'
+      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*block)\\b\\s*([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
       'endCaptures':
         '1': 'name': 'keyword.control.endassociate.fortran'
         '2': 'name': 'invalid.error.fortran'
@@ -784,7 +802,7 @@
       'begin': '(?i)(?:^|(?<=;))\\s*(forall)\\b'
       'beginCaptures':
         '1': 'name': 'keyword.control.forall.fortran'
-      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*forall)\\b\\s*(\\S.*)?(?=[;!\\n])'
+      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*forall)\\b\\s*([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
       'endCaptures':
         '1': 'name': 'keyword.control.endforall.fortran'
         '2': 'name': 'invalid.error.fortran'
@@ -801,7 +819,7 @@
       'beginCaptures':
         '1': 'name': 'keyword.control.select.fortran'
         '2': 'name': 'keyword.control.case.fortran'
-      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*select)\\b\\s*(\\S.*)?(?=[;!\\n])'
+      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*select)\\b\\s*([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
       'endCaptures':
         '1': 'name': 'keyword.control.endselect.fortran'
         '2': 'name': 'invalid.error.fortran'
@@ -822,7 +840,7 @@
       'beginCaptures':
         '1': 'name': 'keyword.control.select.fortran'
         '2': 'name': 'keyword.control.type.fortran'
-      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*select)\\b\\s*(\\S.*)?(?=[;!\\n])'
+      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*select)\\b\\s*([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
       'endCaptures':
         '1': 'name': 'keyword.control.endselect.fortran'
         '2': 'name': 'invalid.error.fortran'
@@ -842,7 +860,7 @@
       'begin': '(?i)(?:^|(?<=;))\\s*(where)\\b(?!\\s*\\(.*\\)\\s*[a-z])'
       'beginCaptures':
         '1': 'name': 'keyword.control.where.fortran'
-      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*where)\\b\\s*(\\S.*)?(?=[;!\\n])'
+      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*where)\\b\\s*([^\\s;!][^;!\\n]*)?(?=[;!\\n])'
       'endCaptures':
         '1': 'name': 'keyword.control.endwhere.fortran'
         '2': 'name': 'invalid.error.fortran'
