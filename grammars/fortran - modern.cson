@@ -162,7 +162,7 @@
     ]
   'string-line-continuation':
     'comment': 'Operator that allows a line to be continued on the next line.'
-    'begin': '(&)(?=\\s*[;!\\n])'
+    'begin': '(&)(?=\\s*\\n)'
     'beginCaptures':
       '1': 'name': 'keyword.operator.line-continuation.fortran.modern'
     'end': '(?i)^(?:(?=\\s*[^\\s!&])|\\s*(&))'
