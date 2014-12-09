@@ -82,6 +82,21 @@
       'name': 'keyword.other.attribute.fortran.modern'
       'match': '(?i)(^|(?<=[;,]))\\s*\\b(private|public)\\b'
     }
+  'bind-attribute':
+    {
+      'begin': '(?i)(?:^|(?<=[;,]))\\s*\\b(bind)\\s*\\('
+      'beginCaptures':
+        '1': 'name': 'keyword.other.attribute.fortran.modern'
+      'end': '\\)'
+      'patterns':[
+        {
+          'name': 'variable.parameter.fortran'
+          'match': '(?i)\\b(c)\\b'
+        }
+        {'include': '#dummy-variable'}
+        {'include': '$self'}
+      ]
+    }
   'intent-attributes':
     {
       'comment': 'Intent attribute. Introduced in the Fortran 1990 standard.'
@@ -116,7 +131,7 @@
     'begin': '(?i)(?:^|\\G|(?<=;))\\s*\\b(elemental|impure|module|pure|recursive)\\b'
     'beginCaptures':
       '1': 'name': 'keyword.other.attribute.fortran.modern'
-    'end': '(?=(?:function|subroutine|[;!\\n]))'
+    'end': '(?=\\s*(?:function|subroutine|[;!\\n]))'
     'patterns':[
       {'include': '$self'}
     ]
@@ -579,7 +594,7 @@
     ]
   'derived-type-definition':
     'name': 'meta.derived-type.definition.fortran.modern'
-    'begin': '(?i)^\\s*(type)\\b(?!\\s*(\\(|is))'
+    'begin': '(?i)^\\s*(type)\\b(?!\\s*(\\(|is\\b))'
     'beginCaptures':
       '1': 'name': 'support.type.derived-type.fortran.modern'
     'end': '(?=[;!\\n])'
@@ -587,51 +602,33 @@
     'patterns': [
       {# attribute list
         'comment': 'derived-type attribute list'
-        'begin': '(?i)(?<=type)\\b(?!\\s*\\()'
-        'end': '(?i)(::)|(?=[a-z]|[;!\\n])'
+        'contentName': 'meta.attribute-list.fortran.modern'
+        'begin': '\\G(?=\\s*(,|::))'
+        'end': '(?i)(::)|(?=[;!\\n])'
         'endCaptures':
           '1': 'name': 'keyword.operator.double-colon.fortran'
         'patterns': [
+          {'include': '#access-attributes'}
+          {'include': '#bind-attribute'}
           {
-            'begin': '(?i)(,)'
+            'begin': '(?i)(?<=,)\\s*\\b(extends)\\s*\\('
             'beginCaptures':
-              '1': 'name': 'punctuation.comma.fortran'
-            'end': '(?=::|[,;!\\n])'
+              '1': 'name': 'keyword.other.attribute.derived-type.fortran.modern'
+            'end': '\\)'
             'patterns':[
-              {'include': '#access-attributes'}
               {
-                'begin': '(?i)\\b(extends)\\s*\\((?!([^;!\\n](?!::))*(sequence))'
-                'beginCaptures':
-                  '1': 'name': 'keyword.other.attribute.derived-type.fortran.modern'
-                'end': '\\)'
-                'patterns':[
-                  {
-                    'name': 'entity.name.derived-type.fortran.modern'
-                    'match': '(?i)\\b([a-z]\\w*)\\b'
-                  }
-                ]
-              }
-              {
-                'begin': '\\b(bind)\\s*\\('
-                'beginCaptures':
-                  '1': 'name': 'keyword.other.attribute.derived-type.fortran.modern'
-                'end': '\\)'
-                'patterns':[
-                  {
-                    'name': 'entity.name.bound-type.fortran.modern'
-                    'match': '(?i)\\b(c)\\b'
-                  }
-                ]
-              }
-              {
-                'name': 'keyword.other.attribute.derived-type.fortran.modern'
-                'match': '(?i)\\b(sequence)\\b(?!([^;!\\n](?!::))*(extends))'
-              }
-              {
-                'name': 'invalid.error.fortran'
-                'match': '(?i)\\b\\w+\\b'
+                'name': 'entity.name.derived-type.fortran.modern'
+                'match': '(?i)\\b([a-z]\\w*)\\b'
               }
             ]
+          }
+          {
+            'name': 'keyword.other.attribute.derived-type.fortran.modern'
+            'match': '(?i)(?<=,)\\s*\\b(sequence)\\b'
+          }
+          {
+            'name': 'invalid.error.fortran'
+            'match': '(?i)\\b\\w+\\b'
           }
         ]
       }
@@ -646,7 +643,6 @@
           '3': 'name': 'entity.name.derived-type.fortran.modern'
           '4': 'name': 'invalid.error.fortran.modern'
         'patterns':[
-          {'include': '$self'}
           {# parameter definition statements
             'match': '(?i)^\\s*(integer)\\s*(,)\\s*(kind|len)\\s*(?:(::)\\s*([a-z]\\w*)?)?\\s*(?=[;!\\n])'
             'captures':
@@ -656,10 +652,7 @@
               '4': 'name': 'keyword.operator.double-colon.fortran'
               '5': 'name': 'entity.name.derived-type.parameter.fortran.modern'
           }
-          {# attribute statements
-            'name': 'keyword.other.attribute.derived-type.fortran.modern'
-            'match': '(?i)^\\s*(private|public|sequence)\\b\\s*\\n'
-          }
+          {'include': '$self'}
           {# contains section
             'comment': 'derived-type contains construct'
             'begin': '(?i)^\\s*(contains)(?=\\s*[!$\\n])'
@@ -793,7 +786,7 @@
         (?=\\s*(?:associate|block(?!\\s*data)|critical|do|forall|if|select|where)\\b)'
       'beginCaptures':
         '1': 'name': 'constant.numeric.construct-name.fortran.modern'
-      'end': '(?i)\\b\\s+(?:\\b(\\1)\\b)?(?:\\s*([^\\s;!][^;!\\n]*?))?(?=\\s*[;!\\n])'
+      'end': '(?i)\\b(?:\\s*\\b(\\1)\\b)?(?:\\s*([^\\s;!][^;!\\n]*?))?(?=\\s*[;!\\n])'
       'endCaptures':
         '1': 'name': 'constant.numeric.construct-name.fortran.modern'
         '2': 'name': 'invalid.error.fortran.modern'
@@ -965,12 +958,14 @@
       'endCaptures':
         '0': 'name': 'punctuation.definition.parameters.end.fortran'
       'patterns': [
-        {
-          'comment': 'dummy variable'
-          'match': '(?i)(?:^|(?<=[&,\\(]))\\s*([a-z]\\w*)'
-          'captures':
-            '1': 'name': 'variable.parameter.fortran'
-        }
+        {'include': '#dummy-variable'}
       ]
+    }
+  'dummy-variable':
+    {
+      'comment': 'dummy variable'
+      'match': '(?i)(?:^|(?<=[&,\\(]))\\s*([a-z]\\w*)'
+      'captures':
+        '1': 'name': 'variable.parameter.fortran'
     }
 'scopeName': 'source.fortran.modern'
