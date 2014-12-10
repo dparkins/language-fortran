@@ -40,6 +40,7 @@
           {'include': '$self'}
         ]
       }
+      {'include': '#control-statements'}
       {'include': '#data-statements'}
       {'include': '#IO-statements'}
       {'include': '#include-statement'}
@@ -527,8 +528,20 @@
     'name': 'variable.parameter.dummy-variable.fortran.modern'
     'match': '(?i)(?<=[\\,\\(])\\s*([a-z]\\w*)(?=\\s*\\=)'
   # statements:
+  'control-statements':
+    {
+      'comment': 'Introduced in the Fortran 1990 standard.'
+      'contentName': 'meta.control-statement.fortran.modern'
+      'begin': '(?i)\\b(cycle|exit)\\b'
+      'beginCaptures':
+        '1': 'name': 'keyword.control.fortran.modern'
+      'end': '(?=[;!\\n])'
+      'patterns':[
+
+      ]
+    }
   'data-statements':
-    'comment': 'Data statements introduced in the Fortran 1990 standard.'
+    'comment': 'Introduced in the Fortran 1990 standard.'
     'patterns':[
       {
         'begin': '(?ix)\\b(allocate|deallocate|nullify)\\s*\\('
@@ -798,11 +811,11 @@
       'contentName': 'meta.named-construct.fortran.modern'
       'begin': '(?ix)(?:^|(?<=;))\\s*([a-z]\\w*)\\s*(:)
         (?=\\s*(?:associate|block(?!\\s*data)|critical|do|forall|if|select|where)\\b)'
-      'beginCaptures':
-        '1': 'name': 'constant.numeric.construct-name.fortran.modern'
+      # 'beginCaptures':
+      #   '1': 'name': 'constant.numeric.construct-name.fortran.modern'
       'end': '(?i)\\b(?:\\s*\\b(\\1)\\b)?(?:\\s*([^\\s;!][^;!\\n]*?))?(?=\\s*[;!\\n])'
       'endCaptures':
-        '1': 'name': 'constant.numeric.construct-name.fortran.modern'
+        # '1': 'name': 'constant.numeric.construct-name.fortran.modern'
         '2': 'name': 'invalid.error.fortran.modern'
       'applyEndPatternLast': 1
       'patterns':[

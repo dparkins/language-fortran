@@ -52,7 +52,7 @@
   }
   {
     'comment': 'statements controling the flow of the program'
-    'match': '\\b(?i:(go\\s*to|assign|to|if|then|else|elseif|end\\s*if|continue|stop|pause|cycle))\\b'
+    'match': '\\b(?i:(go\\s*to|assign|to|if|then|else|elseif|end\\s*if|continue|stop|pause))\\b'
     'name': 'keyword.control.fortran'
   }
   {
