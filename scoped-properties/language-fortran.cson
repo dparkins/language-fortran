@@ -16,33 +16,30 @@
   'editor':
     'commentStart': '! '
     'commentEnd': ''
-    'increaseIndentPattern': '(?ix)(?:^|(?<=;))\\s*(
-        module\\b(?!\\s+procedure\\b)
-        |(contains|program|submodule)\\b
-        |(?!end)(\\w+\\s+)*\\b(function|subroutine)\\b
+    'increaseIndentPattern': '(?ix)^\\s*(
+        (block\\s*data|contains|program|submodule)\\b
+        |((?!end\\b).)*\\b(function|subroutine)\\b
+        |module\\b(?!\\s+procedure\\b)
         |type(?!\\s*\\()
         |(abstract\\s+)?interface\\b
-        |where\\b(?!\\s*\\(.*\\)\\s*[a-z])
-        |elsewhere\\b
-        |(do|forall)\\b
-        |if\\b.*\\bthen\\b
-        |else(if)?\\b
-        |select\\s*(case|type)\\b
+        |([a-z]\\w*\\s*:\\s*)?(
+          (associate|block|critical|do|forall)\\b
+          |if\\b.*\\bthen\\b
+          |select\\s*(case|type)\\b
+          |where\\b(?!\\s*\\(.*\\)\\s*[a-z])
+        )
         |(case)\\b
         |(class|type)\\s+is\\b
+        |else(if|where)?\\b
       )'
     'decreaseIndentPattern': '(?ix)^\\s*(
-        contains\\b
+        (case|contains)\\b
+        |(class|type)\\s+is\\b
         |end(
-          module|program|submodule
-          |function|subroutine
-          |interface|type
-          |do|forall
-          |if|select|where
+          do|forall|function|if|interface|module|program
+          |select|submodule|subroutine|type|where
         )?\\b
         |else(if|where)?\\b
-        |(class|type)\\s+is\\b
-        |case\\b
       )'
 
 '.source.fortran .meta.function.interface':
