@@ -21,35 +21,9 @@
   {'include': '#function-definition'}
   {'include': '#program-definition'}
   {'include': '#subroutine-definition'}
+  {'include': '#type-specifications'}
   {'include': '#do-construct'}
   {'include': '#if-then-construct'}
-  {
-    'comment': 'Line of type specification'
-    'name': 'meta.specification.fortran'
-    'begin': '(?ix)(?:^|\\G|(?<=[;a-z]))\\s*\\b(character|complex|double\\s+precision
-      |integer|logical|real)\\b'
-    'beginCaptures':
-      '1': 'name': 'storage.type.fortran'
-    'end': '(?i)(?=[a-z;!\\n])'
-    'patterns': [
-      {'include': '$self'}
-      {
-        'begin': '\\G\\('
-        'end': '\\)'
-        'patterns':[
-          {'include': '#procedure-call-dummy-variable'}
-          {'include': '$self'}
-        ]
-      }
-      {
-        'begin': '(?=,)'
-        'end': '(?=::|[;!\\n])'
-        'patterns':[
-          {'include': '$self'}
-        ]
-      }
-    ]
-  }
   {
     'comment': 'statements controling the flow of the program'
     'match': '\\b(?i:(go\\s*to|assign|to|if|then|else|elseif|end\\s*if|continue|stop|pause))\\b'
@@ -438,6 +412,34 @@
           ]
         }
         {'include': '$self'}
+      ]
+    }
+  # specifications:
+  'type-specifications':
+    {
+      'name': 'meta.specification.fortran'
+      'begin': '(?ix)(?:^|\\G|(?<=[;a-z]))\\s*\\b(character|complex|double\\s+precision
+        |integer|logical|real)\\b'
+      'beginCaptures':
+        '1': 'name': 'storage.type.fortran'
+      'end': '(?i)(?=[a-z\\);!\\n])'
+      'patterns': [
+        {'include': '$self'}
+        {
+          'begin': '\\G\\('
+          'end': '\\)'
+          'patterns':[
+            {'include': '#procedure-call-dummy-variable'}
+            {'include': '$self'}
+          ]
+        }
+        {
+          'begin': '(?=,)'
+          'end': '(?=::|[;!\\n])'
+          'patterns':[
+            {'include': '$self'}
+          ]
+        }
       ]
     }
   # control constructs:

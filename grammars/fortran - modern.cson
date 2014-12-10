@@ -27,6 +27,9 @@
       {'include': '#line-continuation'}
       {'include': '#derived-type-definition'}
       {'include': '#interface-blocks'}
+      {'include': '#class-specification'}
+      {'include': '#procedure-specification'}
+      {'include': '#type-specification'}
       {'include': '#intrinsic-functions'}
       {'include': '#intrinsic-subroutines'}
       {'include': '#named-construct'}
@@ -45,17 +48,6 @@
       {'include': '#IO-statements'}
       {'include': '#include-statement'}
       {'include': '#where-statement'}
-      {
-        'comment': 'Line of type specification'
-        'name': 'meta.specification.fortran'
-        'begin': '(?:^|(?<=;))\\s*\\b(class|type)\\b(?=\\s*\\()'
-        'beginCaptures':
-          '1': 'name': 'storage.type.fortran.modern'
-        'end': '(?=[;!\\n])'
-        'patterns': [
-          {'include': '$self'}
-        ]
-      }
       {
         'comment': 'Use statement. Introduced in the Fortran 1990 standard.'
         'match': '(?i)(?:^|(?<=;))\\s*\\b(use)\\b'
@@ -524,9 +516,6 @@
         ]
       }
     ]
-  'procedure-call-dummy-variable':
-    'name': 'variable.parameter.dummy-variable.fortran.modern'
-    'match': '(?i)(?<=[\\,\\(])\\s*([a-z]\\w*)(?=\\s*\\=)'
   # statements:
   'control-statements':
     {
@@ -691,7 +680,6 @@
               '1': 'name': 'keyword.type-contains.fortran.modern'
             'end': '(?i)(?=\\s+end\\b)'
             'patterns': [
-              {'include': '$self'}
               {# generic procedure statement
                 'begin': '(?i)^\\s*(generic)\\b'
                 'beginCaptures':
@@ -799,11 +787,89 @@
                   }
                 ]
               }
+              {'include': '$self'}
             ]
           }
         ]
       }
     ]
+  # specifications:
+  'type-specification':
+    {
+      'comment': 'Introduced in the Fortran 1990 standard.'
+      'name': 'meta.specification.type.fortran'
+      'begin': '(?i)(?:^|\\G|(?<=[;a-z]))\\s*\\b(type)\\b(?=\\s*\\()'
+      'beginCaptures':
+        '1': 'name': 'storage.type.fortran.modern'
+      'end': '(?=[\\);!\\n])'
+      'patterns': [
+        {'include': '$self'}
+      ]
+    }
+  'class-specification':
+    {
+      'comment': 'Introduced in the Fortran 2003 standard.'
+      'name': 'meta.specification.class.fortran'
+      'begin': '(?i)(?:^|(?<=;))\\s*\\b(class)\\b(?=\\s*\\()'
+      'beginCaptures':
+        '1': 'name': 'storage.type.fortran.modern'
+      'end': '(?=[;!\\n])'
+      'patterns': [
+        {'include': '$self'}
+      ]
+    }
+  'procedure-specification':
+    {
+      'comment': 'Introduced in the Fortran 2003 standard.'
+      'name': 'meta.specification.procedure.fortran.modern'
+      'begin': '(?ix)(?:^|\\G|(?<=[;a-z]))\\s*\\b(procedure)\\b'
+      'beginCaptures':
+        '1': 'name': 'storage.type.fortran'
+      'end': '(?i)(?=[;!\\n])'
+      'patterns': [
+        {
+          'begin': '\\G\\s*(\\()'
+          'beginCaptures':
+            '1': 'name': 'punctuation.definition.parameters.begin.fortran'
+          'end': '(\\)|(?=\\n))'
+          'endCaptures':
+            '0': 'name': 'punctuation.definition.parameters.end.fortran'
+          'patterns': [
+            {'include': '$self'}
+            {'include': '#type-specification'}
+            {
+              'comment': 'Procedure name.'
+              'name': 'entity.name.function.fortran'
+              'match': '\\G\\s*([a-z]\\w*)'
+            }
+          ]
+        }
+        {
+          'meta.attribute-list.procedure.fortran.modern'
+          'begin': '(?=,)'
+          'end': '(?=::|[;!\\n])'
+          'patterns':[
+            {'include': '$self'}
+          ]
+        }
+        {
+          'comment': 'list of procedure names and generic procedure names'
+          'contentName': 'meta.procedure-name-list.fortran.modern'
+          'begin': '(?i)(?=\\s*[a-z])'
+          'end': '(?=[;!\\n])'
+          'patterns':[
+            {
+              'comment': 'procedure name'
+              'match': '(?i)(?<=procedure|,|::|\\=\\>)\\s*\\b([a-z]\\w*)\\b'
+              'captures':
+                '1': 'name': 'entity.name.function.procedure.fortran.modern'
+            }
+            {'include': '$self'}
+          ]
+        }
+        {'include': '$self'}
+      ]
+    }
   # control constructs:
   'named-construct':
     {
@@ -995,4 +1061,7 @@
       'captures':
         '1': 'name': 'variable.parameter.fortran'
     }
+  'procedure-call-dummy-variable':
+    'name': 'variable.parameter.dummy-variable.fortran.modern'
+    'match': '(?i)(?<=[\\,\\(])\\s*([a-z]\\w*)(?=\\s*\\=)'
 'scopeName': 'source.fortran.modern'
