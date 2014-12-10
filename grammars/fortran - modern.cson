@@ -64,6 +64,7 @@
       {'include': '#type-attributes'}
       {'include': '#procedure-attributes'}
       {'include': '#access-attributes'}
+      {'include': '#bind-attribute'}
     ]
   'meta.function.fortran meta.first-line.function':
     'patterns':[
@@ -78,16 +79,17 @@
   # attributes:
   'access-attributes':
     {
-      'comment': 'Access attributes. Introduced in the Fortran 1990 standard.'
-      'name': 'keyword.other.attribute.fortran.modern'
+      'comment': 'Introduced in the Fortran 1990 standard.'
+      'name': 'storage.modifier.fortran.modern'
       'match': '(?i)(^|(?<=[;,]))\\s*\\b(private|public)\\b'
     }
   'bind-attribute':
     {
+      'comment': 'Introduced in Fortran 2003 standard.'
       'begin': '(?i)(?:^|(?<=[;,]))\\s*\\b(bind)\\s*\\('
       'beginCaptures':
-        '1': 'name': 'keyword.other.attribute.fortran.modern'
-      'end': '\\)'
+        '1': 'name': 'storage.modifier.fortran.modern'
+      'end': '(?:\\)|(?=\\n))'
       'patterns':[
         {
           'name': 'variable.parameter.fortran'
@@ -99,7 +101,7 @@
     }
   'intent-attributes':
     {
-      'comment': 'Intent attribute. Introduced in the Fortran 1990 standard.'
+      'comment': 'Introduced in the Fortran 1990 standard.'
       'match': '(?ix)(?:^|(?<=[;,]))\\s*\\b(intent)\\s*\\(\\s*
         (?:(in|out|in\\s*out)|((?:(?!\\s*\\))[^\\)])*))\\s*\\)'
       'captures':
@@ -107,40 +109,43 @@
         '2': 'name': 'storage.modifier.fortran.modern'
         '3': 'name': 'invalid.error.fortran.modern'
     }
-  # 'procedure-attributes':
-  #   'comment': 'Attributes proceeding procedure specifications.'
-  #   'patterns':[
-  #     {
-  #       'comment': 'Introduced in the Fortran 1990 standard.'
-  #       'name': 'keyword.other.attribute.fortran.modern'
-  #       'match': '(?i)\\b(recursive)\\b'
-  #     }
-  #     {
-  #       'comment': 'Introduced in the Fortran 1995 standard.'
-  #       'name': 'keyword.other.attribute.fortran.modern'
-  #       'match': '(?i)\\b(elemental|pure)\\b'
-  #     }
-  #     {
-  #       'comment': 'Introduced in the Fortran 2008 standard.'
-  #       'name': 'keyword.other.attribute.fortran.modern'
-  #       'match': '(?i)\\b(impure|module)\\b'
-  #     }
-  #   ]
   'procedure-attributes':
     'comment': 'Attributes proceeding procedure specifications.'
-    'begin': '(?i)(?:^|\\G|(?<=;))\\s*\\b(elemental|impure|module|pure|recursive)\\b'
-    'beginCaptures':
-      '1': 'name': 'keyword.other.attribute.fortran.modern'
-    'end': '(?=\\s*(?:function|subroutine|[;!\\n]))'
     'patterns':[
-      {'include': '$self'}
+      {
+        'comment': 'Introduced in the Fortran 1990 standard.'
+        'match': '(?i)\\b(elemental|pure|recursive)\\b'
+        'name': 'storage.modifier.fortran.modern'
+      }
+      {
+        'comment': 'Introduced in the Fortran 2003 standard.'
+        'match': '(?i)\\b(module)\\b'
+        'name': 'storage.modifier.fortran.modern'
+      }
+      {
+        'comment': 'Introduced in the Fortran 2008 standard.'
+        'match': '(?i)\\b(impure)\\b'
+        'name': 'storage.modifier.fortran.modern'
+      }
     ]
   'type-attributes':
-    {
-      'comment': 'Introduced in the Fortran 1990 standard.'
-      'match': '(?i)(?:^|(?<=[;,]))\\s*\\b(allocatable|optional|pointer|target)\\b'
-      'name': 'storage.modifier.fortran.modern'
-    }
+    'patterns':[
+      {
+        'comment': 'Introduced in the Fortran 1990 standard.'
+        'match': '(?i)(?:^|(?<=[;,]))\\s*\\b(allocatable|optional|pointer|target)\\b'
+        'name': 'storage.modifier.fortran.modern'
+      }
+      {
+        'comment': 'Introduced in the Fortran 2003 standard.'
+        'match': '(?i)(?:^|(?<=[;,]))\\s*\\b(asynchronous|protected|value|volatile)\\b'
+        'name': 'storage.modifier.fortran.modern'
+      }
+      {
+        'comment': 'Introduced in the Fortran 2008 standard.'
+        'match': '(?i)(?:^|(?<=[;,]))\\s*\\b(contiguous)\\b'
+        'name': 'storage.modifier.fortran.modern'
+      }
+    ]
   # comments:
   'comments':
     'name': 'comment.line.fortran.modern'
@@ -624,7 +629,7 @@
           }
           {
             'name': 'keyword.other.attribute.derived-type.fortran.modern'
-            'match': '(?i)(?<=,)\\s*\\b(sequence)\\b'
+            'match': '(?i)(?<=,)\\s*\\b(abstract)\\b'
           }
           {
             'name': 'invalid.error.fortran'
@@ -643,6 +648,7 @@
           '3': 'name': 'entity.name.derived-type.fortran.modern'
           '4': 'name': 'invalid.error.fortran.modern'
         'patterns':[
+          {'include': '#dummy-variable-list'}
           {# parameter definition statements
             'match': '(?i)^\\s*(integer)\\s*(,)\\s*(kind|len)\\s*(?:(::)\\s*([a-z]\\w*)?)?\\s*(?=[;!\\n])'
             'captures':
@@ -661,10 +667,6 @@
             'end': '(?i)(?=\\s+end\\b)'
             'patterns': [
               {'include': '$self'}
-              {
-                'name': 'keyword.other.attribute.statement.fortran.modern'
-                'match': '(?i)^\\s*private\\b'
-              }
               {# generic procedure statement
                 'begin': '(?i)^\\s*(generic)\\b'
                 'beginCaptures':
