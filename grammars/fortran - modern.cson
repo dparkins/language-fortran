@@ -542,17 +542,29 @@
       }
     ]
   'IO-statements':
-    {
-      'comment': 'Introduced in the Fortran 2003 standard.'
-      'begin': '(?i)\\b(flush|wait)\\s*\\('
-      'beginCaptures':
-        '1': 'name': 'keyword.control.IO.fortran.modern'
-      'end': '(\\)|(?=\\n))'
-      'patterns':[
-        {'include': '#procedure-call-dummy-variable'}
-        {'include': '$self'}
-      ]
-    }
+    'patterns':[
+      {
+        'comment': 'Introduced in the Fortran 1990 standard.'
+        'begin': '(?i)\\b(namelist)\\b'
+        'beginCaptures':
+          '1': 'name': 'keyword.control.IO.fortran.modern'
+        'end': '(?=\\n)'
+        'patterns':[
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Introduced in the Fortran 2003 standard.'
+        'begin': '(?i)\\b(flush|wait)\\s*\\('
+        'beginCaptures':
+          '1': 'name': 'keyword.control.IO.fortran.modern'
+        'end': '(\\)|(?=\\n))'
+        'patterns':[
+          {'include': '#procedure-call-dummy-variable'}
+          {'include': '$self'}
+        ]
+      }
+    ]
   'include-statement':
     {
       'comment': 'Introduced in the Fortran 1990 standard.'
