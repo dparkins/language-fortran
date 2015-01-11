@@ -333,7 +333,7 @@
       'begin': '(?i)(?:^|(?<=;))\\s*\\b(program)\\b\\s+([a-z]\\w*)'
       'beginCaptures':
         '1': 'name': 'keyword.control.program.fortran'
-      'end': '(?i)(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
+      'end': '(?i)^\\s*(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
       'endCaptures':
         '1': 'name': 'keyword.other.fortran'
         '2': 'name': 'keyword.control.program.fortran'
@@ -349,7 +349,7 @@
       'begin': '(?i)(?:^|\\b(?<!end)\\s)\\s*\\b(block\\s*data)\\b\\s+([a-z]\\w*)?'
       'beginCaptures':
         '1': 'name': 'keyword.control.block-data.fortran'
-      'end': '(?i)(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
+      'end': '(?i)^\\s*(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
       'endCaptures':
         '1': 'name': 'keyword.control.end.fortran'
         '2': 'name': 'keyword.control.block-data.fortran'
@@ -367,7 +367,7 @@
       'beginCaptures':
         '1': 'name': 'storage.type.function.fortran'
         '2': 'name': 'entity.name.function.fortran'
-      'end': '(?i)(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
+      'end': '(?i)^\\s*(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
       'endCaptures':
         '1': 'name': 'keyword.other.end.fortran'
         '2': 'name': 'storage.type.function.fortran'
@@ -394,7 +394,7 @@
       'beginCaptures':
         '1': 'name': 'storage.type.function.fortran'
         '2': 'name': 'entity.name.function.fortran'
-      'end': '(?i)(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
+      'end': '(?i)^\\s*(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
       'endCaptures':
         '1': 'name': 'keyword.other.end.fortran'
         '2': 'name': 'storage.type.function.fortran'
