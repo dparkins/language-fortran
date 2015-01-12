@@ -23,10 +23,10 @@
   {'include': '#subroutine-definition'}
   {'include': '#type-specifications'}
   {'include': '#do-construct'}
-  {'include': '#if-then-construct'}
+  {'include': '#if-construct'}
   {
     'comment': 'statements controling the flow of the program'
-    'match': '\\b(?i:(go\\s*to|assign|to|if|then|else|elseif|end\\s*if|continue|stop|pause))\\b'
+    'match': '\\b(?i:(go\\s*to|assign|to|continue|stop|pause))\\b'
     'name': 'keyword.control.fortran'
   }
   {
@@ -36,6 +36,7 @@
   }
   {'include': '#intrinsic-functions'}
   {'include': '#IO-statements'}
+  {'include': '#parentheses'}
   {
     'comment': 'data type attributes'
     'match': '\\b(?i:(dimension|common|equivalence|parameter|external|intrinsic|save|data|implicit\\s*none|implicit))\\b'
@@ -466,39 +467,51 @@
         {'include': '$self'}
       ]
     }
-  # 'if-construct':
-  #   {
-  #     'contentName': 'meta.if.fortran'
-  #     'begin': '(?i)(?:^|\\G(?<=:)|(?<=;))\\s*(if)\\b(?![^\\n]*\\bthen)\\b'
-  #     'beginCaptures':
-  #       '1': 'name': 'keyword.control.if.fortran'
-  #     'end': '(?i)(?=[;!\\n])'
-  #     'patterns':[
-  #       {
-  #         'begin': '\\G\\s*\\('
-  #         'end': '(?:\\)|(?=;!\\n))'
-  #         'patterns':[
-  #           {'include': '$self'}
-  #         ]
-  #       }
-  #       {
-  #         'begin': '(?<=\\)\\s*(call)\\b)'
-  #       }
-  #       {'include': '$self'}
-  #     ]
-  #   }
-  'if-then-construct':
+  'if-construct':
     {
-      'contentName': 'meta.if-then.fortran'
-      'begin': '(?i)(?:^|\\G(?<=:)|(?<=;))\\s*(if)\\b(?=[^\\n]*\\bthen)\\b'
+      'contentName': 'meta.if.fortran'
+      'begin': '(?i)(?:^|\\G(?<=:)|(?<=;))\\s*(if)\\b'
       'beginCaptures':
         '1': 'name': 'keyword.control.if.fortran'
-      'end': '(?i)(?:^|(?<=;))\\s*(end\\s*if)\\b'
-      'endCaptures':
-        '1': 'name': 'keyword.control.endif.fortran'
-        '2': 'name': 'invalid.error.fortran'
+      'end': '(?<!\\G)(?!\\s*&)'
+      'applyEndPatternLast': 1
       'patterns':[
-        {'include': '$self'}
+        {'include': '#parentheses'}
+        {
+          'contentName': 'meta.then.fortran'
+          'begin': '(?i)\\s*\\b(then)\\b'
+          'beginCaptures':
+            '1': 'name': 'keyword.control.then.fortran'
+          'end': '(?i)(?:^|(?<=;))\\s*(end\\s*if)\\b'
+          'endCaptures':
+            '1': 'name': 'keyword.control.endif.fortran'
+          'patterns':[
+            {
+              'begin': '(?i)(?:^|(?<=;))\\s*(else\\s*if)\\b'
+              'beginCaptures':
+                '1': 'name': 'keyword.control.elseif.fortran'
+              'end': '(?=[;!\\n])'
+              'patterns':[
+                {'include': '#parentheses'}
+                {
+                  'match': '\\s*\\b(then)\\b'
+                  'captures':
+                    '1': 'name': 'keyword.control.then.fortran'
+                }
+              ]
+            }
+            {
+              'begin': '(?i)(?:^|(?<=;))\\s*(else)\\b(?!\\s*if\\b)'
+              'beginCaptures':
+                '1': 'name': 'keyword.control.else.fortran'
+              'end': '(?i)(?=\\s*end\\s*if\\b)'
+              'patterns':[
+                {'include': '$self'}
+              ]
+            }
+            {'include': '$self'}
+          ]
+        }
       ]
     }
   # intrinsic procedures:
@@ -538,9 +551,6 @@
       }
     ]
   # other:
-  'procedure-call-dummy-variable':
-    'name': 'variable.parameter.dummy-variable.fortran'
-    'match': '(?i)\\b([a-z]\\w*)(?=\\s*\\=)'
   'dummy-variable-list':
     {
       'begin': '\\G\\s*(\\()'
@@ -556,6 +566,17 @@
           'captures':
             '1': 'name': 'variable.parameter.fortran'
         }
+      ]
+    }
+  'procedure-call-dummy-variable':
+    'name': 'variable.parameter.dummy-variable.fortran'
+    'match': '(?i)\\b([a-z]\\w*)(?=\\s*\\=)'
+  'parentheses':
+    {
+      'begin': '(?i)\\s*\\('
+      'end': '(?:\\)|(?=[;!\\n]))'
+      'patterns':[
+        {'include': '$self'}
       ]
     }
 'scopeName': 'source.fortran'

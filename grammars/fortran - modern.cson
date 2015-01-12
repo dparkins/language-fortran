@@ -20,7 +20,7 @@
     'patterns':[
       {'include': '#string-line-continuation'}
     ]
-  'source.fortran - ( string | comment )':
+  'source.fortran - ( string | comment | meta.line-continuation )':
     'patterns':[
       {'include': '#comments'}
       {'include': '#operators'}
@@ -160,7 +160,8 @@
     ]
   'line-continuation':
     'comment': 'Operator that allows a line to be continued on the next line.'
-    'begin': '(&)'
+    'contentName': 'meta.line-continuation.fortran.modern'
+    'begin': '\\s*(&)'
     'beginCaptures':
       '1': 'name': 'keyword.operator.line-continuation.fortran.modern'
     'end': '(?i)^(?:(?=\\s*[^\\s!&])|\\s*(&))'
@@ -170,7 +171,7 @@
       {'include': '#comments'}
       {
         'name': 'invalid.error.fortran.modern'
-        'match': '\\S.*'
+        'match': '\\S[^!]*'
       }
     ]
   'string-line-continuation':
