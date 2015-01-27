@@ -64,9 +64,8 @@
       {'include': '#result-statement'}
     ]
 'patterns': [
-  {
-    'include': 'source.fortran'
-  }
+  # {'include': '#do-construct'}
+  {'include': 'source.fortran'}
 ]
 'repository':
   # attributes:
@@ -894,6 +893,7 @@
       {'include': '#associate-construct'}
       {'include': '#block-construct'}
       {'include': '#critical-construct'}
+      {'include': '#do-construct'}
       {'include': '#forall-construct'}
       {'include': '#select-case-construct'}
       {'include': '#select-type-construct'}
@@ -954,6 +954,58 @@
         {'include': '$self'}
       ]
     }
+  'do-construct':
+    'patterns':[
+      {
+        'comment': 'Introduced in the Fortran 1977 standard.'
+        'name': 'meta.do.labeled.fortran'
+        'begin': '(?i)(?:^|\\G(?<=:)|(?<=[;\\d]))\\s*(do)\\s+(\\d{1,5})\\b'
+        'beginCaptures':
+          '1': 'name': 'keyword.control.do.fortran'
+          '2': 'name': 'constant.numeric.fortran'
+        'end': '(?i)^(?=\\s*\\2\\b)'
+        'patterns':[
+          {'include': '#do-modifiers'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'Introduced in the Fortran 1995 standard.'
+        'contentName': 'meta.do.unlabeled.fortran'
+        'begin': '(?i)(?:^|\\G(?<=:)|(?<=[;\\d]))\\s*(do)\\b(?!\\s+\\d)'
+        'beginCaptures':
+          '1': 'name': 'keyword.control.do.fortran'
+          '2': 'name': 'constant.numeric.fortran'
+        'end': '(?i)^\\s*(?:(continue)|(end\\s*do))\\b'
+        'endCaptures':
+          '1': 'name': 'keyword.control.continue.fortran'
+          '2': 'name': 'keyword.control.enddo.fortran'
+        'patterns':[
+          {'include': '#do-modifiers'}
+          {'include': '$self'}
+        ]
+      }
+      {
+        'comment': 'For matching enddo statements at then end of labeled do
+          constructs.'
+        'match': '(?i)(?<=\\d)\\b\\s+\\b(end\\s*do)\\b'
+        'captures':
+          '1': 'name': 'keyword.control.enddo.fortran'
+      }
+    ]
+  'do-modifiers':
+    'patterns':[
+      {
+        'comment': 'Introduced in the Fortran 2003 standard.'
+        'name': 'keyword.control.do.concurrent.fortran'
+        'match': '(?i)\\b(concurrent)\\b'
+      }
+      {
+        'comment': 'Introduced in the Fortran 1995 standard.'
+        'name': 'keyword.control.do.while.fortran'
+        'match': '(?i)\\b(while)\\b'
+      }
+    ]
   'forall-construct':
     {
       'comment': 'Introduced in the Fortran 1995 standard.'
