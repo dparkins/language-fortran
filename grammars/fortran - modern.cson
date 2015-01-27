@@ -64,7 +64,6 @@
       {'include': '#result-statement'}
     ]
 'patterns': [
-  # {'include': '#do-construct'}
   {'include': 'source.fortran'}
 ]
 'repository':
