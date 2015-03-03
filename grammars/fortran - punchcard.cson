@@ -372,7 +372,7 @@
       'beginCaptures':
         '1': 'name': 'storage.type.function.fortran'
         '2': 'name': 'entity.name.function.fortran'
-      'end': '(?i)^\\s*(end)(?:\\s*(\\1)(\\s+\\2)?\\b)?\\s*([^;!\\n]+)?'
+      'end': '(?i)^\\s*(end)(?:\\s*(\\1)(\\s+\\2)?)?\\b\\s*([^;!\\n]+)?'
       'endCaptures':
         '1': 'name': 'keyword.other.end.fortran'
         '2': 'name': 'storage.type.function.fortran'
