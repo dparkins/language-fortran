@@ -1,5 +1,4 @@
 'comment': 'Adds a number of preprocessor rules to Fortran grammar.'
-'name': 'Fortran - preprocessor'
 'scopeName': 'source.fortran.preprocessor'
 'fileTypes': []
 'injectionSelector': 'source.fortran - ( string | comment )'
