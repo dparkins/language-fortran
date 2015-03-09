@@ -78,16 +78,16 @@
     'match': '(?i)\\G\\s*\\b(contiguous)\\b'
     'captures':
       '1': 'name': 'storage.modifier.contigous.fortran'
-  # 'concurrent-attribute':
-  #   'comment': 'Introduced in the Fortran 2003 standard.'
-  #   'begin': '(?i)\\G\\s*\\b(concurrent)\\b'
-  #   'beginCaptures':
-  #     '1': 'name': 'keyword.control.while.fortran'
-  #   'end': '(?=[;!\\n])'
-  #   'patterns':[
-  #     {'include': '#parentheses'}
-  #     {'include': '#invalid-word'}
-  #   ]
+  'concurrent-attribute':
+    'comment': 'Introduced in the Fortran 2003 standard.'
+    'begin': '(?i)\\G\\s*\\b(concurrent)\\b'
+    'beginCaptures':
+      '1': 'name': 'keyword.control.while.fortran'
+    'end': '(?=[;!\\n])'
+    'patterns':[
+      {'include': '#parentheses'}
+      {'include': '#invalid-word'}
+    ]
   'deferred-attribute':
     'comment': 'Introduced in the Fortran 2003 standard.'
     'match': '(?i)\\s*\\b(deferred)\\b'
