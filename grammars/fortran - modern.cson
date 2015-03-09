@@ -28,7 +28,7 @@
   {'include': '#submodule-definition'}
   {'include': '#subroutine-definition'}
   {'include': '#derived-type-definition'}
-  # {'include': '#enum-block-construct'}
+  {'include': '#enum-block-construct'}
   {'include': '#interface-block-constructs'}
   {'include': '#procedure-specification-statement'}
   {'include': '#type-specification-statements'}
@@ -1213,56 +1213,59 @@
       {'include': '#procedure-name-list'}
     ]
   # enum block:
-  # 'enum-block-construct':
-  #   'comment': 'Introduced in the Fortran 2003 standard.'
-  #   'name': 'meta.enum.fortran'
-  #   'begin': '(?i)(?:^|(?<=;))\\s*\\b(enum)\\b'
-  #   'beginCaptures':
-  #     '1': 'name': 'keyword.control.enum.fortran'
-  #   'end': '(?i)(?:^|(?<=;))\\s*\\b(end\\s*enum)\\b'
-  #   'endCaptures':
-  #     '1': 'name': 'keyword.control.end-enum.fortran'
-  #   'patterns':[
-  #     {
-  #       'begin': '\\G\\s*(,)'
-  #       'beginCaptures':
-  #         '1': 'name': 'punctuation.comma.fortran'
-  #       'end': '(?=[;!\\n])'
-  #       'patterns':[
-  #         {'include': '#language-binding-attribute'}
-  #         {'include': '#line-continuation-operator'}
-  #         {'include': '#invalid-word'}
-  #       ]
-  #     }
-  #     {
-  #       'name': 'meta.block.specification.fortran'
-  #       'begin': '(?i)(?!\\s*\\b(end\\s*enum)\\b)'
-  #       'end': '(?i)(?=\\s*\\b(end\\s*enum)\\b)'
-  #       'patterns':[
-  #         {
-  #           'name': 'meta.statement.enumerator-specification.fortran'
-  #           'begin': '(?ix)(?:^|(?<=;))\\s*\\b(enumerator)\\b'
-  #           'beginCaptures':
-  #             '1': 'name': 'keyword.other.enumerator.fortran'
-  #           'end': '(?=[;!\\n])'
-  #           'patterns':[
-  #             {
-  #               'comment': 'Attribute list.'
-  #               'contentName': 'meta.attribute-list.fortran'
-  #               'begin': '(?=\\s*(,|::))'
-  #               'end': '(::)|(?=[;!\\n])'
-  #               'endCaptures':
-  #                 '1': 'name': 'keyword.operator.double-colon.fortran'
-  #               'patterns':[
-  #                 {'include': '#invalid-word'}
-  #               ]
-  #             }
-  #             {'include': '#name-list'}
-  #           ]
-  #         }
-  #       ]
-  #     }
-  #   ]
+  'enum-block-construct':
+    'comment': 'Introduced in the Fortran 2003 standard.'
+    'name': 'meta.enum.fortran'
+    'begin': '(?i)(?:^|(?<=;))\\s*\\b(enum)\\b'
+    'beginCaptures':
+      '1': 'name': 'keyword.control.enum.fortran'
+    'end': '(?i)(?:^|(?<=;))\\s*\\b(end\\s*enum)\\b'
+    'endCaptures':
+      '1': 'name': 'keyword.control.end-enum.fortran'
+    'patterns':[
+      {
+        'begin': '\\G\\s*(,)'
+        'beginCaptures':
+          '1': 'name': 'punctuation.comma.fortran'
+        'end': '(?=[;!\\n])'
+        'patterns':[
+          {'include': '#language-binding-attribute'}
+          {'include': '#line-continuation-operator'}
+          {'include': '#invalid-word'}
+        ]
+      }
+      {
+        'name': 'meta.block.specification.fortran'
+        'begin': '(?i)(?!\\s*\\b(end\\s*enum)\\b)'
+        'end': '(?i)(?=\\s*\\b(end\\s*enum)\\b)'
+        'patterns':[
+          {'include': '#comments'}
+          {
+            'name': 'meta.statement.enumerator-specification.fortran'
+            'begin': '(?ix)(?:^|(?<=;))\\s*\\b(enumerator)\\b'
+            'beginCaptures':
+              '1': 'name': 'keyword.other.enumerator.fortran'
+            'end': '(?=[;!\\n])'
+            'patterns':[
+              {
+                'comment': 'Attribute list.'
+                'contentName': 'meta.attribute-list.fortran'
+                'begin': '(?=\\s*(,|::))'
+                'end': '(::)|(?=[;!\\n])'
+                'endCaptures':
+                  '1': 'name': 'keyword.operator.double-colon.fortran'
+                'patterns':[
+                  {'include': '#invalid-word'}
+                ]
+              }
+              {'include': '#comments'}
+              {'include': '#line-continuation-operator'}
+              {'include': '#name-list'}
+            ]
+          }
+        ]
+      }
+    ]
   # execution statements:
   'execution-statements':
     'patterns':[
