@@ -2707,9 +2707,9 @@
     'patterns': [
       {'include': '$self'}
     ]
-  # 'procedure-call-dummy-variable':
-  #   'name': 'variable.parameter.dummy-variable.fortran.modern'
-  #   'match': '(?i)\\s*([a-z]\\w*)(?=\\s*\\=)'
+  'procedure-call-dummy-variable':
+    'name': 'variable.parameter.dummy-variable.fortran.modern'
+    'match': '(?i)\\s*([a-z]\\w*)(?=\\s*\\=)'
   'procedure-name':
     'comment': 'Procedure name.'
     'match': '(?i)\\s*\\b([a-z]\\w*)\\b'
