@@ -317,7 +317,7 @@
     ]
   'logical-constant':
     'comment': 'Logical constants'
-    'match': '(?i)\\.(?:(false)|(true))\\.'
+    'match': '(?i)(?:(\\.false\\.)|(\\.true\\.))'
     'captures':
       '1':'name': 'constant.language.logical.false.fortran'
       '2':'name': 'constant.language.logical.true.fortran'
@@ -528,7 +528,7 @@
   'if-construct':
     'comment': 'Introduced in the Fortran 1990 standard.'
     'name': 'meta.block.if.fortran'
-    'begin': '(?i)(?=\\s*\\b(if)\\b\\s*\\([^;!\\n]*\\)\\s*\\b(then)\\b)'
+    'begin': '(?i)(?=\\s*\\b(if)\\b\\s*\\(.*\\)\\s*\\b(then)\\b)'
     'end': '(?=[;!\\n])'
     'patterns':[
       {
@@ -2264,6 +2264,7 @@
     'end': '(?=[;!\\n])'
     'patterns':[
       {'include': '#types'}
+      {'include': '#line-continuation-operator'}
       {
         'comment': 'Attribute list.'
         'contentName': 'meta.attribute-list.fortran'
@@ -2272,11 +2273,12 @@
         'endCaptures':
           '1': 'name': 'keyword.operator.double-colon.fortran'
         'patterns':[
+          {'include': '#line-continuation-operator'}
           {
-            'begin': '(,)'
+            'begin': '(,)|^|(?<=&)'
             'beginCaptures':
               '1': 'name': 'punctuation.comma.fortran'
-            'end': '(?=::|[,;!\\n])'
+            'end': '(?=::|[,&;!\\n])'
             'patterns':[
               {'include': '#access-attribute'}
               {'include': '#allocatable-attribute'}
@@ -2296,7 +2298,6 @@
               {'include': '#target-attribute'}
               {'include': '#value-attribute'}
               {'include': '#volatile-attribute'}
-              {'include': '#line-continuation-operator'}
               {'include': '#invalid-word'}
             ]
           }
@@ -2311,6 +2312,7 @@
     'end': '(?=[;!\\n])'
     'patterns':[
       {'include': '#procedure-type'}
+      {'include': '#line-continuation-operator'}
       {
         'comment': 'Attribute list.'
         'contentName': 'meta.attribute-list.fortran'
@@ -2319,11 +2321,12 @@
         'endCaptures':
           '1': 'name': 'keyword.operator.double-colon.fortran'
         'patterns':[
+          {'include': '#line-continuation-operator'}
           {
-            'begin': '(,)'
+            'begin': '(,)|^|(?<=&)'
             'beginCaptures':
               '1': 'name': 'punctuation.comma.fortran'
-            'end': '(?=::|[,;!\\n])'
+            'end': '(?=::|[,&;!\\n])'
             'patterns':[
               {'include': '#access-attribute'}
               {'include': '#intent-attribute'}
@@ -2378,7 +2381,7 @@
       {
         'comment': 'Attribute list.'
         'contentName': 'meta.attribute-list.fortran'
-        'begin': '(?=\\s*(,|::))'
+        'begin': '(?=\\s*::)'
         'end': '(::)|(?=[;!\\n])'
         'endCaptures':
           '1': 'name': 'keyword.operator.double-colon.fortran'
