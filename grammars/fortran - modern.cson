@@ -947,6 +947,7 @@
             'begin': '(?i)^(?!\\s*\\b(?:contains|end\\s*type)\\b)'
             'end': '(?i)^(?=\\s*\\b(?:contains|end\\s*type)\\b)'
             'patterns':[
+              {'include': '#comments'}
               {'include': '#derived-type-component-attribute-specification'}
               {'include': '#derived-type-component-parameter-specification'}
               {'include': '#derived-type-component-procedure-specification'}
@@ -961,6 +962,7 @@
               '1': 'name': 'keyword.control.contains.fortran'
             'end': '(?i)(?=\\s*end\\s*type\\b)'
             'patterns':[
+              {'include': '#comments'}
               {'include': '#derived-type-contains-attribute-specification'}
               {'include': '#derived-type-contains-final-procedure-specification'}
               {'include': '#derived-type-contains-generic-procedure-specification'}
