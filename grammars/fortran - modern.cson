@@ -2638,6 +2638,7 @@
       '0': 'name': 'punctuation.definition.parameters.end.fortran'
     'patterns': [
       {'include': '#dummy-variable'}
+      {'include': '#line-continuation-operator'}
     ]
   'dummy-variable':
     'comment': 'dummy variable'
