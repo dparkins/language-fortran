@@ -526,7 +526,7 @@
       '1': 'name': 'keyword.control.if.fortran'
     'end': '(?=[;!\\n])'
     'patterns':[
-      {'include': '#parentheses'}
+      {'include': '#logical-control-expression'}
       {
         'contentName': 'meta.block.if.fortran'
         'begin': '(?i)\\s*\\b(then)\\b'
@@ -589,69 +589,6 @@
       }
       {'include': '#line-continuation-operator'}
     ]
-  # 'if-construct':
-  #   'comment': 'Introduced in the Fortran 1990 standard.'
-  #   'name': 'meta.block.if.fortran'
-  #   'begin': '(?i)(?=\\s*\\b(if)\\b\\s*\\(.*\\)\\s*\\b(then)\\b)'
-  #   'end': '(?=[;!\\n])'
-  #   'patterns':[
-  #     {
-  #       'begin': '(?i)\\G\\s*\\b(if)\\b'
-  #       'beginCaptures':
-  #         '1': 'name': 'keyword.control.if.fortran'
-  #       'end': '(?i)\\s*\\b(end\\s*if)\\b'
-  #       'endCaptures':
-  #         '1': 'name': 'keyword.control.endif.fortran'
-  #       'patterns':[
-  #         {
-  #           'comment': 'First line.'
-  #           'begin': '\\G'
-  #           'end': '(?=[;!\\n])'
-  #           'patterns':[
-  #             {'include': '#parentheses'}
-  #             {
-  #               'match': '(?i)\\s*\\b(then)\\b'
-  #               'captures':
-  #                 '1': 'name': 'keyword.control.then.fortran'
-  #             }
-  #             {'include': '#invalid-word'}
-  #           ]
-  #         }
-  #         {
-  #           'comment': 'If construct body.'
-  #           'begin': '(?i)(?!\\s*\\b(end\\s*if)\\b)'
-  #           'end': '(?i)(?=\\s*\\b(end\\s*if)\\b)'
-  #           'patterns':[
-  #             {
-  #               'begin': '(?i)\\s*\\b(else\\s*if)\\b'
-  #               'beginCaptures':
-  #                 '1': 'name': 'keyword.control.elseif.fortran'
-  #               'end': '(?=[;!\\n])'
-  #               'patterns':[
-  #                 {'include': '#parentheses'}
-  #                 {
-  #                   'match': '(?i)\\s*\\b(then)\\b'
-  #                   'captures':
-  #                     '1': 'name': 'keyword.control.then.fortran'
-  #                 }
-  #                 {'include': '#invalid-word'}
-  #               ]
-  #             }
-  #             {
-  #               'begin': '(?i)\\s*\\b(else)\\b'
-  #               'beginCaptures':
-  #                 '1': 'name': 'keyword.control.else.fortran'
-  #               'end': '(?=[;!\\n])'
-  #               'patterns':[
-  #                 {'include': '#invalid-word'}
-  #               ]
-  #             }
-  #             {'include': '$self'}
-  #           ]
-  #         }
-  #       ]
-  #     }
-  #   ]
   'select-construct':
     'name': 'meta.block.select.fortran'
     'begin': '(?i)\\s*\\b(select)\\b'
@@ -668,6 +605,7 @@
           '1': 'name': 'keyword.control.case.fortran'
         'end': '(?i)(?=\\s*\\b(end\\s*select)\\b)'
         'patterns':[
+          {'include': '#parentheses'}
           {
             'begin': '(?i)\\s*\\b(case)\\b'
             'beginCaptures':
@@ -693,6 +631,7 @@
           '1': 'name': 'keyword.control.case.fortran'
         'end': '(?i)(?=\\s*\\b(end\\s*select)\\b)'
         'patterns':[
+          {'include': '#parentheses'}
           {
             'begin': '(?i)\\s*\\b(?:(class)|(type))\\b'
             'beginCaptures':
@@ -720,45 +659,39 @@
     ]
   'where-construct':
     'comment': 'Introduced in the Fortran 1990 standard.'
-    'name': 'meta.block.where.fortran'
-    'begin': '(?i)(?=\\s*\\b(where)\\s*\\((?![^;!\\n]*\\)\\s*[a-z]))'
-    'end': '(?=[;!\\n])'
+    'begin': '(?i)\\s*\\b(where)\\b'
+    'beginCaptures':
+      '1': 'name': 'keyword.control.where.fortran'
+    'end': '(?<!\\G)'
+    'applyEndPatternLast': 1
     'patterns':[
+      {'include': '#logical-control-expression'}
       {
-        'begin': '(?i)\\G\\s*\\b(where)\\b'
-        'beginCaptures':
-          '1': 'name': 'keyword.control.where.fortran'
+        'name': 'meta.block.where.fortran'
+        'begin': '(?<=\\))(?=\\s*[;!\\n])'
         'end': '(?i)\\s*\\b(end\\s*where)\\b'
         'endCaptures':
           '1': 'name': 'keyword.control.endwhere.fortran'
         'patterns':[
           {
-            'comment': 'First line.'
-            'begin': '\\G'
+            'begin': '(?i)\\s*\\b(else\\s*where)\\b'
+            'beginCaptures':
+              '1': 'name': 'keyword.control.elsewhere.fortran'
             'end': '(?=[;!\\n])'
             'patterns':[
               {'include': '#parentheses'}
               {'include': '#invalid-word'}
             ]
           }
-          {
-            'comment': 'Where construct body.'
-            'begin': '(?i)(?!\\s*\\b(end\\s*where)\\b)'
-            'end': '(?i)(?=\\s*\\b(end\\s*where)\\b)'
-            'patterns':[
-              {
-                'begin': '(?i)\\s*\\b(else\\s*where)\\b'
-                'beginCaptures':
-                  '1': 'name': 'keyword.control.elsewhere.fortran'
-                'end': '(?=[;!\\n])'
-                'patterns':[
-                  {'include': '#parentheses'}
-                  {'include': '#invalid-word'}
-                ]
-              }
-              {'include': '$self'}
-            ]
-          }
+          {'include': '$self'}
+        ]
+      }
+      {
+        'name': 'meta.statement.control.where.fortran'
+        'begin': '(?i)(?<=\\))(?!\\s*[;!\\n])'
+        'end': '\\n'
+        'patterns':[
+          {'include': '$self'}
         ]
       }
     ]
@@ -885,17 +818,6 @@
       {'include': '#line-continuation-operator'}
       {'include': '$self'}
     ]
-  # 'if-statement':
-  #   'comment': 'Introduced in the Fortran 1977 standard.'
-  #   'name': 'meta.statement.control.if.fortran'
-  #   'begin': '(?i)\\s*\\b(if)\\b'
-  #   'beginCaptures':
-  #     '1': 'name': 'keyword.control.if.fortran'
-  #   'end': '(?=[;!\\n])'
-  #   'patterns':[
-  #     {'include': '#parentheses'}
-  #     {'include': '$self'}
-  #   ]
   'pause-statement':
     'comment': 'Introduced in the Fortran 1977 standard.'
     'name': 'meta.statement.control.pause.fortran'
@@ -943,24 +865,6 @@
       {'include': '#line-continuation-operator'}
       {'include': '#constants'}
       {'include': '#invalid-character'}
-    ]
-  'where-statement':
-    'comment': 'Single line where. Introduced in the Fortran 1990 standard.'
-    'name': 'meta.statement.control.where.fortran'
-    'begin': '(?i)\\s*\\b(where)\\b'
-    'beginCaptures':
-      '1': 'name': 'keyword.control.where.fortran'
-    'end': '(?=[;!\\n])'
-    'patterns':[
-      {'include': '#parentheses'}
-      {
-        'begin': '(?!\\s*[;!\\n])'
-        'end': '(?=[;!\\n])'
-        'patterns':[
-          {'include': '$self'}
-        ]
-      }
-      {'include': '#line-continuation-operator'}
     ]
   # derived type definition:
   'derived-type-definition':
@@ -2759,6 +2663,13 @@
   'invalid-word':
     'name': 'invalid.error.fortran'
     'match': '(?i)\\b\\w+\\b'
+  'logical-control-expression':
+    'name': 'meta.expression.control.logical.fortran'
+    'begin': '\\G(?=\\s*\\()'
+    'end': '(?<!\\G)'
+    'patterns':[
+      {'include': '#parentheses'}
+    ]
   'name-list':
     'comment': 'Name list.'
     'contentName': 'meta.name-list.fortran'
