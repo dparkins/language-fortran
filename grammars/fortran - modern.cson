@@ -319,7 +319,7 @@
   'numeric-constant':
     'comment': 'Numeric constants'
     'name': 'constant.numeric.fortran'
-    'match': '(?ix)[\\+\\-]?\\b(\\d+\\.?\\d*|\\.\\d+)
+    'match': '(?ix)[\\+\\-]?(\\b\\d+\\.?\\d*|\\.\\d+)
       (d[\\+\\-]?\\d+|e[\\+\\-]?\\d+(_\\w+)?)?(?![a-z_])'
   'string-constant':
     'comment': 'Introduced in the Fortran 1977 standard.'
@@ -466,7 +466,7 @@
       {
         'comment': 'Introduced in the Fortran 1995 standard.'
         'name': 'meta.block.do.unlabeled.fortran'
-        'begin': '(?i)\\s*(do)\\b'
+        'begin': '(?i)\\s*\\b(do)\\b'
         'beginCaptures':
           '1': 'name': 'keyword.control.do.fortran'
         'end': '(?i)\\s*\\b(?:(continue)|(end\\s*do))\\b'
