@@ -320,7 +320,7 @@
     'comment': 'Numeric constants'
     'name': 'constant.numeric.fortran'
     'match': '(?ix)[\\+\\-]?(\\b\\d+\\.?\\d*|\\.\\d+)
-      (d[\\+\\-]?\\d+|e[\\+\\-]?\\d+(_\\w+)?)?(?![a-z_])'
+      (_\\w+|d[\\+\\-]?\\d+|e[\\+\\-]?\\d+(_\\w+)?)?(?![a-z_])'
   'string-constant':
     'comment': 'Introduced in the Fortran 1977 standard.'
     'patterns':[
