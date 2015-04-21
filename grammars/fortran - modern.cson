@@ -2327,9 +2327,11 @@
     ]
   'attribute-specification-statement':
     'name': 'meta.statement.attribute-specification.fortran'
-    'begin': '(?ix)(?:^|(?<=;))(?=\\s*\\b(?:allocatable|asynchronous|bind
-      |codimension|contiguous|dimension|external|intent|intrinsic|optional
-      |parameter|pointer|private|protected|public|save|target|value|volatile)\\b)'
+    'begin': '(?ix)(?:^|(?<=;))(?=\\s*\\b(?:allocatable|asynchronous|contiguous
+      |external|intrinsic|optional|parameter|pointer|private|protected|public
+      |save|target|value|volatile)\\b
+      |(bind|dimension|intent)\\s*\\(
+      |(codimension)\\s*\\[)'
     'end': '(?=[;!\\n])'
     'patterns':[
       {'include': '#access-attribute'}
