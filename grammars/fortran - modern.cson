@@ -2678,7 +2678,14 @@
     'begin': '(?i)(?=\\s*[a-z])'
     'end': '(?=[;!\\n])'
     'patterns': [
-      {'include': '$self'}
+      {'include': '#constants'}
+      {'include': '#line-continuation-operator'}
+      {'include': '#operators'}
+      {'include': '#intrinsic-functions'}
+      {'include': '#array-constructor'}
+      {'include': '#parentheses'}
+      {'include': '#brackets'}
+      # {'include': '$self'}
     ]
   'operator-keyword':
     'comment': 'Operator generic specification.'
