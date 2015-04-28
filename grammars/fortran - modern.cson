@@ -704,9 +704,9 @@
       {'include': '#continue-statement'}
       {'include': '#cycle-statement'}
       {'include': '#entry-statement'}
+      {'include': '#error-stop-statement'}
       {'include': '#exit-statement'}
       {'include': '#goto-statement'}
-      # {'include': '#if-statement'}
       {'include': '#pause-statement'}
       {'include': '#return-statement'}
       {'include': '#stop-statement'}
@@ -797,6 +797,19 @@
         ]
       }
     ]
+  'error-stop-statement':
+    'comment': 'Introduced in the Fortran 2008 standard.'
+    'name': 'meta.statement.control.errorstop.fortran'
+    'begin': '(?i)\\s*\\b(error\\s+stop)\\b'
+    'beginCaptures':
+      '1': 'name': 'keyword.control.errorstop.fortran'
+    'end': '(?=[;!\\n])'
+    'patterns':[
+      {'include': '#line-continuation-operator'}
+      {'include': '#constants'}
+      {'include': '#string-operators'}
+      {'include': '#invalid-character'}
+    ]
   'exit-statement':
     'comment': 'Introduced in the Fortran 1990 standard.'
     'name': 'meta.statement.control.exit.fortran'
@@ -864,6 +877,7 @@
     'patterns':[
       {'include': '#line-continuation-operator'}
       {'include': '#constants'}
+      {'include': '#string-operators'}
       {'include': '#invalid-character'}
     ]
   # derived type definition:
