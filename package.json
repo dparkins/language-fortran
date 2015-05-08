@@ -4,9 +4,14 @@
   "version": "1.5.4",
   "description": "Syntax highlighting for FORTRAN in atom ",
   "repository": "https://github.com/dparkins/language-fortran",
+  "bugs": "https://github.com/dparkins/language-fortran/issues",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
   },
+  "keywords": [
+    "grammar",
+    "fortran"
+  ],
   "dependencies": {}
 }
