@@ -30,25 +30,12 @@
   'comments':
     'patterns':[
       {
-        'begin': '^[Cc](?=\\b|[Cc])'
+        'begin': '^[Cc\\*]'
         'beginCaptures':
           '0':
             'name': 'punctuation.definition.comment.fortran'
-        'end': '$\\n?'
+        'end': '(?=\\n)'
         'name': 'comment.line.c.fortran'
-        'patterns': [
-          {
-            'match': '\\\\\\s*\\n'
-          }
-        ]
-      }
-      {
-        'begin': '^\\*'
-        'beginCaptures':
-          '0':
-            'name': 'punctuation.definition.comment.fortran'
-        'end': '$\\n?'
-        'name': 'comment.line.asterisk.fortran'
         'patterns': [
           {
             'match': '\\\\\\s*\\n'
