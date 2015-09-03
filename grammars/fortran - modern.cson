@@ -276,19 +276,6 @@
         'begin': '!'
         'end': '(?=\\n)'
       }
-      {
-        'begin': '^[Cc\\*]'
-        'beginCaptures':
-          '0':
-            'name': 'punctuation.definition.comment.fortran'
-        'end': '(?=\\n)'
-        'name': 'comment.line.c.fortran'
-        'patterns': [
-          {
-            'match': '\\\\\\s*\\n'
-          }
-        ]
-      }
     ]
   # constants:
   'constants':
