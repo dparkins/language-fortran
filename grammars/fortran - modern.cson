@@ -37,7 +37,7 @@
   {'include': '#control-statements'}
   {'include': '#execution-statements'}
   {'include': '#intrinsic-functions'}
-  # {'include': '#variable'}
+  {'include': '#variable'}
 ]
 'repository':
   # attributes:
@@ -2698,11 +2698,12 @@
     'endCaptures':
       '1': 'name': 'punctuation.parentheses.right.fortran'
     'patterns':[
+      {'include': '#procedure-call-dummy-variable'}
       {'include': '$self'}
     ]
   'procedure-call-dummy-variable':
     'name': 'variable.parameter.dummy-variable.fortran.modern'
-    'match': '(?i)\\s*([a-z]\\w*)(?=\\s*\\=)'
+    'match': '(?i)\\s*([a-z]\\w*)(?=\\s*\\=)(?!\\s*\\=\\=)'
   'procedure-name':
     'comment': 'Procedure name.'
     'match': '(?i)\\s*\\b([a-z]\\w*)\\b'
