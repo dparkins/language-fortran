@@ -1,0 +1,40 @@
+'comment': '?i: has to be added everywhere because fortran is case insensitive; NB: order of matching matters'
+'name': 'Fortran - Fixed Form'
+'scopeName': 'source.fortran.fixed'
+'fileTypes': [
+  'f'
+  'F'
+  'f77'
+  'F77'
+  'for'
+  'FOR'
+  'fpp'
+  'FPP'
+]
+'injections':
+  'source.fortran.fixed - ( string | comment )':
+    'patterns':[
+      {'include': '#line-header'}
+    ]
+'patterns': [
+  {'include': '#comments'}
+  {'include': '#line-header'}
+  {'include': 'source.fortran.free'}
+]
+'repository':
+  # comments:
+  'comments':
+    'patterns':[
+      {
+        'name': 'comment.line.fortran'
+        'begin': '^[cC\\*]'
+        'end': '\\n'
+      }
+    ]
+  # attributes:
+  'line-header':
+    'match': '^(?:([ \\d]{5} )|( {5}.)|(.{1,5}))'
+    'captures':
+      '1': 'name': 'constant.numeric.fortran'
+      '2': 'name': 'keyword.line-continuation-operator.fortran'
+      '3': 'name': 'invalid.error.fortran'
