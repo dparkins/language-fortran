@@ -1,16 +1,7 @@
-'comment': '?i: has to be added everywhere because fortran is case insensitive; NB: order of matching matters'
+'comment': 'Inherits rules from free form Fortran.'
 'name': 'Fortran - Fixed Form'
 'scopeName': 'source.fortran.fixed'
-'fileTypes': [
-  'f'
-  'F'
-  'f77'
-  'F77'
-  'for'
-  'FOR'
-  'fpp'
-  'FPP'
-]
+'fileTypes': [ ]
 'injections':
   'source.fortran.fixed - ( string | comment )':
     'patterns':[
@@ -28,6 +19,11 @@
       {
         'name': 'comment.line.fortran'
         'begin': '^[cC\\*]'
+        'end': '\\n'
+      }
+      {
+        'name': 'comment.line.fortran'
+        'begin': '^ *!'
         'end': '\\n'
       }
     ]
