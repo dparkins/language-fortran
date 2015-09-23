@@ -1,0 +1,36 @@
+'comment': 'Inherits rules from free form Fortran.'
+'name': 'Fortran - Fixed Form'
+'scopeName': 'source.fortran.fixed'
+'fileTypes': [ ]
+'injections':
+  'source.fortran.fixed - ( string | comment )':
+    'patterns':[
+      {'include': '#line-header'}
+    ]
+'patterns': [
+  {'include': '#comments'}
+  {'include': '#line-header'}
+  {'include': 'source.fortran.free'}
+]
+'repository':
+  # comments:
+  'comments':
+    'patterns':[
+      {
+        'name': 'comment.line.fortran'
+        'begin': '^[cC\\*]'
+        'end': '\\n'
+      }
+      {
+        'name': 'comment.line.fortran'
+        'begin': '^ *!'
+        'end': '\\n'
+      }
+    ]
+  # attributes:
+  'line-header':
+    'match': '^(?:([ \\d]{5} )|( {5}.)|(.{1,5}))'
+    'captures':
+      '1': 'name': 'constant.numeric.fortran'
+      '2': 'name': 'keyword.line-continuation-operator.fortran'
+      '3': 'name': 'invalid.error.fortran'
