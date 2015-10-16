@@ -711,6 +711,12 @@
           {'include': '#parentheses'}
         ]
       }
+      {
+        'comment': 'User defined subroutine.'
+        'match': '(?i)\\G\\s*\\b([a-z]\\w*)\\b(?=\\s*[;!\\n])'
+        'captures':
+          '1': 'name': 'entity.name.function.subroutine.fortran'
+      }
       {'include': '$base'}
     ]
   'continue-statement':
