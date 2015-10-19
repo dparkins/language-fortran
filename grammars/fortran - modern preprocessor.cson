@@ -3,156 +3,139 @@
 'fileTypes': []
 'injectionSelector': 'source.fortran - ( string | comment )'
 'patterns': [
-  {'include': '#disabled'}
-  {'include': '#preprocessor-rule-disabled'}
-  {'include': '#preprocessor-rule-enabled'}
-  {'include': '#preprocessor-rule-error'}
-  {'include': '#preprocessor-rule-include'}
-  {'include': '#preprocessor-rule-more'}
-  {'include': '#preprocessor-rule-other'}
-  {'include': '#pragma-mark'}
+  {
+    'begin': '^\\s*(#)'
+    'beginCaptures':
+      '1': 'name': 'keyword.preprocessor.indicator.fortran'
+    'end': '\\n'
+    'patterns':[
+      {'include': '#preprocessor-conditional'}
+      {'include': '#preprocessor-define'}
+      {'include': '#preprocessor-error'}
+      {'include': '#preprocessor-include'}
+      {'include': '#preprocessor-pragma'}
+    ]
+  }
 ]
 'repository':
-  'disabled':
-    'comment': 'eat nested preprocessor if(def)s'
-    'begin': '^\\s*#\\s*if(n?def)?\\b.*$'
-    'end': '^\\s*#\\s*endif\\b.*$'
-    'patterns': [
-      {'include': '#disabled'}
-      {'include': '#pragma-mark'}
-    ]
-  'pragma-mark':
-    'name': 'meta.section'
-    'match': '^\\s*(#\\s*(pragma\\s+mark)\\s+(.*))'
-    'captures':
-      '1': 'name': 'meta.preprocessor.fortran'
-      '2': 'name': 'keyword.control.import.pragma.fortran'
-      '3': 'name': 'meta.toc-list.pragma-mark.fortran'
-  'preprocessor-rule-disabled':
-    'begin': '^\\s*(#(if)\\s+(0)\\b).*'
-    'captures':
-      '1': 'name': 'meta.preprocessor.fortran'
-      '2': 'name': 'keyword.control.import.if.fortran'
-      '3': 'name': 'constant.numeric.preprocessor.fortran'
-    'end': '^\\s*(#\\s*(endif)\\b)'
-    'patterns': [
+  'preprocessor-conditional':
+    'patterns':[
       {
-        'begin': '^\\s*(#\\s*(else)\\b)'
-        'captures':
-          '1': 'name': 'meta.preprocessor.fortran'
-          '2': 'name': 'keyword.control.import.else.fortran'
-        'end': '(?=^\\s*#\\s*endif\\b.*$)'
-        'patterns': [
-          {'include': '$base'}
-        ]
-      }
-      {
-        'name': 'comment.block.preprocessor.if-branch'
-        'begin': ''
-        'end': '(?=^\\s*#\\s*(else|endif)\\b.*$)'
-        'patterns': [
-          {'include': '#disabled'}
-          {'include': '#pragma-mark'}
-        ]
-      }
-    ]
-  'preprocessor-rule-enabled':
-    'begin': '^\\s*(#(if)\\s+(0*1)\\b)'
-    'beginCaptures':
-      '1': 'name': 'meta.preprocessor.fortran'
-      '2': 'name': 'keyword.control.import.if.fortran'
-      '3': 'name': 'constant.numeric.preprocessor.fortran'
-    'end': '^\\s*(#\\s*(endif)\\b)'
-    'patterns': [
-      {
-        'begin': '^\\s*(#\\s*(else)\\b).*'
+        'begin': '(?i)\\G\\s*\\b(if)\\b'
         'beginCaptures':
-          '1': 'name': 'meta.preprocessor.fortran'
-          '2': 'name': 'keyword.control.import.else.fortran'
-        'contentName': 'comment.block.preprocessor.else-branch'
-        'end': '(?=^\\s*#\\s*endif\\b.*$)'
-        'patterns': [
-          {'include': '#disabled'}
-          {'include': '#pragma-mark'}
+          '1': 'name': 'keyword.preprocessor.if.fortran'
+        'end': '(?=\\n)'
+        'patterns':[
+          {'include': '#preprocessor-constant'}
+          {'include': '#preprocessor-defined'}
         ]
       }
       {
-        'begin': ''
-        'end': '(?=^\\s*#\\s*(else|endif)\\b.*$)'
-        'patterns': [
-          {'include': '$base'}
+        'begin': '(?i)\\G\\s*\\b(ifdef)\\b'
+        'beginCaptures':
+          '1': 'name': 'keyword.preprocessor.ifdef.fortran'
+        'end': '(?=\\n)'
+        'patterns':[
+          {'include': '#preprocessor-constant'}
         ]
       }
+      {
+        'begin': '(?i)\\G\\s*\\b(ifndef)\\b'
+        'beginCaptures':
+          '1': 'name': 'keyword.preprocessor.ifndef.fortran'
+        'end': '(?=\\n)'
+        'patterns':[
+          {'include': '#preprocessor-constant'}
+        ]
+      }
+      {
+        'begin': '(?i)\\G\\s*\\b(else)\\b'
+        'beginCaptures':
+          '1': 'name': 'keyword.preprocessor.else.fortran'
+        'end': '(?=\\n)'
+        'patterns':[
+          {'include': '#preprocessor-constant'}
+        ]
+      }
+      {
+        'begin': '(?i)\\G\\s*\\b(elif)\\b'
+        'beginCaptures':
+          '1': 'name': 'keyword.preprocessor.elif.fortran'
+        'end': '(?=\\n)'
+        'patterns':[
+          {'include': '#preprocessor-constant'}
+          {'include': '#preprocessor-defined'}
+        ]
+      }
+      {
+        'match': '(?i)\\G\\s*\\b(endif)\\b'
+        'captures':
+          '1': 'name': 'keyword.preprocessor.endif.fortran'
+      }
     ]
-  'preprocessor-rule-error':
-    {
-      'name': 'meta.preprocessor.diagnostic.fortran'
-      'begin': '^\\s*#\\s*(error|warning)\\b'
-      'beginCaptures':
-        '1': 'name': 'keyword.control.import.error.fortran'
-      'end': '$\\n?'
-      'patterns': [
-        {
-          'name': 'punctuation.separator.continuation.fortran'
-          'match': '(?>\\\\\\s*\\n)'
-        }
-      ]
-    }
-  'preprocessor-rule-include':
-    {
-      'name': 'meta.preprocessor.fortran.include'
-      'begin': '^\\s*#\\s*(include|import)\\b\\s+'
-      'captures':
-        '1': 'name': 'keyword.control.import.include.fortran'
-      'end': '(?=(?://|/\\*))|$\\n?'
-      'patterns': [
-        {
-          'name': 'punctuation.separator.continuation.fortran'
-          'match': '(?>\\\\\\s*\\n)'
-        }
-        {
-          'name': 'string.quoted.double.include.fortran'
-          'begin': '"'
-          'beginCaptures':
-            '0': 'name': 'punctuation.definition.string.begin.fortran'
-          'end': '"'
-          'endCaptures':
-            '0': 'name': 'punctuation.definition.string.end.fortran'
-        }
-        {
-          'name': 'string.quoted.other.lt-gt.include.fortran'
-          'begin': '<'
-          'beginCaptures':
-            '0': 'name': 'punctuation.definition.string.begin.fortran'
-          'end': '>'
-          'endCaptures':
-            '0': 'name': 'punctuation.definition.string.end.fortran'
-        }
-      ]
-    }
-  'preprocessor-rule-more':
-    {
-      'name': 'meta.preprocessor.fortran'
-      'begin': '^\\s*#\\s*(define|defined|elif|else|if|ifdef|ifndef|line|pragma|undef)\\b'
-      'beginCaptures':
-        '1': 'name': 'keyword.control.import.fortran'
-      'end': '(?=(?://|/\\*))|$\\n?'
-      'patterns': [
-        {
-          'name': 'punctuation.separator.continuation.fortran'
-          'match': '(?>\\\\\\s*\\n)'
-        }
-      ]
-    }
-  'preprocessor-rule-other':
-    'begin': '^\\s*(#\\s*(if(n?def)?)\\b.*?(?:(?=(?://|/\\*))|$))'
+  'preprocessor-constant':
+    'patterns':[
+      {
+        'comment': 'Numeric constants'
+        'name': 'constant.numeric.fortran'
+        'match': '(?ix)[\\+\\-]?(\\b\\d+\\.?\\d*|\\.\\d+)
+          (_\\w+|d[\\+\\-]?\\d+|e[\\+\\-]?\\d+(_\\w+)?)?(?![a-z_])'
+      }
+    ]
+  'preprocessor-define':
+    'name': 'meta.statement.define.preprocessor.fortran'
+    'begin': '(?i)\\G\\s*\\b(define)\\b'
     'beginCaptures':
-      '1': 'name': 'meta.preprocessor.fortran'
-      '2': 'name': 'keyword.control.import.fortran'
-    'end': '^\\s*(#\\s*(endif)\\b).*$'
-    'endCaptures':
-      '1': 'name': 'meta.preprocessor.fortran'
-      '2': 'name': 'keyword.control.import.fortran'
-    'patterns': [
-      {'include': '$base'}
+      '1': 'name': 'keyword.define.preprocessor.fortran'
+    'end': '(?=\\n)'
+    'patterns':[
+      {'include': '#preprocessor-line-continuation-operator'}
     ]
+  'preprocessor-defined':
+    'match': '(?i)\\b(defined)\\b'
+    'captures':
+      '1': 'name': 'keyword.define.preprocessor.fortran'
+  'preprocessor-error':
+    'begin': '(?i)\\G\\s*(error)\\b'
+    'beginCaptures':
+      '1': 'name': 'keyword.error.preprocessor.fortran'
+    'end': '(?=\\n)'
+    'patterns': [
+      {'include': '#preprocessor-string'}
+    ]
+  'preprocessor-include':
+    'begin': '(?i)\\G\\s*(include)\\b'
+    'beginCaptures':
+      '1': 'name': 'keyword.include.preprocessor.fortran'
+    'end': '(?=\\n)'
+    'patterns': [
+      {'include': '#preprocessor-string'}
+      {
+        'name': 'string.quoted.other.lt-gt.include.preprocessor.fortran'
+        'begin': '<'
+        'beginCaptures':
+          '0': 'name': 'punctuation.definition.string.begin.preprocessor.fortran'
+        'end': '>'
+        'endCaptures':
+          '0': 'name': 'punctuation.definition.string.end.preprocessor.fortran'
+      }
+    ]
+  'preprocessor-line-continuation-operator':
+    'begin': '\\s*(\\\\)'
+    'beginCaptures':
+      '1': 'name': 'keyword.operator.line-continuation.preprocessor.fortran'
+    'end': '(?i)^'
+  'preprocessor-pragma':
+    'name': 'meta.statement.pragma.preprocessor.fortran'
+    'begin': '(?i)\\G\\s*\\b(pragma)\\b'
+    'beginCaptures':
+      '1': 'name': 'keyword.pragma.preprocessor.fortran'
+    'end': '(?=\\n)'
+  'preprocessor-string':
+    'name': 'string.quoted.double.include.preprocessor.fortran'
+    'begin': '"'
+    'beginCaptures':
+      '0': 'name': 'punctuation.definition.string.begin.preprocessor.fortran'
+    'end': '"'
+    'endCaptures':
+      '0': 'name': 'punctuation.definition.string.end.preprocessor.fortran'
