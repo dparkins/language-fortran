@@ -996,6 +996,7 @@
     'end': '(?=[;!\\n])'
     'patterns':[
       {'include': '#types'}
+      {'include': '#line-continuation-operator'}
       {
         'comment': 'Attribute list.'
         'contentName': 'meta.attribute-list.fortran'
