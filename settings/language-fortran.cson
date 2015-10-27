@@ -18,7 +18,7 @@
     'commentEnd': ''
     'increaseIndentPattern': '(?ix)^\\s*(
         (block\\s*data|contains|program|submodule)\\b
-        |((?!end\\b).)*\\b(function|subroutine)\\b
+        |((?!end\\b)[^\'"!])*\\b(function|subroutine)\\b
         |module\\b(?!\\s+procedure\\b)
         |type(?!\\s*\\()
         |(abstract\\s+)?interface\\b
