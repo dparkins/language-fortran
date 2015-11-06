@@ -1467,7 +1467,7 @@
           (?:\\s*\\b(\\1)\\b\\s*(\\()\\s*(?:(\\3)|(\\S.*))\\s*(\\)))?'
         'endCaptures':
           '1': 'name': 'keyword.control.endinterface.fortran'
-          '2': 'name': 'keyword.other.assignment.fortran'
+          '2': 'name': 'keyword.other.operator.fortran'
           '3': 'name': 'punctuation.parentheses.left.fortran'
           '4': 'name': 'keyword.operator.fortran'
           '5': 'name': 'invalid.error.fortran'
@@ -2680,7 +2680,7 @@
       {'include': '#array-constructor'}
       {'include': '#parentheses'}
       {'include': '#brackets'}
-      # {'include': '$self'}
+      {'include': '#variable'}
     ]
   'operator-keyword':
     'comment': 'Operator generic specification.'
