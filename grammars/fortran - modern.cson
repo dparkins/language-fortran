@@ -2389,7 +2389,7 @@
           '1': 'name': 'puntuation.comma.fortran'
         'end': '(?=[,;!\\n])'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
           {'include': '#line-continuation-operator'}
         ]
       }
@@ -2705,6 +2705,16 @@
     'endCaptures':
       '1': 'name': 'punctuation.parentheses.right.fortran'
     'patterns':[
+      {'include': '$self'}
+    ]
+  'parentheses-dummy-variables':
+    'begin': '\\s*(\\()'
+    'beginCaptures':
+      '1': 'name': 'punctuation.parentheses.left.fortran'
+    'end': '(\\))'
+    'endCaptures':
+      '1': 'name': 'punctuation.parentheses.right.fortran'
+    'patterns':[
       {'include': '#procedure-call-dummy-variable'}
       {'include': '$self'}
     ]
@@ -2743,7 +2753,7 @@
       {'include': '#brackets'}
       {'include': '#derived-type-operators'}
       {'include': '#line-continuation-operator'}
-      {'include': '#parentheses'}
+      {'include': '#parentheses-dummy-variables'}
       {'include': '#word'}
     ]
   'word':

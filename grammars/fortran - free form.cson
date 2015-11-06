@@ -100,7 +100,7 @@
       '1': 'name': 'storage.modifier.dimension.fortran'
     'end': '(?<!\\G)'
     'patterns':[
-      {'include': '#parentheses'}
+      {'include': '#parentheses-dummy-variables'}
     ]
   'elemental-attribute':
     'comment': 'Introduced in the Fortran 1990 standard.'
@@ -708,7 +708,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1201,7 +1201,7 @@
     'endCaptures':
       '1': 'name': 'punctuation.parentheses.right.fortran'
     'patterns':[
-      {'include': '#parentheses'}
+      {'include': '#parentheses-dummy-variables'}
     ]
   'deallocate-statement':
     'comment': 'Introduced in the Fortran 1990 standard.'
@@ -1214,7 +1214,7 @@
     'endCaptures':
       '1': 'name': 'punctuation.parentheses.right.fortran'
     'patterns':[
-      {'include': '#parentheses'}
+      {'include': '#parentheses-dummy-variables'}
     ]
   'IO-statements':
     'patterns':[
@@ -1236,7 +1236,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1258,7 +1258,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
     ]
@@ -1273,7 +1273,7 @@
     'endCaptures':
       '1': 'name': 'punctuation.parentheses.right.fortran'
     'patterns':[
-      {'include': '#parentheses'}
+      {'include': '#parentheses-dummy-variables'}
     ]
   # global statements:
   'include-statement':
@@ -1516,7 +1516,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1529,7 +1529,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1543,7 +1543,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1560,7 +1560,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1573,7 +1573,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1585,7 +1585,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1598,7 +1598,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1611,7 +1611,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1631,7 +1631,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1649,7 +1649,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
     ]
@@ -1666,7 +1666,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1679,7 +1679,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1693,7 +1693,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1707,7 +1707,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1721,7 +1721,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -1735,7 +1735,7 @@
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
     ]
@@ -2309,7 +2309,7 @@
           '1': 'name': 'puntuation.comma.fortran'
         'end': '(?=[,;!\\n])'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
     ]
@@ -2422,7 +2422,7 @@
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'contentName': 'meta.type-spec.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -2446,7 +2446,7 @@
       '1': 'name': 'punctuation.parentheses.right.fortran'
     'contentName': 'meta.type-spec.fortran'
     'patterns':[
-      {'include': '#parentheses'}
+      {'include': '#parentheses-dummy-variables'}
     ]
   'logical-type':
     'comment': 'Introduced in the Fortran 1977 standard.'
@@ -2461,7 +2461,7 @@
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'contentName': 'meta.type-spec.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -2488,7 +2488,7 @@
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'contentName': 'meta.type-spec.fortran'
         'patterns':[
-          {'include': '#parentheses'}
+          {'include': '#parentheses-dummy-variables'}
         ]
       }
       {
@@ -2631,6 +2631,22 @@
     'endCaptures':
       '1': 'name': 'punctuation.parentheses.right.fortran'
     'patterns':[
+      {'include': '#comments'}
+      {'include': '#constants'}
+      {'include': '#operators'}
+      {'include': '#array-constructor'}
+      {'include': '#parentheses'}
+      {'include': '#intrinsic-functions'}
+      {'include': '#variable'}
+    ]
+  'parentheses-dummy-variables':
+    'begin': '\\s*(\\()'
+    'beginCaptures':
+      '1': 'name': 'punctuation.parentheses.left.fortran'
+    'end': '(\\))'
+    'endCaptures':
+      '1': 'name': 'punctuation.parentheses.right.fortran'
+    'patterns':[
       {'include': '#procedure-call-dummy-variable'}
       {'include': '#comments'}
       {'include': '#constants'}
@@ -2673,7 +2689,7 @@
     'patterns':[
       {'include': '#brackets'}
       {'include': '#derived-type-operators'}
-      {'include': '#parentheses'}
+      {'include': '#parentheses-dummy-variables'}
       {'include': '#word'}
     ]
   'word':
