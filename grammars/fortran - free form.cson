@@ -49,11 +49,10 @@
     'captures':
       '1': 'name': 'storage.modifier.fortran.fortran'
   'access-attribute':
-    'comment': 'Introduced in the Fortran 1990 standard.'
-    'match': '(?i)\\G\\s*\\b(?:(private)|(public))\\b'
-    'captures':
-      '1': 'name': 'storage.modifier.private.fortran'
-      '2': 'name': 'storage.modifier.public.fortran'
+    'patterns':[
+      {'include': '#private-attribute'}
+      {'include': '#public-attribute'}
+    ]
   'allocatable-attribute':
     'comment': 'Introduced in the Fortran 1990 standard.'
     'match': '(?i)\\G\\s*\\b(allocatable)\\b'
@@ -95,7 +94,7 @@
       '1': 'name': 'storage.modifier.deferred.fortran'
   'dimension-attribute':
     'comment': 'Introduced in the Fortran 1977 standard.'
-    'begin': '(?i)\\G\\s*\\b(dimension)(?=\\s*\\()'
+    'begin': '(?i)\\s*\\b(dimension)(?=\\s*\\()'
     'beginCaptures':
       '1': 'name': 'storage.modifier.dimension.fortran'
     'end': '(?<!\\G)'
@@ -104,28 +103,28 @@
     ]
   'elemental-attribute':
     'comment': 'Introduced in the Fortran 1990 standard.'
-    'match': '(?i)\\G\\s*\\b(elemental)\\b'
+    'match': '(?i)\\s*\\b(elemental)\\b'
     'captures':
       '1': 'name': 'storage.modifier.elemental.fortran'
   'extends-attribute':
-    'begin': '(?i)\\G\\s*\\b(extends)\\s*\\('
+    'begin': '(?i)\\s*\\b(extends)\\s*\\('
     'beginCaptures':
       '1': 'name': 'storage.modifier.extends.fortran'
     'end': '(?:\\)|(?=\\n))'
     'patterns':[
       {
         'name': 'entity.name.derived-type.fortran'
-        'match': '(?i)\\G\\s*\\b([a-z]\\w*)\\b'
+        'match': '(?i)\\s*\\b([a-z]\\w*)\\b'
       }
     ]
   'external-attribute':
     'comment': 'Introduced in the Fortran 1977 standard.'
-    'match': '(?i)\\G\\s*\\b(external)\\b'
+    'match': '(?i)\\s*\\b(external)\\b'
     'captures':
       '1': 'name': 'storage.modifier.external.fortran'
   'intent-attribute':
     'comment': 'Introduced in the Fortran 1990 standard.'
-    'begin': '(?i)\\G\\s*\\b(intent)\\s*(\\()'
+    'begin': '(?i)\\s*\\b(intent)\\s*(\\()'
     'beginCaptures':
       '1': 'name': 'storage.modifier.intent.fortran'
       '2': 'name': 'punctuation.parentheses.left.fortran'
@@ -144,7 +143,7 @@
     ]
   'intrinsic-attribute':
     'comment': 'Introduced in the Fortran 1977 standard.'
-    'match': '(?i)\\G\\s*\\b(intrinsic)\\b'
+    'match': '(?i)\\s*\\b(intrinsic)\\b'
     'captures':
       '1': 'name': 'storage.modifier.intrinsic.fortran'
   'language-binding-attribute':
@@ -179,17 +178,17 @@
       '1': 'name': 'storage.modifier.non-overridable.fortran'
   'nopass-attribute':
     'comment': 'Introduced in the Fortran 2003 standard.'
-    'match': '(?i)\\G\\s*\\b(nopass)\\b'
+    'match': '(?i)\\s*\\b(nopass)\\b'
     'captures':
       '1': 'name': 'storage.modifier.nopass.fortran'
   'optional-attribute':
     'comment': 'Introduced in the Fortran 1990 standard.'
-    'match': '(?i)\\G\\s*\\b(optional)\\b'
+    'match': '(?i)\\s*\\b(optional)\\b'
     'captures':
       '1': 'name': 'storage.modifier.optional.fortran'
   'parameter-attribute':
     'comment': 'Introduced in the Fortran 1977 standard.'
-    'match': '(?i)\\G\\s*\\b(parameter)\\b'
+    'match': '(?i)\\s*\\b(parameter)\\b'
     'captures':
       '1': 'name': 'storage.modifier.parameter.fortran'
   'pass-attribute':
@@ -197,7 +196,7 @@
     'patterns':[
       {
         'comment': 'Pass attribute with argument.'
-        'begin': '(?i)\\G\\s*\\b(pass)\\s*\\('
+        'begin': '(?i)\\s*\\b(pass)\\s*\\('
         'beginCaptures':
           '1': 'name': 'storage.modifier.pass.fortran'
         'end': '\\)|(?=\\n)'
@@ -206,21 +205,31 @@
       }
       {
         'comment': 'Pass attribute without argument.'
-        'match': '(?i)\\G\\s*\\b(pass)\\b'
+        'match': '(?i)\\s*\\b(pass)\\b'
         'captures':
           '1': 'name': 'storage.modifier.pass.fortran'
       }
     ]
   'pointer-attribute':
     'comment': 'Introduced in the Fortran 1990 standard.'
-    'match': '(?i)\\G\\s*\\b(pointer)\\b'
+    'match': '(?i)\\s*\\b(pointer)\\b'
     'captures':
       '1': 'name': 'storage.modifier.pointer.fortran'
+  'private-attribute':
+    'comment': 'Introduced in the Fortran 1990 standard.'
+    'match': '(?i)\\s*\\b(private)\\b'
+    'captures':
+      '1': 'name': 'storage.modifier.private.fortran'
   'protected-attribute':
     'comment': 'Introduced in the Fortran 2003 standard.'
-    'match': '(?i)\\G\\s*\\b(protected)\\b'
+    'match': '(?i)\\s*\\b(protected)\\b'
     'captures':
       '1': 'name': 'storage.modifier.protected.fortran'
+  'public-attribute':
+    'comment': 'Introduced in the Fortran 1990 standard.'
+    'match': '(?i)\\s*\\b(public)\\b'
+    'captures':
+      '1': 'name': 'storage.modifier.public.fortran'
   'pure-attribute':
     'comment': 'Introduced in the Fortran 1995 standard.'
     'match': '(?i)\\s*\\b(?:(impure)|(pure))\\b'
@@ -235,27 +244,27 @@
       '2': 'name': 'storage.modifier.recursive.fortran'
   'save-attribute':
     'comment': 'Introduced in the Fortran 1977 standard.'
-    'match': '(?i)\\G\\s*\\b(save)\\b'
+    'match': '(?i)\\s*\\b(save)\\b'
     'captures':
       '1': 'name': 'storage.modifier.save.fortran'
   'sequence-attribute':
     'comment': 'Introduced in the Fortran 20?? standard.'
-    'match': '(?i)\\G\\s*\\b(sequence)\\b'
+    'match': '(?i)\\s*\\b(sequence)\\b'
     'captures':
       '1': 'name': 'storage.modifier.sequence.fortran'
   'target-attribute':
     'comment': 'Introduced in the Fortran 1990 standard.'
-    'match': '(?i)\\G\\s*\\b(target)\\b'
+    'match': '(?i)\\s*\\b(target)\\b'
     'captures':
       '1': 'name': 'storage.modifier.target.fortran'
   'value-attribute':
     'comment': 'Introduced in the Fortran 2003 standard.'
-    'match': '(?i)\\G\\s*\\b(value)\\b'
+    'match': '(?i)\\s*\\b(value)\\b'
     'captures':
       '1': 'name': 'storage.modifier.value.fortran'
   'volatile-attribute':
     'comment': 'Introduced in the Fortran 2003 standard.'
-    'match': '(?i)\\G\\s*\\b(volatile)\\b'
+    'match': '(?i)\\s*\\b(volatile)\\b'
     'captures':
       '1': 'name': 'storage.modifier.volatile.fortran'
   'while-attribute':
@@ -1415,7 +1424,7 @@
           (?:\\s*\\b(\\1)\\b\\s*(\\()\\s*(?:(\\3)|(\\S.*))\\s*(\\)))?'
         'endCaptures':
           '1': 'name': 'keyword.control.endinterface.fortran'
-          '2': 'name': 'keyword.other.assignment.fortran'
+          '2': 'name': 'keyword.other.operator.fortran'
           '3': 'name': 'punctuation.parentheses.left.fortran'
           '4': 'name': 'keyword.operator.fortran'
           '5': 'name': 'invalid.error.fortran'
@@ -2606,7 +2615,7 @@
       {'include': '#array-constructor'}
       {'include': '#parentheses'}
       {'include': '#brackets'}
-      # {'include': '$base'}
+      {'include': '#variable'}
     ]
   'operator-keyword':
     'comment': 'Operator generic specification.'
