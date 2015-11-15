@@ -1,7 +1,7 @@
 {
   "name": "language-fortran",
   "main": "./lib/new-package",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Syntax highlighting for FORTRAN in atom ",
   "repository": "https://github.com/dparkins/language-fortran",
   "bugs": "https://github.com/dparkins/language-fortran/issues",
