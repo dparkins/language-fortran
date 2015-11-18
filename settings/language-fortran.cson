@@ -20,7 +20,7 @@
         (block\\s*data|contains|program|submodule)\\b
         |((?!end\\b)[^\'"!])*\\b(function|subroutine)\\b
         |module\\b(?!\\s+procedure\\b)
-        |type(?!\\s*\\()
+        |type(?!\\s*(\\(|\\=))
         |(abstract\\s+)?interface\\b
         |([a-z]\\w*\\s*:\\s*)?(
           (associate|block|critical|do|forall)\\b
