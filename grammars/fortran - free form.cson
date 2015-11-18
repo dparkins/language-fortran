@@ -846,7 +846,7 @@
   # derived type definition:
   'derived-type-definition':
     'name': 'meta.derived-type.definition.fortran'
-    'begin': '(?i)\\b(type)\\b(?!\\s*(\\(|is\\b))'
+    'begin': '(?i)\\b(type)\\b(?!\\s*(\\(|is\\b|\\=))'
     'beginCaptures':
       '1': 'name': 'keyword.control.type.fortran'
     'end': '(?=[;!\\n])'
