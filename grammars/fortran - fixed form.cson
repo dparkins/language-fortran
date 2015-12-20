@@ -1,7 +1,16 @@
 'comment': 'Inherits rules from free form Fortran.'
 'name': 'Fortran - Fixed Form'
 'scopeName': 'source.fortran.fixed'
-'fileTypes': [ ]
+'fileTypes': [
+  'f'
+  'F'
+  'f77'
+  'F77'
+  'for'
+  'FOR'
+  'fpp'
+  'FPP'
+]
 'injections':
   'source.fortran.fixed - ( string | comment )':
     'patterns':[

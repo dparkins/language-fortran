@@ -1,7 +1,17 @@
 'comment': 'Specificities of Fortran >= 90'
 'name': 'Fortran - Free Form'
 'scopeName': 'source.fortran.free'
-'fileTypes': [ ]
+'fileTypes': [
+  'f90'
+  'F90'
+  'f95'
+  'F95'
+  'f03'
+  'F03'
+  'f08'
+  'F08'
+]
+'firstLineMatch': '(?i)-[*]- mode: fortran free -[*]-'
 'injections':
   'source.fortran.free - ( string | comment )':
     'patterns':[
