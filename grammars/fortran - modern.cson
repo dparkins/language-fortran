@@ -1,16 +1,7 @@
 'comment': 'Specificities of Fortran >= 90'
 'name': 'Fortran - Modern'
 'scopeName': 'source.fortran.modern'
-'fileTypes': [
-  'f90'
-  'F90'
-  'f95'
-  'F95'
-  'f03'
-  'F03'
-  'f08'
-  'F08'
-]
+'fileTypes': [ ]
 'firstLineMatch': '(?i)-[*]- mode: f90 -[*]-'
 'patterns': [
   {'include': '#comments'}

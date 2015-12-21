@@ -1,16 +1,7 @@
 'comment': '?i: has to be added everywhere because fortran is case insensitive; NB: order of matching matters'
 'name': 'Fortran - Punchcard'
-'scopeName': 'source.fortran'
-'fileTypes': [
-  'f'
-  'F'
-  'f77'
-  'F77'
-  'for'
-  'FOR'
-  'fpp'
-  'FPP'
-]
+'scopeName': 'source.fortran.punchcard'
+'fileTypes': [ ]
 'patterns': [
   {'include': '#comments'}
   {'include': '#constants'}
