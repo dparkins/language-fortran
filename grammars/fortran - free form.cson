@@ -2593,6 +2593,8 @@
       {'include': '#array-constructor'}
       {'include': '#parentheses'}
       {'include': '#brackets'}
+      {'include': '#assignment-keyword'}
+      {'include': '#operator-keyword'}
       {'include': '#variable'}
     ]
   'assignment-keyword':
