@@ -203,6 +203,7 @@
     'end': '(?=\\n)'
     'patterns':[
       {'include': '#comments'}
+      {'include': '#string-constant'}
     ]
   'undefine-statement':
     'begin': '(?i)\\G\\s*\\b(undef)\\b'
