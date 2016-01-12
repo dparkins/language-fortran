@@ -13,7 +13,7 @@
 ]
 'firstLineMatch': '(?i)-[*]- mode: fortran free -[*]-'
 'injections':
-  'source.fortran.free - ( string | comment )':
+  'source.fortran.free - ( string | comment | meta.preprocessor )':
     'patterns':[
       {'include': '#line-continuation-operator'}
     ]
@@ -289,7 +289,7 @@
     ]
   # comments:
   'comments':
-    'name': 'comment.line.fortran.modern'
+    'name': 'comment.line.fortran'
     'begin': '!'
     'end': '(?=\\n)'
   # constants:
@@ -1075,43 +1075,11 @@
         'begin': '(?=\\s*[a-z])'
         'end': '(?=[;!\\n])'
         'patterns': [
-          {
-            'comment': 'Assignment generic specification.'
-            'begin': '(?i)\\G\\s*\\b(assignment)\\s*(\\()'
-            'beginCaptures':
-              '1': 'name': 'keyword.control.generic-spec.assignment.fortran'
-              '2': 'name': 'punctuation.parentheses.left.fortran'
-            'end': '(\\))'
-            'endCaptures':
-              '1': 'name': 'punctuation.parentheses.right.fortran'
-            'patterns':[
-              {'include': '#assignment-operator'}
-              {'include': '#invalid-word'}
-            ]
-          }
-          {
-            'comment': 'IO generic specification.'
-            'begin': '(?i)\\G\\s*\\b(?:(read)|(write))\\s*(\\()'
-            'beginCaptures':
-              '1': 'name': 'keyword.control.generic-spec.read.fortran'
-              '2': 'name': 'keyword.control.generic-spec.write.fortran'
-              '3': 'name': 'punctuation.parentheses.left.fortran'
-            'end': '(\\))'
-            'endCaptures':
-              '1': 'name': 'punctuation.parentheses.right.fortran'
-            'patterns':[
-              {
-                'match': '(?i)\\G\\s*\\b(?:(formatted)|(unformatted))\\b'
-                'captures':
-                  '1': 'name': 'keyword.control.generic-spec.formatted.fortran'
-                  '2': 'name': 'keyword.control.generic-spec.unformatted.fortran'
-              }
-              {'include': '#invalid-word'}
-            ]
-          }
+          {'include': '#IO-keywords'}
+          {'include': '#assignment-keyword'}
           {'include': '#operator-keyword'}
           {'include': '#procedure-name'}
-          {'include': '$base'}
+          {'include': '#pointer-operators'}
         ]
       }
     ]
@@ -2625,7 +2593,41 @@
       {'include': '#array-constructor'}
       {'include': '#parentheses'}
       {'include': '#brackets'}
+      {'include': '#assignment-keyword'}
+      {'include': '#operator-keyword'}
       {'include': '#variable'}
+    ]
+  'assignment-keyword':
+    'comment': 'Assignment generic specification.'
+    'begin': '(?i)\\G\\s*\\b(assignment)\\s*(\\()'
+    'beginCaptures':
+      '1': 'name': 'keyword.control.generic-spec.assignment.fortran'
+      '2': 'name': 'punctuation.parentheses.left.fortran'
+    'end': '(\\))'
+    'endCaptures':
+      '1': 'name': 'punctuation.parentheses.right.fortran'
+    'patterns':[
+      {'include': '#assignment-operator'}
+      {'include': '#invalid-word'}
+    ]
+  'IO-keywords':
+    'comment': 'IO generic specification.'
+    'begin': '(?i)\\G\\s*\\b(?:(read)|(write))\\s*(\\()'
+    'beginCaptures':
+      '1': 'name': 'keyword.control.generic-spec.read.fortran'
+      '2': 'name': 'keyword.control.generic-spec.write.fortran'
+      '3': 'name': 'punctuation.parentheses.left.fortran'
+    'end': '(\\))'
+    'endCaptures':
+      '1': 'name': 'punctuation.parentheses.right.fortran'
+    'patterns':[
+      {
+        'match': '(?i)\\G\\s*\\b(?:(formatted)|(unformatted))\\b'
+        'captures':
+          '1': 'name': 'keyword.control.generic-spec.formatted.fortran'
+          '2': 'name': 'keyword.control.generic-spec.unformatted.fortran'
+      }
+      {'include': '#invalid-word'}
     ]
   'operator-keyword':
     'comment': 'Operator generic specification.'
