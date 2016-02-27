@@ -65,7 +65,7 @@
     ]
   'allocatable-attribute':
     'comment': 'Introduced in the Fortran 1990 standard.'
-    'match': '(?i)\\G\\s*\\b(allocatable)\\b'
+    'match': '(?i)\\s*\\b(allocatable)\\b'
     'captures':
       '1': 'name': 'storage.modifier.allocatable.fortran'
   'asynchronous-attribute':
