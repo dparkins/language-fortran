@@ -1,8 +1,11 @@
 {
   "name": "language-fortran",
-  "main": "./lib/new-package",
+  "main": "./lib/language-fortran",
   "version": "2.0.9",
-  "description": "Syntax highlighting for FORTRAN in atom ",
+  "description": "Syntax highlighting for Fortran in atom ",
+  "activationCommands": {
+    "atom-workspace": "language-fortran:toggleComment"
+  },
   "repository": "https://github.com/dparkins/language-fortran",
   "bugs": "https://github.com/dparkins/language-fortran/issues",
   "license": "MIT",
@@ -12,6 +15,5 @@
   "keywords": [
     "grammar",
     "fortran"
-  ],
-  "dependencies": {}
+  ]
 }
