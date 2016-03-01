@@ -7,5 +7,5 @@
 
 # For more detailed documentation see
 # https://atom.io/docs/latest/behind-atom-keymaps-in-depth
-# 'atom-text-editor':
-#   'ctrl-alt-a': 'language-fortran:toggleComment'
+".editor[data-grammar='source fortran fixed']:not([mini])":
+  'cmd-/': 'language-fortran:toggleComment'
