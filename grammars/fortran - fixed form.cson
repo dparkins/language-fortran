@@ -15,6 +15,7 @@
   'source.fortran.fixed - ( string | comment )':
     'patterns':[
       {'include': '#line-header'}
+      {'include': '#line-end-comment'}
     ]
 'patterns': [
   {'include': '#comments'}
@@ -36,9 +37,13 @@
         'end': '\\n'
       }
     ]
+  'line-end-comment':
+    'name': 'comment.line-end.fortran'
+    'begin': '(?<=^.{72})(?!\\n)'
+    'end': '(?=\\n)'
   # attributes:
   'line-header':
-    'match': '^(?:([ \\d]{5} )|( {5}.)|(.{1,5}))(?=!#)'
+    'match': '^(?!\\s*[!#])(?:([ \\d]{5} )|( {5}.)|(.{1,5}))'
     'captures':
       '1': 'name': 'constant.numeric.fortran'
       '2': 'name': 'keyword.line-continuation-operator.fortran'
