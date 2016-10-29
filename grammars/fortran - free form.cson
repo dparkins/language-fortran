@@ -1887,6 +1887,7 @@
                 'patterns':[
                   {'include': '#dummy-variable-list'}
                   {'include': '#result-statement'}
+                  {'include': '#language-binding-attribute'}
                 ]
               }
               {
@@ -2055,6 +2056,7 @@
                 'end': '(?=[;!\\n])'
                 'patterns':[
                   {'include': '#dummy-variable-list'}
+                  {'include': '#language-binding-attribute'}
                 ]
               }
               {
