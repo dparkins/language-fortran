@@ -46,7 +46,7 @@
     'body': 'minloc(${1:source}${2:, mask=${3:$1>0}})$0'
   # 'Input File':
   #   'prefix': 'open'
-  #   'body': 'open(unit=${1:iounit}, file=${2:name}, iostat=${3:ios}, status="${4:old}", action="${5:read}")\nif ( $3 /= 0 ) stop "Error opening file ${2:name}"$0'
+  #   'body': 'open(unit=${1:iounit}, file=${2:name}, iostat=${3:ios}, status="${4:old}", action="${5:read}")\nif ( ${3:ios} /= 0 ) stop "Error opening file ${2:name}"$0'
   'Inquire (by Filename)':
     'prefix': 'inq'
     'body': 'inquire(file=${1:filename}, opened=${2:ioopen}, exists=${3:ioexist}, number=${4:iounit})$0'
@@ -85,13 +85,13 @@
     'body': '.not.'
   'Open File':
     'prefix': 'open'
-    'body': 'open(unit=${1:iounit}, file=${2:name}, iostat=${3:ios}, &\n     status="${4:old/new/replace/scratch/unknown}", action="${5:read/write/readwrite}", access="${7:sequential/direct}"${7/(direct)$|.*/(?1:, recl=)/})\nif ( $3 /= 0 ) stop "Error opening file $2"$0'
+    'body': 'open(unit=${1:iounit}, file=${2:name}, iostat=${3:ios}, &\n     status="${4:old/new/replace/scratch/unknown}", action="${5:read/write/readwrite}", access="${7:sequential/direct}"${7/(direct)$|.*/(?1:, recl=)/})\nif ( ${3:ios} /= 0 ) stop "Error opening file $2"$0'
   'Or':
     'prefix': 'or'
     'body': '.or.'
   'Output File':
     'prefix': 'open'
-    'body': 'open(unit=${1:iounit}, file=${2:name}, iostat=${3:ios}, status="${4:new}", action="${5:write}")\nif ( $3 /= 0 ) stop "Error opening file $2"$0'
+    'body': 'open(unit=${1:iounit}, file=${2:name}, iostat=${3:ios}, status="${4:new}", action="${5:write}")\nif ( ${3:ios} /= 0 ) stop "Error opening file $2"$0'
   'Product of Elements':
     'prefix': 'prod'
     'body': 'product(${1:source}${2:, dim=${3:1}}${4:, mask=${5:($1>0)}})$0'
@@ -109,7 +109,7 @@
     'body': 'logical :: '
   'Quick Open':
     'prefix': 'op'
-    'body': 'open(unit=${1:iounit}, file=${2:name}, iostat=${3:ios})\nif ( $3 /= 0 ) stop "Error opening file $2"$0'
+    'body': 'open(unit=${1:iounit}, file=${2:name}, iostat=${3:ios})\nif ( ${3:ios} /= 0 ) stop "Error opening file $2"$0'
   'Quick Read':
     'prefix': 're'
     'body': 'read*, '
@@ -130,7 +130,7 @@
     'body': 'real${1:(${2:kind})}${3:, ${4:attributes}} :: ${5:name}'
   'Scratch File':
     'prefix': 'open scratch'
-    'body': 'open(unit=${1:iounit}, iostat=${3:ios}, status="${4:scratch}", action="${5:readwrite}")\nif ( $3 /= 0 ) stop "Error opening scratch file on unit $1"$0'
+    'body': 'open(unit=${1:iounit}, iostat=${3:ios}, status="${4:scratch}", action="${5:readwrite}")\nif ( ${3:ios} /= 0 ) stop "Error opening scratch file on unit $1"$0'
   'Size':
     'prefix': 'size'
     'body': 'size(${1:source}${2:, dim=${3:1}})$0'
@@ -223,10 +223,10 @@
     'body': 'program ${1:name}\n\n\timplicit none\n\t$0\n\nend program $1\n'
   'Read (Non Advancing Mode)':
     'prefix': 'read'
-    'body': 'read(unit=${1:iounit}, fmt="(${2:format string})", iostat=${3:istat}, advance=\'NO\', size=${4:number of characters}) ${5:variables}\nif ( $3 /= 0 ) stop "Read error in file unit $1"$0'
+    'body': 'read(unit=${1:iounit}, fmt="(${2:format string})", iostat=${3:istat}, advance=\'NO\', size=${4:number of characters}) ${5:variables}\nif ( ${3:ios} /= 0 ) stop "Read error in file unit $1"$0'
   'Read':
     'prefix': 'read'
-    'body': 'read(unit=${1:iounit}, fmt="(${2:format string})", iostat=${3:istat}) ${4:variables}\nif ( $3 /= 0 ) stop "Read error in file unit $1"$0'
+    'body': 'read(unit=${1:iounit}, fmt="(${2:format string})", iostat=${3:istat}) ${4:variables}\nif ( ${3:ios} /= 0 ) stop "Read error in file unit $1"$0'
   'reshape':
     'prefix': 'resh'
     'body': 'reshape(${1:source}${2:, shape=(/$3/)}${4:, pad=(/$5/)}${6:, order=(/${7:2,1}/)})$0'
@@ -253,7 +253,7 @@
     'body': 'where ( $1 ${2:==} $3 )\n\t$0\nend where'
   'Write':
     'prefix': 'write'
-    'body': 'write(unit=${1:iounit}, fmt="(${2:format string})", iostat=${3:ios}${4:, advance=\'NO\'}) ${5:variables}\nif ( $3 /= 0 ) stop "Write error in file unit $1"$0'
+    'body': 'write(unit=${1:iounit}, fmt="(${2:format string})", iostat=${3:ios}${4:, advance=\'NO\'}) ${5:variables}\nif ( ${3:ios} /= 0 ) stop "Write error in file unit $1"$0'
 '.source.fortran.modern':
   'forall':
     'prefix': 'for'
