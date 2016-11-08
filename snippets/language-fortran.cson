@@ -13,7 +13,7 @@
     'body': 'character(len=$1${2:, kind=$3})${4:, ${5:attributes}} :: ${6:name}'
   'Close File':
     'prefix': 'close'
-    'body': 'close(unit=${1:iounit}, iostat=${2:ios}${3:, status="delete"})\nif ( $2 /= 0 ) stop "Error closing file unit $1"$0'
+    'body': 'close(unit=${1:iounit}, iostat=${2:ios}${3:, status="delete"})\nif ( ${2:ios} /= 0 ) stop "Error closing file unit $1"$0'
   'Custom Type':
     'prefix': 'typ'
     'body': 'type(${1:type name})${2:, ${3:attributes}} :: ${4:name}'
