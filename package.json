@@ -1,7 +1,7 @@
 {
   "name": "language-fortran",
   "main": "./lib/language-fortran",
-  "version": "2.0.14",
+  "version": "2.0.15",
   "description": "Syntax highlighting for Fortran in atom ",
   "activationCommands": {
     "atom-workspace": "language-fortran:toggleComment"
