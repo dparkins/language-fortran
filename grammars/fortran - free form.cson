@@ -482,25 +482,40 @@
     ]
   'forall-construct':
     'comment': 'Introduced in the Fortran 1995 standard.'
-    'contentName': 'meta.block.forall.fortran'
     'begin': '(?i)\\b(forall)\\b'
     'beginCaptures':
       '1': 'name': 'keyword.control.forall.fortran'
-    'end': '(?i)\\b(end\\s*forall)\\b'
-    'endCaptures':
-      '1': 'name': 'keyword.control.endforall.fortran'
+    'end': '(?<!\\G)'
+    'applyEndPatternLast': 1
     'patterns':[
       {
         'comment': 'Loop control.'
         'name': 'meta.loop-control.fortran'
         'begin': '(?i)\\G(?!\\s*[;!\\n])'
-        'end': '(?=[;!\\n])'
+        'end': '(?<!\\G)'
         'patterns':[
           {'include': '#parentheses'}
           {'include': '#invalid-word'}
         ]
       }
-      {'include': '$base'}
+      {
+        'name': 'meta.block.forall.fortran'
+        'begin': '(?<=\\))(?=\\s*[;!\\n])'
+        'end': '(?i)\\b(end\\s*forall)\\b'
+        'endCaptures':
+          '1': 'name': 'keyword.control.endforall.fortran'
+        'patterns':[
+          {'include': '$base'}
+        ]
+      }
+      {
+        'name': 'meta.statement.control.forall.fortran'
+        'begin': '(?i)(?<=\\))(?!\\s*[;!\\n])'
+        'end': '\\n'
+        'patterns':[
+          {'include': '$base'}
+        ]
+      }
     ]
   'if-construct':
     'begin': '(?i)\\b(if)\\b'
