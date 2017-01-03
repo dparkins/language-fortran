@@ -1222,6 +1222,7 @@
     'patterns':[
       {
         'comment': 'Introduced in the Fortran 1977 standard.'
+        'name': 'meta.statement.IO.fortran'
         'begin': '(?ix)\\b(?:(backspace)|(close)|(format)|(endfile)|(inquire)|(open)|(read)|(rewind)|(write))\\s*(?=\\()'
         'beginCaptures':
           '1': 'name': 'keyword.control.backspace.fortran'
@@ -1234,11 +1235,12 @@
           '8': 'name': 'keyword.control.rewrite.fortran'
           '9': 'name': 'keyword.control.write.fortran'
           '10': 'name': 'punctuation.parentheses.left.fortran'
-        'end': '(?<!\\G)'
+        'end': '(?=[;!\\n])'
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
           {'include': '#parentheses-dummy-variables'}
+          {'include': '#IO-item-list'}
         ]
       }
       {
@@ -2591,6 +2593,22 @@
   'invalid-word':
     'name': 'invalid.error.fortran'
     'match': '(?i)\\b\\w+\\b'
+  'IO-item-list':
+    'comment': 'Name list.'
+    'contentName': 'meta.name-list.fortran'
+    'begin': '(?i)(?=\\s*[a-z0-9"\'])'
+    'end': '(?=[\\);!\\n])'
+    'patterns': [
+      {'include': '#constants'}
+      {'include': '#operators'}
+      {'include': '#intrinsic-functions'}
+      {'include': '#array-constructor'}
+      {'include': '#parentheses'}
+      {'include': '#brackets'}
+      {'include': '#assignment-keyword'}
+      {'include': '#operator-keyword'}
+      {'include': '#variable'}
+    ]
   'logical-control-expression':
     'name': 'meta.expression.control.logical.fortran'
     'begin': '\\G(?=\\s*\\()'
