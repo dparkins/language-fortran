@@ -2136,12 +2136,12 @@
               '4': 'name': 'invalid.error.fortran'
             'patterns': [
               {
-                'comment': 'Rest of the first line in procedure construct.'
+                'comment': 'Rest of the first line in procedure construct - should be empty.'
                 'name': 'meta.first-line.fortran'
                 'begin': '\\G(?!\\s*[;!\\n])'
                 'end': '(?=[;!\\n])'
                 'patterns':[
-                  {'include': '#invalid-word'}
+                  {'include': '#invalid-character'}
                 ]
               }
               {
