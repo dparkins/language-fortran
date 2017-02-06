@@ -17,6 +17,7 @@
   {'include': '#module-definition'}
   {'include': '#program-definition'}
   {'include': '#submodule-definition'}
+  {'include': '#procedure-definition'}
   {'include': '#subroutine-definition'}
   {'include': '#derived-type-definition'}
   {'include': '#enum-block-construct'}
@@ -2090,6 +2091,79 @@
             'end': '(?i)(?=\\s*(?:end\\s*[;!\\n]|end\\s*program\\b))'
             'patterns':[
               {'include': '$self'}
+            ]
+          }
+        ]
+      }
+    ]
+  'procedure-definition':
+    'comment': 'Procedure program unit. Introduced in the Fortran 2008 standard.'
+    'name': 'meta.procedure.fortran'
+    'begin': '(?i)(?:^|(?<=;))(?=[^\'";!\\n]*\\bprocedure\\b)'
+    'end': '(?=[;!\\n])'
+    'patterns':[
+      {
+        'comment': 'Attribute list.'
+        'name': 'meta.attribute-list.fortran'
+        'begin': '(?i)(?=\\G\\s*(?!\\bprocedure\\b))'
+        'end': '(?i)(?=\\bprocedure\\b)'
+        'patterns':[
+          {'include': '#elemental-attribute'}
+          {'include': '#module-attribute'}
+          {'include': '#pure-attribute'}
+          {'include': '#recursive-attribute'}
+          {'include': '#line-continuation-operator'}
+          {'include': '#invalid-word'}
+        ]
+      }
+      {
+        'begin': '(?i)\\s*\\b(procedure)\\b'
+        'beginCaptures':
+          '1': 'name': 'keyword.other.procedure.fortran'
+        'end': '(?=[;!\\n])'
+        'patterns':[
+          {
+            'comment': 'Procedure body.'
+            'begin': '(?i)\\G\\s*\\b([a-z]\\w*)\\b'
+            'beginCaptures':
+              '1': 'name': 'entity.name.function.procedure.fortran'
+            'end': '(?ix)\\s*\\b(?:(end\\s*procedure)(?:\\s+(\\1))?|(end))\\b
+              \\s*([^;!\\n]+)?(?=[;!\\n])'
+            'endCaptures':
+              '1': 'name': 'keyword.other.endprocedure.fortran'
+              '2': 'name': 'entity.name.function.procedure.fortran'
+              '3': 'name': 'keyword.other.endprocedure.fortran'
+              '4': 'name': 'invalid.error.fortran'
+            'patterns': [
+              {
+                'comment': 'Rest of the first line in procedure construct.'
+                'name': 'meta.first-line.fortran'
+                'begin': '\\G(?!\\s*[;!\\n])'
+                'end': '(?=[;!\\n])'
+                'patterns':[
+                  {'include': '#invalid-word'}
+                ]
+              }
+              {
+                'comment': 'Specification and execution block.'
+                'name': 'meta.block.specification.fortran'
+                'begin': '(?i)(?!\\s*(?:contains\\b|end\\s*[;!\\n]|end\\s*procedure\\b))'
+                'end': '(?i)(?=\\s*(?:contains\\b|end\\s*[;!\\n]|end\\s*procedure\\b))'
+                'patterns':[
+                  {'include': '$self'}
+                ]
+              }
+              {
+                'comment': 'Contains block.'
+                'name': 'meta.block.contains.fortran'
+                'begin': '(?i)\\s*(contains)\\b'
+                'beginCaptures':
+                  '1': 'name': 'keyword.control.contains.fortran'
+                'end': '(?i)(?=\\s*(?:end\\s*[;!\\n]|end\\s*procedure\\b))'
+                'patterns':[
+                  {'include': '$self'}
+                ]
+              }
             ]
           }
         ]
