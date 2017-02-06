@@ -2032,57 +2032,49 @@
   'procedure-definition':
     'comment': 'Procedure program unit. Introduced in the Fortran 2008 standard.'
     'name': 'meta.procedure.fortran'
-    'begin': '(?i)(?:^|(?<=;))(?=[^\'";!\\n]*\\bmodule\\s+procedure\\b)'
+    'begin': '(?i)(?=[^\'";!\\n]*\\bmodule\\s+procedure\\b)'
     'end': '(?=[;!\\n])'
     'patterns':[
       {
-        'begin': '(?i)\\s*\\b(module\\s+procedure)\\b'
+        'comment': 'Procedure body.'
+        'begin': '(?i)\\G\\s*\\b([a-z]\\w*)\\b'
         'beginCaptures':
-          '1': 'name': 'keyword.other.procedure.fortran'
-        'end': '(?=[;!\\n])'
-        'patterns':[
+        '1': 'name': 'entity.name.function.procedure.fortran'
+        'end': '(?ix)\\s*\\b(?:(end\\s*procedure)(?:\\s+(\\1))?|(end))\\b
+        \\s*([^;!\\n]+)?(?=[;!\\n])'
+        'endCaptures':
+        '1': 'name': 'keyword.other.endprocedure.fortran'
+        '2': 'name': 'entity.name.function.procedure.fortran'
+        '3': 'name': 'keyword.other.endprocedure.fortran'
+        '4': 'name': 'invalid.error.fortran'
+        'patterns': [
           {
-            'comment': 'Procedure body.'
-            'begin': '(?i)\\G\\s*\\b([a-z]\\w*)\\b'
+            'comment': 'Rest of the first line in procedure construct - should be empty.'
+            'name': 'meta.first-line.fortran'
+            'begin': '\\G(?!\\s*[;!\\n])'
+            'end': '(?=[;!\\n])'
+            'patterns':[
+              {'include': '#invalid-character'}
+            ]
+          }
+          {
+            'comment': 'Specification and execution block.'
+            'name': 'meta.block.specification.fortran'
+            'begin': '(?i)(?!\\s*(?:contains\\b|end\\s*[;!\\n]|end\\s*procedure\\b))'
+            'end': '(?i)(?=\\s*(?:contains\\b|end\\s*[;!\\n]|end\\s*procedure\\b))'
+            'patterns':[
+              {'include': '$self'}
+            ]
+          }
+          {
+            'comment': 'Contains block.'
+            'name': 'meta.block.contains.fortran'
+            'begin': '(?i)\\s*(contains)\\b'
             'beginCaptures':
-              '1': 'name': 'entity.name.function.procedure.fortran'
-            'end': '(?ix)\\s*\\b(?:(end\\s*procedure)(?:\\s+(\\1))?|(end))\\b
-              \\s*([^;!\\n]+)?(?=[;!\\n])'
-            'endCaptures':
-              '1': 'name': 'keyword.other.endprocedure.fortran'
-              '2': 'name': 'entity.name.function.procedure.fortran'
-              '3': 'name': 'keyword.other.endprocedure.fortran'
-              '4': 'name': 'invalid.error.fortran'
-            'patterns': [
-              {
-                'comment': 'Rest of the first line in procedure construct - should be empty.'
-                'name': 'meta.first-line.fortran'
-                'begin': '\\G(?!\\s*[;!\\n])'
-                'end': '(?=[;!\\n])'
-                'patterns':[
-                  {'include': '#invalid-character'}
-                ]
-              }
-              {
-                'comment': 'Specification and execution block.'
-                'name': 'meta.block.specification.fortran'
-                'begin': '(?i)(?!\\s*(?:contains\\b|end\\s*[;!\\n]|end\\s*procedure\\b))'
-                'end': '(?i)(?=\\s*(?:contains\\b|end\\s*[;!\\n]|end\\s*procedure\\b))'
-                'patterns':[
-                  {'include': '$self'}
-                ]
-              }
-              {
-                'comment': 'Contains block.'
-                'name': 'meta.block.contains.fortran'
-                'begin': '(?i)\\s*(contains)\\b'
-                'beginCaptures':
-                  '1': 'name': 'keyword.control.contains.fortran'
-                'end': '(?i)(?=\\s*(?:end\\s*[;!\\n]|end\\s*procedure\\b))'
-                'patterns':[
-                  {'include': '$self'}
-                ]
-              }
+            '1': 'name': 'keyword.control.contains.fortran'
+            'end': '(?i)(?=\\s*(?:end\\s*[;!\\n]|end\\s*procedure\\b))'
+            'patterns':[
+              {'include': '$self'}
             ]
           }
         ]
