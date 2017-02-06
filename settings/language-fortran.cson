@@ -19,7 +19,7 @@
     'increaseIndentPattern': '(?ix)^\\s*(
         (block\\s*data|contains|program|submodule)\\b
         |((?!end\\b)[^\'"!])*\\b(function|subroutine)\\b
-        |module\\b(?!\\s+procedure\\b)
+        |module\\b
         |type(?!\\s*(\\(|\\=))
         |(abstract\\s+)?interface\\b
         |([a-z]\\w*\\s*:\\s*)?(
@@ -37,7 +37,7 @@
         |(class|type)\\s+is\\b
         |end(
           do|forall|function|if|interface|module|program
-          |select|submodule|subroutine|type|where
+          |select|submodule|subroutine|type|where|procedure
         )?\\b
         |else(if|where)?\\b
       )'
