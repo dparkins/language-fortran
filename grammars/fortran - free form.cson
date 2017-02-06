@@ -2032,25 +2032,11 @@
   'procedure-definition':
     'comment': 'Procedure program unit. Introduced in the Fortran 2008 standard.'
     'name': 'meta.procedure.fortran'
-    'begin': '(?i)(?:^|(?<=;))(?=[^\'";!\\n]*\\bprocedure\\b)'
+    'begin': '(?i)(?:^|(?<=;))(?=[^\'";!\\n]*\\bmodule\\s+procedure\\b)'
     'end': '(?=[;!\\n])'
     'patterns':[
       {
-        'comment': 'Attribute list.'
-        'name': 'meta.attribute-list.fortran'
-        'begin': '(?i)(?=\\G\\s*(?!\\bprocedure\\b))'
-        'end': '(?i)(?=\\bprocedure\\b)'
-        'patterns':[
-          {'include': '#elemental-attribute'}
-          {'include': '#module-attribute'}
-          {'include': '#pure-attribute'}
-          {'include': '#recursive-attribute'}
-          {'include': '#line-continuation-operator'}
-          {'include': '#invalid-word'}
-        ]
-      }
-      {
-        'begin': '(?i)\\s*\\b(procedure)\\b'
+        'begin': '(?i)\\s*\\b(module\\s+procedure)\\b'
         'beginCaptures':
           '1': 'name': 'keyword.other.procedure.fortran'
         'end': '(?=[;!\\n])'
