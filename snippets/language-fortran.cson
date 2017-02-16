@@ -242,6 +242,9 @@
   'subroutine':
     'prefix': 'sub'
     'body': 'subroutine ${1:name}\n\t$0\nend subroutine $1'
+  'submodule':
+    'prefix': 'subm'
+    'body': 'submodule \(${1:module}\) ${2:name}\n\t$0\nend submodule $2'
   'unpack':
     'prefix': 'unpack'
     'body': 'unpack(${1:vector}, mask=(${2:$1>0}), field=${3:destination array})$0'
