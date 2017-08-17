@@ -1224,24 +1224,48 @@
       {
         'comment': 'Introduced in the Fortran 1977 standard.'
         'name': 'meta.statement.IO.fortran'
-        'begin': '(?ix)\\b(?:(backspace)|(close)|(endfile)|(format)|(inquire)|(open)|(read)|(rewind)|(write))\\s*(?=\\()'
+        'begin': '(?ix)\\b(?:(backspace)|(close)|(endfile)|(inquire)|(open)|(read)|(rewind)|(write))\\s*(?=\\()'
         'beginCaptures':
           '1': 'name': 'keyword.control.backspace.fortran'
           '2': 'name': 'keyword.control.close.fortran'
           '3': 'name': 'keyword.control.endfile.fortran'
-          '4': 'name': 'keyword.control.format.fortran'
-          '5': 'name': 'keyword.control.inquire.fortran'
-          '6': 'name': 'keyword.control.open.fortran'
-          '7': 'name': 'keyword.control.read.fortran'
-          '8': 'name': 'keyword.control.rewind.fortran'
-          '9': 'name': 'keyword.control.write.fortran'
-          '10': 'name': 'punctuation.parentheses.left.fortran'
+          '4': 'name': 'keyword.control.inquire.fortran'
+          '5': 'name': 'keyword.control.open.fortran'
+          '6': 'name': 'keyword.control.read.fortran'
+          '7': 'name': 'keyword.control.rewind.fortran'
+          '8': 'name': 'keyword.control.write.fortran'
+          '9': 'name': 'punctuation.parentheses.left.fortran'
         'end': '(?=[;!\\n])'
         'endCaptures':
           '1': 'name': 'punctuation.parentheses.right.fortran'
         'patterns':[
           {'include': '#parentheses-dummy-variables'}
           {'include': '#IO-item-list'}
+        ]
+      }
+      {
+        'comment': 'Introduced in the Fortran 1977 standard.'
+        'name': 'meta.statement.IO.fortran'
+        'begin': '(?ix)\\b(?:(format))\\b\\s*(?=\\()'
+        'beginCaptures':
+          '1': 'name': 'keyword.control.format.fortran'
+          '2': 'name': 'punctuation.parentheses.left.fortran'
+        'end': '(?=[;!\\n])'
+        'endCaptures':
+          '1': 'name': 'punctuation.parentheses.right.fortran'
+        'patterns':[
+          {
+            'begin': '\\G\\s*(\\()'
+            'beginCaptures':
+              '1': 'name': 'punctuation.parentheses.left.fortran'
+            'end': '(\\))'
+            'endCaptures':
+              '1': 'name': 'punctuation.parentheses.right.fortran'
+            'patterns': [
+              {'include': '#format-items'}
+            ]
+          }
+          {'include': '#invalid-character'}
         ]
       }
       {
@@ -2599,6 +2623,184 @@
         'match': '(?i)\\b(procedure)\\b'
         'captures':
           '1': 'name': 'storage.type.procedure.fortran'
+      }
+    ]
+  # format statement descriptors:
+  'format-items':
+    'comment': 'Descriptors used in format statements'
+    'patterns':[
+      {'include': '#control-edit-descriptors'}
+      {'include': '#data-edit-descriptors'}
+      {'include': '#string-constant'}
+      {
+        # 'comment': 'Introduced in the Fortran 1990 standard.'
+        # 'name': 'meta.statement.allocate.fortran'
+        'begin': '\\s*(\\d*)\\s*(\\()'
+        'beginCaptures':
+          '1': 'name': 'constant.numeric.fortran'
+          '2': 'name': 'punctuation.parentheses.left.fortran'
+        'end': '(\\))'
+        'endCaptures':
+          '1': 'name': 'punctuation.parentheses.right.fortran'
+        'patterns': [
+          {'include': '#format-items'}
+        ]
+      }
+    ]
+  'data-edit-descriptors':
+    'patterns':[
+      {
+        'comment': 'Character format specifier'
+        'match': '(?i)\\b(\\d*A\\d*)\\b'
+        'captures':
+          '1': 'name': 'constant.language.data-edit-descriptor.character.fortran'
+      }
+      {
+        'comment': 'Binary format specifier'
+        'match': '(?i)\\b(\\d*B\\d+(\\.\\d+)?)\\b'
+        'captures':
+          '1': 'name': 'constant.language.data-edit-descriptor.binary.fortran'
+      }
+      {
+        'comment': 'Real format specifier with D exponent'
+        'match': '(?i)\\b(\\d*D\\d+\\.\\d+)\\b'
+        'captures':
+          '1': 'name': 'constant.language.data-edit-descriptor.real.fortran'
+      }
+      {
+        'comment': 'Real format specifier with E exponent'
+        'match': '(?i)\\b(\\d*E\\d+\\.\\d+)\\b'
+        'captures':
+          '1': 'name': 'constant.language.data-edit-descriptor.real.fortran'
+      }
+      {
+        'comment': 'Real format specifier with E exponent'
+        'match': '(?i)\\b(\\d*E\\d+\\.\\d+(E\\d+)?)\\b'
+        'captures':
+          '1': 'name': 'constant.language.data-edit-descriptor.real.fortran'
+      }
+      {
+        'comment': 'Real format specifier with E exponent and engineering notation'
+        'match': '(?i)\\b(\\d*EN\\d+\\.\\d+(E\\d+)?)\\b'
+        'captures':
+          '1': 'name': 'constant.language.data-edit-descriptor.real.fortran'
+      }
+      {
+        'comment': 'Real format specifier with E exponent and scientific notation'
+        'match': '(?i)\\b(\\d*ES\\d+\\.\\d+(E\\d+)?)\\b'
+        'captures':
+          '1': 'name': 'constant.language.data-edit-descriptor.real.fortran'
+      }
+      {
+        'comment': 'Real format specifier with E exponent and hexadecimal notation'
+        'match': '(?i)\\b(\\d*EX\\d+\\.\\d+(E\\d+)?)\\b'
+        'captures':
+          '1': 'name': 'constant.language.data-edit-descriptor.real.fortran'
+      }
+      {
+        'comment': 'Real format specifier with no exponent'
+        'match': '(?i)\\b(\\d*F\\d+\\.\\d+)\\b'
+        'captures':
+          '1': 'name': 'constant.language.data-edit-descriptor.real.fortran'
+      }
+      {# should be redone
+        'comment': 'General format specifier with no exponent'
+        'match': '(?i)\\b(\\d*G\\d+\\.\\d+(E\\d+)?)\\b'
+        'captures':
+          '1': 'name': 'constant.language.data-edit-descriptor.general.fortran'
+      }
+      {
+        'comment': 'Integer format specifier'
+        'match': '(?i)\\b(\\d*I\\d+(\\.\\d+)?)\\b'
+        'captures':
+          '1': 'name': 'constant.language.data-edit-descriptor.integer.fortran'
+      }
+      {
+        'comment': 'Logical format specifier'
+        'match': '(?i)\\b(\\d*L\\d+)\\b'
+        'captures':
+          '1': 'name': 'constant.language.data-edit-descriptor.logical.fortran'
+      }
+      {
+        'comment': 'Octal format specifier'
+        'match': '(?i)\\b(\\d*O\\d+(\\.\\d+)?)\\b'
+        'captures':
+          '1': 'name': 'constant.language.data-edit-descriptor.octal.fortran'
+      }
+      {
+        'comment': 'Hexadecimal format specifier'
+        'match': '(?i)\\b(\\d*Z\\d+(\\.\\d+)?)\\b'
+        'captures':
+          '1': 'name': 'constant.language.data-edit-descriptor.hexadecimal.fortran'
+      }
+    ]
+  'control-edit-descriptors':
+    'patterns': [
+      {'include': '#position-edit-descriptors'}
+      {
+        'comment': 'Terminates the current record and moves onto the next one'
+        'match': '(?i)(\\d*\\/|:)'
+        'captures':
+          '1': 'name': 'constant.language.control-edit-descriptor.fortran'
+      }
+      {'include': '#sign-edit-descriptors'}
+      {'include': '#scale-factor-edit-descriptors'}
+      {'include': '#blank-interpret-edit-descriptors'}
+      {'include': '#round-edit-descriptors'}
+      {'include': '#decimal-edit-descriptors'}
+    ]
+  'blank-interpret-edit-descriptors':
+    'patterns': [
+      {
+        'comment': 'Blank interpret edit descriptors'
+        'match': '(?i)\\b(B[NZ])\\b'
+        'captures':
+          '1': 'name': 'constant.language.blank-interpret-edit-descriptor.fortran'
+      }
+    ]
+  'decimal-edit-descriptors':
+    'patterns': [
+      {
+        'comment': 'Decimal edit descriptors'
+        'match': '(?i)\\b(D[CP])\\b'
+        'captures':
+          '1': 'name': 'constant.language.decimal-edit-descriptor.fortran'
+      }
+    ]
+  'position-edit-descriptors':
+    'patterns': [
+      {
+        'comment': 'Position edit descriptors'
+        'match': '(?i)\\b(\\d+X|T[LR]?\\d+)\\b'
+        'captures':
+          '1': 'name': 'constant.language.position-edit-descriptor.fortran'
+      }
+    ]
+  'round-edit-descriptors':
+    'patterns': [
+      {
+        'comment': 'Round edit descriptors'
+        'match': '(?i)\\b(R[CDNPUZ])\\b'
+        'captures':
+          '1': 'name': 'constant.language.round-edit-descriptor.fortran'
+      }
+    ]
+  'scale-factor-edit-descriptors':
+    'patterns': [
+      {
+        'comment': 'Sign edit descriptors'
+        'match': '(?i)\\b(\\d+P)\\b'
+        'captures':
+          '1': 'name': 'constant.language.scale-factor-edit-descriptor.fortran'
+      }
+    ]
+  'sign-edit-descriptors':
+    'patterns': [
+      {
+        'comment': 'Sign edit descriptors'
+        'match': '(?i)\\b(S[PS]?)\\b'
+        'captures':
+          '1': 'name': 'constant.language.sign-edit-descriptor.fortran'
       }
     ]
   # other:
