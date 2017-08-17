@@ -1224,16 +1224,16 @@
       {
         'comment': 'Introduced in the Fortran 1977 standard.'
         'name': 'meta.statement.IO.fortran'
-        'begin': '(?ix)\\b(?:(backspace)|(close)|(format)|(endfile)|(inquire)|(open)|(read)|(rewind)|(write))\\s*(?=\\()'
+        'begin': '(?ix)\\b(?:(backspace)|(close)|(endfile)|(format)|(inquire)|(open)|(read)|(rewind)|(write))\\s*(?=\\()'
         'beginCaptures':
           '1': 'name': 'keyword.control.backspace.fortran'
           '2': 'name': 'keyword.control.close.fortran'
-          '3': 'name': 'keyword.control.format.fortran'
-          '4': 'name': 'keyword.control.endfile.fortran'
+          '3': 'name': 'keyword.control.endfile.fortran'
+          '4': 'name': 'keyword.control.format.fortran'
           '5': 'name': 'keyword.control.inquire.fortran'
           '6': 'name': 'keyword.control.open.fortran'
           '7': 'name': 'keyword.control.read.fortran'
-          '8': 'name': 'keyword.control.rewrite.fortran'
+          '8': 'name': 'keyword.control.rewind.fortran'
           '9': 'name': 'keyword.control.write.fortran'
           '10': 'name': 'punctuation.parentheses.left.fortran'
         'end': '(?=[;!\\n])'
@@ -1246,11 +1246,14 @@
       }
       {
         'comment': 'Introduced in the Fortran 1977 standard.'
-        'match': '(?i)\\b(?:(format)|(print)|(read))\\b'
+        'match': '(?i)\\b(?:(backspace)|(endfile)|(format)|(print)|(read)|(rewind))\\b'
         'captures':
-          '1': 'name': 'keyword.control.format.fortran'
-          '2': 'name': 'keyword.control.print.fortran'
-          '3': 'name': 'keyword.control.read.fortran'
+          '1': 'name': 'keyword.control.backspace.fortran'
+          '2': 'name': 'keyword.control.endfile.fortran'
+          '3': 'name': 'keyword.control.format.fortran'
+          '4': 'name': 'keyword.control.print.fortran'
+          '5': 'name': 'keyword.control.read.fortran'
+          '6': 'name': 'keyword.control.rewind.fortran'
       }
       {
         'comment': 'Introduced in the Fortran 2003 standard.'
@@ -1265,6 +1268,12 @@
         'patterns':[
           {'include': '#parentheses-dummy-variables'}
         ]
+      }
+      {
+        'comment': 'Introduced in the Fortran 2003 standard.'
+        'match': '(?i)\\b(flush)\\b'
+        'captures':
+          '1': 'name': 'keyword.control.flush.fortran'
       }
     ]
   'nullify-statement':
