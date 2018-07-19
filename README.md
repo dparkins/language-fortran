@@ -12,6 +12,6 @@ For example you can associate the `Fortran - Punchcard` grammar with the file ex
 path = require 'path'
 
 atom.workspace.observeTextEditors (editor) ->
-    if path.extname(editor.getPath()) in [".f"]
+    if path.extname(editor.getPath() || '') in [".f"]
         editor.setGrammar(atom.grammars.grammarForScopeName('source.fortran.punchcard'))
 ```
