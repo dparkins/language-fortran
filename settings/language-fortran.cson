@@ -23,7 +23,7 @@
         |type(?!\\s*(\\(|\\=))
         |(abstract\\s+)?interface\\b
         |([a-z]\\w*\\s*:\\s*)?(
-          (associate|block|critical|do|forall)\\b
+          (associate|block|critical|do|forall.*then)\\b
           |if\\b.*\\bthen\\b
           |select\\s*(case|type)\\b
           |where\\b(?!\\s*\\(.*\\)\\s*[a-z])
@@ -52,7 +52,7 @@
         |type(?!\\s*(\\(|\\=))
         |(abstract\\s+)?interface\\b
         |([a-z]\\w*\\s*:\\s*)?(
-          (associate|block|critical|do|forall)\\b
+          (associate|block|critical|do|forall.*then)\\b
           |if\\b.*\\bthen\\b
           |select\\s*(case|type)\\b
           |where\\b(?!\\s*\\(.*\\)\\s*[a-z])
