@@ -176,6 +176,39 @@
   'elseif':
     'prefix': 'elif'
     'body': 'elseif ( ${1:condition} ) then\n\t'
+  'end do':
+    'prefix': 'end do'
+    'body': 'end do'
+  'end forall':
+    'prefix': 'end for'
+    'body': 'end forall'
+  'end function':
+    'prefix': 'end fun'
+    'body': 'end function'
+  'end interface':
+    'prefix': 'end interf'
+    'body': 'end interface'
+  'end module':
+    'prefix': 'end mod'
+    'body': 'end module'
+  'end program':
+    'prefix': 'end prog'
+    'body': 'end program'
+  'end submodule':
+    'prefix': 'end subm'
+    'body': 'end submodule'
+  'end subroutine':
+    'prefix': 'end sub'
+    'body': 'end subroutine'
+  'end type':
+    'prefix': 'end type'
+    'body': 'end type'
+  'end where':
+    'prefix': 'end wh'
+    'body': 'end where'
+  'end where ':
+    'prefix': 'end whe'
+    'body': 'end where'
   'function':
     'prefix': 'fun'
     'body': 'function ${1:name}${2:(${3:variables})}\n\t$0\nend function $1'
