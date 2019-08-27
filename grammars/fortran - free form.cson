@@ -911,6 +911,7 @@
           '3': 'name': 'invalid.error.fortran'
         'patterns':[
           {'include': '#dummy-variable-list'}
+          {'include': '#comments'}
           {
             'comment': 'Derived type specification block.'
             'name': 'meta.block.specification.fortran'
