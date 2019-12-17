@@ -360,8 +360,8 @@
   'named-control-constructs':
     'comment': 'Introduced in the Fortran 1990 standard.'
     'contentName': 'meta.named-construct.fortran.modern'
-    'begin': '(?ix)([a-z]\\w*)\\s*(:)(?=\\s*(?:associate|block(?!\\s*data)|critical|do|forall|if|select|where)\\b)'
-    'end': '(?i)\\s*(?!\\b(?:associate|block(?!\\s*data)|critical|do|forall|if|select|where)\\b)\\b(?:\\b(\\1)\\b)?(?:\\s*([^\\s;!][^;!\\n]*?))?(?=\\s*[;!\\n])'
+    'begin': '(?ix)([a-z]\\w*)\\s*(:)(?=\\s*(?:associate|block(?!\\s*data)|critical|do|forall|if|select\\s*case|select\\s*type|where)\\b)'
+    'end': '(?i)\\s*(?!\\b(?:associate|block(?!\\s*data)|critical|do|forall|if|select\\s*case|select\\s*type|where)\\b)\\b(?:\\b(\\1)\\b)?(?:\\s*([^\\s;!][^;!\\n]*?))?(?=\\s*[;!\\n])'
     'endCaptures':
       '2': 'name': 'invalid.error.fortran.modern'
     'applyEndPatternLast': 1
@@ -376,7 +376,8 @@
       {'include': '#do-construct'}
       {'include': '#forall-construct'}
       {'include': '#if-construct'}
-      {'include': '#select-construct'}
+      {'include': '#select-case-construct'}
+      {'include': '#select-type-construct'}
       {'include': '#where-construct'}
     ]
   'associate-construct':
@@ -586,73 +587,67 @@
         ]
       }
     ]
-  'select-construct':
-    'name': 'meta.block.select.fortran'
-    'begin': '(?i)\\b(select)\\b'
+  'select-case-construct':
+    'comment': 'Select case construct. Introduced in the Fortran 1990 standard.'
+    'name': 'meta.block.select.case.fortran'
+    'begin': '(?i)\\b(select\\s*case)\\b'
     'beginCaptures':
-      '1': 'name': 'keyword.control.select.fortran'
+      '1': 'name': 'keyword.control.selectcase.fortran'
     'end': '(?i)\\b(end\\s*select)\\b'
     'endCaptures':
       '1': 'name': 'keyword.control.endselect.fortran'
     'patterns':[
+      {'include': '#parentheses'}
       {
-        'comment': 'Select case construct. Introduced in the Fortran 1990 standard.'
-        'begin': '(?i)\\G\\s*\\b(case)\\b'
+        'begin': '(?i)\\b(case)\\b'
         'beginCaptures':
           '1': 'name': 'keyword.control.case.fortran'
-        'end': '(?i)(?=\\b(end\\s*select)\\b)'
+        'end': '(?i)(?=[;!\\n])'
         'patterns':[
-          {'include': '#parentheses'}
           {
-            'begin': '(?i)\\b(case)\\b'
-            'beginCaptures':
-              '1': 'name': 'keyword.control.case.fortran'
-            'end': '(?i)(?=[;!\\n])'
-            'patterns':[
-              {
-                'match': '(?i)\\G\\s*\\b(default)\\b'
-                'captures':
-                  '1': 'name': 'keyword.control.default.fortran'
-              }
-              {'include': '#parentheses'}
-              {'include': '#invalid-word'}
-            ]
+            'match': '(?i)\\G\\s*\\b(default)\\b'
+            'captures':
+              '1': 'name': 'keyword.control.default.fortran'
           }
-          {'include': '$base'}
+          {'include': '#parentheses'}
+          {'include': '#invalid-word'}
         ]
       }
+      {'include': '$base'}
+    ]
+  'select-type-construct':
+    'comment': 'Select type construct. Introduced in the Fortran 2003 standard.'
+    'name': 'meta.block.select.type.fortran'
+    'begin': '(?i)\\b(select\\s*type)\\b'
+    'beginCaptures':
+      '1': 'name': 'keyword.control.selecttype.fortran'
+    'end': '(?i)\\b(end\\s*select)\\b'
+    'endCaptures':
+      '1': 'name': 'keyword.control.endselect.fortran'
+    'patterns':[
+      {'include': '#parentheses'}
       {
-        'comment': 'Select type construct. Introduced in the Fortran 2003 standard.'
-        'begin': '(?i)\\G\\s*\\b(type)\\b'
+        'begin': '(?i)\\b(?:(class)|(type))\\b'
         'beginCaptures':
-          '1': 'name': 'keyword.control.case.fortran'
-        'end': '(?i)(?=\\b(end\\s*select)\\b)'
+          '1': 'name': 'keyword.control.class.fortran'
+          '2': 'name': 'keyword.control.type.fortran'
+        'end': '(?i)(?=[;!\\n])'
         'patterns':[
-          {'include': '#parentheses'}
           {
-            'begin': '(?i)\\b(?:(class)|(type))\\b'
-            'beginCaptures':
-              '1': 'name': 'keyword.control.class.fortran'
-              '2': 'name': 'keyword.control.type.fortran'
-            'end': '(?i)(?=[;!\\n])'
-            'patterns':[
-              {
-                'match': '(?i)\\G\\s*\\b(default)\\b'
-                'captures':
-                  '1': 'name': 'keyword.control.default.fortran'
-              }
-              {
-                'match': '(?i)\\G\\s*\\b(is)\\b'
-                'captures':
-                  '1': 'name': 'keyword.control.is.fortran'
-              }
-              {'include': '#parentheses'}
-              {'include': '#invalid-word'}
-            ]
+            'match': '(?i)\\G\\s*\\b(default)\\b'
+            'captures':
+              '1': 'name': 'keyword.control.default.fortran'
           }
-          {'include': '$base'}
+          {
+            'match': '(?i)\\G\\s*\\b(is)\\b'
+            'captures':
+              '1': 'name': 'keyword.control.is.fortran'
+          }
+          {'include': '#parentheses'}
+          {'include': '#invalid-word'}
         ]
       }
+      {'include': '$base'}
     ]
   'where-construct':
     'comment': 'Introduced in the Fortran 1990 standard.'
