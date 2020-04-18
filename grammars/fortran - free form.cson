@@ -560,7 +560,7 @@
             'patterns':[
               {
                 'comment': 'rest of else line'
-                'begin': '\\G(?!\\s*\\n)'
+                'begin': '\\G(?!\\s*[;!\\n])'
                 'end': '(?=[;!\\n])'
                 'patterns':[
                   {'include': '#invalid-word'}
