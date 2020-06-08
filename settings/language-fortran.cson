@@ -1,5 +1,7 @@
 '.source.fortran':
   'editor':
+    'commentStart': '! '
+    'commentEnd': ''
     'increaseIndentPattern': '(?ix)^\\s*(
         (contains|program)\\b
         |do\\b
